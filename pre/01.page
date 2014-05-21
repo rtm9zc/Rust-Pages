@@ -1,0 +1,618 @@
+ptitle Getting Started with Rust
+phead 1 Getting Started: Variables, Functions, and Syntax
+pnav toc.html 02.html
+In this section, we'll be going over the basic syntax of Rust. You'll learn about
+variable declarations and mutability, how to work with functions, and some basic
+control structures including loops, conditionals, and matching. Finally, we will analyze
+a simple program to find
+plink http://en.wikipedia.org/wiki/Collatz_conjecture Collatz numbers
+that employs the topics in this section.
+phead 2 Variables
+phead 3 Declaration and Typing:
+Here is a valid variable declaration in Rust:
+scode False {'lang': 'rust'}
+codeb
+let foo = 5; 
+bedoc
+There are several things you should notice about this. 
+First, the keyword 
+scode
+let
+edoc
+.
+scode
+let
+edoc
+ is used to declare local variables in Rust, and must preface every such declaration. 
+Second, if you're accustomed to other statically-typed languages, you've probably noticed that there is no explicit statement of type here; instead, the compiler infers that 
+scode
+foo
+edoc
+ should be an int. 
+Rust's compiler is typically very good at correctly inferring types for variables. However, there are times that it draws an incorrect conclusion, usually when the type a variable could be is in some manner ambiguous. We can circumvent this by explicitly telling the compiler what type you want the variable to be, as so: 
+scode False {'lang': 'rust'} 
+codeb
+let foo: int = 5;
+bedoc
+Rust's primitive types are similar to those in other C-like languages. There are more details at the 
+plink http://static.rust-lang.org/doc/0.9/tutorial.html#syntax-basics official tutorial;
+look for "Primitive types and literals".
+
+Finally, you should notice that the above declaration uses =, as you would expect, for assignment, and terminates the statement with a semicolon. Operators in Rust are essentially all the same as in languages with which you're familiar, and we'll discuss the difference between statements and expressions (which are not terminated by a semicolon) later in this section. 
+To summarize, declarations of local variables in Rust follow the form: 
+synx
+let name[: type] [= value];
+xnys
+where the items in brackets are optional.
+phead 3 Mutability:
+scode False {'lang': 'rust'}
+codeb
+let foo = 5;
+foo = 6;
+bedoc
+The above code is invalid Rust; it will not compile. Instead, you'll get:
+<pre><code>test.rs:3:2: 3:5 <span style="color:red;">error:</span> re-assignment of immutable variable `foo`
+test.rs:3   foo = 6;
+            <span style="color:red;">^~~</span>
+test.rs:2:6: 2:9 <span style="color:green;">note</span>: prior assignment occurs here
+test.rs:2   let foo = 5;
+                <span style="color:green;">^~~</span>
+error: aborting due to previous error
+</code></pre>
+This is because all Rust local variables are, 
+by default, immutable - meaning that you cannot change their assigned value once given.
+In other words, variables are not actually variable by default. This will be familiar if
+you have experience with functional programming. In order 
+to make a mutable local variable, you must introduce another keyword - 
+scode
+mut
+edoc
+. The following code will work:
+scode False {'lang':'rust'}
+codeb
+let mut foo = 5;
+foo = 6;
+bedoc
+
+phead 3 Tuples:
+Rust features an additional type named a tuple. Tuples are groupings of values,
+similar in appearance but different in function to a list of variables. 
+
+Making a tuple is easy. The values to be included are enclosed in parentheses 
+and separated by commas. One nice feature is that tuples are heterogeneous; 
+we can mix field types.
+scode False { 'lang' : 'rust' }
+codeb
+let tup = (4, 5.0, false, "hello"); 
+bedoc
+There are a few caveats that we need to be wary of:
+<ul>
+<li>Elements in a tuple are immutable</li>
+<li>Tuple fields cannot be accessed directly</li>
+<li>A tuple must have at least one field</li>
+</ul>
+
+phead 2 Conditionals
+Rust’s conditionals are very similar to what you’ve probably seen in Java or another 
+C-family language, with two slight exceptions. The associated keywords are 
+scode False {'lang': 'rust'} 
+code
+if
+edoc
+,
+scode False {'lang': 'rust'} 
+code
+else if
+edoc
+, and
+scode False {'lang': 'rust'} 
+code
+else
+edoc
+, and are followed by a boolean expression (it must be of type
+scode False {'lang': 'rust'} 
+code
+bool
+edoc
+; no type conversion will take place automatically) in the case of 
+scode False {'lang': 'rust'} 
+code
+if
+edoc
+ and
+scode False {'lang': 'rust'} 
+code
+else if
+edoc
+. The boolean expressions need not be in parentheses, but the body of the conditional 
+block must be enclosed in braces. That is, whereas in Java, you could have something like: 
+scode False {'lang': 'java'} 
+codeb
+if(foo == 5) 
+    System.out.println("it worked");
+bedoc
+the equivalent in Rust of 
+scode False {'lang': 'rust'}
+codeb
+if foo == 5 
+    println("it worked");
+bedoc
+is illegal. The following is a legal conditional block. Note that the else and 
+else if are optional for validity.
+scode False {'lang': 'rust'}
+codeb
+if foo == 5 { 
+    println("it’s five"); 
+}
+else if foo == 6 { 
+    println("it’s six");
+}
+else { 
+    println("it’s not five or six"); 
+}
+bedoc
+phead 2 Pattern Matching
+Rather than using a “switch” statement, as you may have seen in other 
+languages, Rust uses the 
+scode False { 'lang' : 'rust' }
+code
+match 
+edoc
+statement. 
+scode False { 'lang' : 'rust' }
+code
+match
+edoc
+is like a significantly more powerful and useful switch, and is used fairly 
+extensively in a lot of Rust code. You'll run into it frequently, particularly
+in the error handling section. Here's an example:
+scode False { 'lang' : 'rust' }
+codeb
+match isOdd(x) {
+	true => println("Odd"), // Notice the comma
+	false => println("Even")
+}
+bedoc
+A
+scode False { 'lang' : 'rust' }
+code
+match
+edoc
+statement evaluates the first branch with a matching pattern. The pattern is an expression
+with the same type as the object being matched. If the object has the same value as one that the pattern
+accepts (see below for accepting multiple values with a single match arm), then the corresponding arm
+will be evaluated.
+
+If we want to include more than one statement in a branch of the 
+scode False { 'lang' : 'rust' }
+code
+match
+edoc
+, we have to surround the code in braces. With braces, we don't need a comma, 
+but they're allowed.
+scode False { 'lang' : 'rust' }
+codeb
+match isOdd(x) {
+	true => { println("Odd"); 0 }
+	false => { println("Even"); 1 }
+}
+bedoc
+The compiler checks that at least one pattern of the 
+scode False { 'lang' : 'rust' }
+code
+match
+edoc
+ expression will always match. When a variable is matched, the patterns must 
+completely represent the possible values the variable could hold. This is easy
+for booleans; there's just 
+scode False { 'lang' : 'rust' }
+code
+true
+edoc
+and
+scode False { 'lang' : 'rust' }
+code
+false
+edoc
+. For other types, listing every possible value would be tedious and awful. 
+
+To prevent insanity, Rust includes a <code>_</code> that matches everything.
+scode True {}
+rcode
+let x = 4;
+match x {
+	0 => { ; } // Do nothing
+	4 => { foo(); } 
+	_ => { bar(); } // Matches every integer value
+}
+edocr
+jcode
+int x = 4;
+switch (x) {
+	case 0: break;
+	case 4: foo();
+		break;
+	default: bar();
+		break;
+}
+edocj
+ 
+scode
+match
+edoc
+ can also use simple logical expressions in its arms. For example, 
+scode False {'lang': 'rust'}
+codeb
+match x {
+    3|5|6  => { println("First arm!"); }
+    10..16 => { println("Second arm!"); }
+    _      => { println("Default arm!"); }
+}
+bedoc
+will print "First arm!" if x is 3, 5, or 6, "Second arm!" if x is between 10 and 16, and "Default arm!" otherwise.
+
+Pattern matching is used to access tuple values. If we don't care about a value,
+we can use <code>_</code> to ignore it.
+scode False { 'lang' : 'rust' }
+codeb
+let tup = (4, 5.0, false, "hello"); 
+let (a, b, c, _) = tup;
+bedoc
+The <code>_</code> is handy for  
+scode
+match
+edoc
+statements too.
+scode False { 'lang' : 'rust' }
+codeb
+match status {
+	(0, true) => println("Success"),
+	(_, true) => println("Pyrrhic victory"), // Any first value matches
+	(_, _) => println("Complete loss") // Any pair of values will match
+}
+bedoc
+(note that in this case <code>status</code> would need to be of type
+scode
+(int, bool)
+edoc
+)
+
+ 
+scode
+match
+edoc
+ also allows for "pattern guards" - logical expressions that can be used to further
+narrow down what a particular arm selects. For example:
+scode False {'lang': 'rust'}
+codeb
+match x {
+    (x,y) if x > y => { println("Decreasing"); }
+    (x,y) if y > x => { println("Increasing"); }
+    _              => { println("Equal")}
+}
+bedoc
+will print correctly the relation between <code>x</code> and <code>y</code>.
+
+phead 3 An Exercise in Matching
+To quickly test your comprehension of what you've learned so far, try writing a simple program to do the following:
+Given a tuple containing an int and a bool, use a match statement to determine (a) if the bool is true and the int is 
+between 20 and 26, (b) if the bool is true and the aforementioned condition isn't true for the int, 
+(c) if the int is between 40 and 49 (where the value of the bool doesn't matter), and (d), wherein none of the previous
+conditions are true. Print out an appropriate message using <code>println</code> for each case (e.g. for (a), you could print
+"True and in range", or something of the sort). Since you haven't learned how to get input yet, just define a variable like this:
+scode False {'lang': 'rust'}
+codeb
+let x = (51, true);
+bedoc
+match on it, and manually change its value to test the different branches.
+Put your code inside a block of this form, and run "rustc <filename>" to compile it.
+scode False {'lang': 'rust'}
+codeb
+fn main() {
+    // Code goes here
+}
+bedoc
+
+phead 2 Looping
+Rust provides several choices of looping structure, similar to those in C and Java.
+In Rust loops, we can use
+scode False { 'lang' : 'rust' }
+code
+break
+edoc
+to get out of the loop and 
+scode False { 'lang' : 'rust' }
+code
+continue
+edoc
+to skip to the next iteration.
+phead 3 <code class='src'><span class='k'>while</span></code>:
+Like most other languages, a
+scode False { 'lang' : 'rust' }
+code
+while
+edoc
+loop iterates until its condition is false. Its condition must be of type bool.
+
+scode True {}
+rcode
+let mut i = 0;
+while i < 10 { 
+	println("Hi there");
+	i += 1; // Rust doesn't support ++ or --
+}
+edocr
+jcode
+int i = 0;
+while (i < 10) {
+	System.out.println("Hi there");
+	i++;
+}
+edocj
+
+Its syntax is
+synx
+while condition {
+	`code`
+}
+xnys
+phead 3 <code class='src'><span class='k'>loop</span></code>:
+scode False { 'lang' : 'rust' }
+code
+loop
+edoc
+is syntactic sugar for 
+scode False { 'lang' : 'rust' }
+code
+while true
+edoc
+.
+
+For completeness, its syntax is
+synx
+loop {
+	`code`
+}
+xnys
+phead 3 <code class='src'><span class='k'>for</span></code>: 
+Rust’s for loop is more akin to Java’s for-each loop than to a traditional 
+for loop. It uses an iterator to loop over the items in a variable. 
+Since we haven’t covered vectors, for now it’s enough to know that we can 
+achieve a traditional for loop by using 
+scode False { 'lang' : 'rust' }
+code
+range(start, end)
+edoc
+, which creates a set of integers, <code>[start, end)</code>.
+
+scode True {}
+rcode
+// Calls foo with 0, 1, ..., 9
+for i in range(0, 10) {
+	foo(i);
+}
+edocr
+jcode
+// Calls foo with 0, 1, ..., 9
+for (int i = 0; i < 10; i++) {
+	foo(i);
+}
+edocj
+phead 2 Expressions
+
+Rust’s use of the semicolon may seem confusing when first encountered, but, once
+learned  is intuitive and remarkably useful. Essentially, everything that 
+doesn’t end with a semicolon is an expression, and everything that does is a 
+statement. Expressions have an associated value, whereas statements do not (technically, 
+they have a value of nil or void, but for our purposes this is the same as having none.)
+You can think of the semicolon in Rust as suppressing the value of an expression, 
+turning it into a statement.
+
+Almost everything in Rust can be an expression - the only exceptions are declarations.
+This allows Rust code to be very nicely concise. For example, an explicit return from a function is not necessary in most cases. 
+In general, this use of expressions makes the 
+scode
+return
+edoc
+ keyword necessary only when you want to leave a function early. Another common use of Rust's
+expressions is easy conditional assignment of variables, as a conditional block will have the
+value of its last expression:
+scode True {}
+rcode
+let foo = if x == 5 {
+                "five"
+          }
+          else if x == 6 {
+                "six"
+          }
+          else {
+                "neither"
+          }
+edocr
+jcode
+String foo;
+if (x == 5) {
+    foo = "five";
+}
+else if (x == 6) {
+    foo = "six";
+}
+else {
+    foo = "neither";
+}
+edocj
+
+The same can be done with pattern matching, as, again, the block will have the value of its
+last expression:
+scode False {'lang': 'rust'}
+codeb
+let x = match y {
+    0..9    =>  { "Less than 10" }
+    _       =>  { "Greater than 10" }
+}
+bedoc
+phead 2 Functions
+phead 3 Definition and Invocation:
+Functions are created by using 
+scode False { 'lang' : 'rust' }
+code
+fn
+edoc
+. Like loops, their bodies must be surrounded 
+by braces.
+Here’s the syntax for a function that accepts no parameters and doesn't return 
+anything:
+synx
+fn name() {
+	`code`
+}
+xnys
+
+And here is an example:
+scode True {}
+rcode
+fn foo() {
+	println("foo");
+}
+edocr
+jcode
+void foo() {
+	System.out.println("foo");
+}
+edocj
+As expected, this function can be called with 
+scode False { 'lang' : 'rust' }
+code
+foo()
+edoc
+
+Functions can be declared inside other functions. This means 
+that the following is valid Rust:
+scode False { 'lang' : 'rust' }
+codeb
+fn foo() {
+	fn bar() { println("bar"); }
+	bar();
+}
+bedoc
+phead 3 Parameters and Return Values:
+When parameters are given to a function, their types must be specified using
+the same syntax that specifies a type during variable declaration, 
+scode False { 'lang' : 'rust' }
+code
+name :type
+edoc
+.
+scode True {}
+rcode
+fn rprime_sum(x: int, y: int, m: int) {
+	match (x+y)%m {
+		0 => println("Multiple"),
+		_ => println("Relatively prime")
+	}
+}
+edocr
+jcode
+void rprime_sum(int x, int y, int m) {
+	if ((x+y)%m == 0)
+		System.out.println("Multiple");
+	else
+		System.out.println("Relatively prime");
+}
+edocj
+A return value is specified using <code>-> type</code> after the parameter 
+list. To actually return a value, we use Rust's expressions.
+scode True {}
+rcode
+fn square(x: int) -> int {
+	x*x
+}
+edocr
+jcode
+int square(int x) {
+	return x*x;
+}
+edocj
+phead 3 Yet More Exercise:
+As another check to make sure you're good to go so far, try to implement
+plink http://c2.com/cgi/wiki?FizzBuzzTest Fizz Buzz,
+as specified on that page. Remember that you'll need to put your code in a main function, as shown above.
+phead 2 Program 1: Collatz
+phead 3 The Collatz Conjecture:
+The
+plink http://en.wikipedia.org/wiki/Collatz_conjecture Collatz Conjecture,
+ named after Lothar Collatz, states that, starting from any natural number, it is
+possible to reach 1 by following certain rules:
+<ol>
+    <li> Take n:
+        <ul>
+            <li> If n is odd, set n = 3n+1.
+            <li> Else, if n is even, set n = n/2.
+        </ul>
+    <li> Repeat the procedure until 1 is reached.
+</ol>
+
+The conjecture is currently unproven, although it has been shown to hold for numbers up to 5476377146882523136. 
+phead 3 Finding a Collatz Sequence:
+As you might imagine, given the simple nature of the conjecture's rules, it's quite easy to 
+find the Collatz sequence for a given number programmatically. The below is Rust code to do just that:
+scode False {'loc': 'code/collatz.rs', 'lang': 'rust', 'range': True, 'start': 13, 'stop': 19}
+We can use this code in the following program to find the number of Collatz steps for a user-input number:
+scode False {'loc': 'code/collatz.rs', 'lang': 'rust', 'range': False}
+phead 3 Breaking Down the Code:
+First, let's look at the main function. There are a couple of things at the beginning which you haven't seen thus far
+in the tutorial, namely the contents of the first conditional block:
+scode False {'loc': 'code/collatz.rs', 'lang': 'rust', 'range': True, 'start': 4, 'stop': 7}
+We aren't going to worry about the meaning of the <code>os::</code> in the boolean expression of the conditional block just yet;
+for now, just know that 
+scode
+os::args().len()
+edoc
+ gets the number of command-line arguments passed in. 
+scode
+println
+edoc
+, as you've probably guessed based on your use of other languages, prints the string argument passed in. 
+The conditional block ends with a return statement, which, as we discussed earlier, is being used to prematurely exit the function.
+There's only one other thing to notice in the main function (we're ignoring line 9 - just know that it gets the first command line argument, changes it from a string to an int, and assigns that to a variable), and that's the slight variation in line 10's 
+scode
+println
+edoc
+ statement. Specifically, notice the !, and the arguments being passed in. The ! specifies that the call is to a macro, which
+is a kind of language extension in Rust. We'll be going over them in more detail later. In particular, this macro is like <code>printf</code> in C, and takes as its first argument a format string, with the remaining arguments being used to fill the slots of the format string. The syntax Rust uses for its format strings is similar to that of 
+plink http://docs.python.org/2/library/string.html#format-string-syntax Python.
+
+Moving into the <code>collatz</code> routine, we see the function declaration syntax we discussed above.
+<code>collatz</code> takes in an int and returns an int:
+scode False {'loc': 'code/collatz.rs', 'lang': 'rust', 'range': True, 'start': 13, 'stop': 19}
+The main takeaway from this code is the use of a match block to carry out the actual Collatz conjecture algorithm.
+ Notice that we have to have the
+scode
+_
+edoc
+ arm of the block in order for it to be comprehensive; given this, it makes sense to only have
+one other arm (as opposed to two other arms, one for 0 and one for 1).
+Finally, notice again that, by not putting semicolons at the end of the calls in each arm of the match
+block, we are able to use the value of whichever arm of the block is selected as our return value without
+an explicit return statement.
+
+phead 3 Final Exercises:
+To finish off this section, we have a small programming problem for you to solve. Starting with the above code (also available in a file
+plink http://aml3.github.io/RustTutorial/code/collatz.rs here
+), make a program that takes as command-line input a single number, representing a number of Collatz steps 
+(steps required to reach 1 by following the Collatz procedure), and computes the lowest number (starting from 1) which requires this 
+number of Collatz steps. For example, if the number input was 949, your program should output 63,728,127; similarly, if you input 1132, it should output 9,780,657,630 as the lowest number requiring 1132 Collatz steps.
+Since these are fairly large numbers, and it might take your code a very long time to reach them
+ (unless you use a more advanced technique, such as in some manner memoizing previous results and
+efficiently checking to see if you've already found the number of steps remaining from a given number - but I digress)
+ you can use the following smaller test cases: For an input of 6, your code should output 10. For an input of 45, it should
+output 361. Finally, for an input of 260, it should print 18514.
+Bonus points if you can do it using each type of loop in Rust, as well as if you can do it recursively.
+N.B.: Trying to call 
+scode
+collatz(0)
+edoc
+ will result in a stack overflow, as the Collatz sequence is only defined for positive integers.
+
+Ready for more Rust? Head to the next section.
+pnav toc.html 02.html
