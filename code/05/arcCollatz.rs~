@@ -1,4 +1,3 @@
-//inline 1
 extern mod extra;
 use extra::arc::RWArc;
 
@@ -33,4 +32,3 @@ fn collatz(N: int) -> int {
     }
     return out;
 }
-//end 1

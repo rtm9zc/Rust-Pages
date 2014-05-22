@@ -1,8 +1,8 @@
+//inline 1
 extern mod extra;
 use extra::arc::RWArc;
 
 fn main() {
-//inline 1
     let nums = [1,78,3,5,-2,5,7,-11];
 
     let numArc = RWArc::new(nums);
@@ -17,6 +17,6 @@ fn main() {
                 });
         });
     }
-//end 1
 }
+//end 1
 
