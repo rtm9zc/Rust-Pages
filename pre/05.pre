@@ -1,6 +1,5 @@
 # Arcs and Sharing Memory
 ## The Arc Module
-//label arcmodule
 
 The previous section of this tutorial explored Rust's tasks. Tasks as we have seen them don't really do well with sharing data. There are often instances where we may want multiple tasks spawned which reference, or even modify, some data. Enter the Arc module.
 

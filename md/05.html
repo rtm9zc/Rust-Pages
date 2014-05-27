@@ -1,0 +1,393 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="../manifest.appcache">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Arcs and Sharing Memory | Rust in Seven Programs</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="rtm9zc">
+        <meta name="description" content="A Tutorial to the Rust programming language">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../md/05.html#arcmodule" />
+        
+        
+        <link rel="prev" href="../index.html" />
+        
+
+        <meta property="og:title" content="Arcs and Sharing Memory | Rust in Seven Programs">
+        <meta property="og:site_name" content="Rust in Seven Programs">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/rtm9zc">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1" data-basepath=".." data-revision="1401213970926">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages" target="_blank" class="btn pull-left home-bookmark" aria-label="GitHub home"><i class="fa fa-bookmark-o"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="btn-group btn-block">
+        <button id="reduce-font-size" class="btn btn-default">A</button>
+        <button id="enlarge-font-size" class="btn btn-default">A</button>
+    </div>
+
+    <ul class="list-group font-family-list">
+        <li class="list-group-item" data-font="0">Serif</li>
+        <li class="list-group-item" data-font="1">Sans</li>
+    </ul>
+
+    <div class="btn-group btn-group-xs btn-block color-theme-list">
+        <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages/stargazers" target="_blank" class="btn pull-right count-star hidden-xs"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/rtm9zc/Rust-Pages/watchers" target="_blank" class="btn pull-right count-watch hidden-xs"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-spinner fa-spin"></i>
+        <a href="../" >Rust in Seven Programs</a>
+    </h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/rtm9zc" target="blank" class="author-link">About the author</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/issues" target="blank"class="issues-link">Questions and Issues</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/05.md" target="blank" class="contribute-link">Edit and Contribute</a>
+        </li>
+        
+
+        
+
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li class="chapter " data-level="1" data-path="md/05.html">
+                
+                <a href="../md/05.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Arcs and Sharing Memory
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="md/05.html#arcmodule">
+                            
+                            <a href="../md/05.html#arcmodule">
+                                <i class="fa fa-check"></i> <b>1.1.</b> The Arc Module
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Generated using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 50%;min-width: 0%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../md/05.html" title="Arcs and Sharing Memory" class="chapter done new-chapter" data-progress="1" style="left: 50%;"></a>
+    
+        <a href="../md/05.html#arcmodule" title="The Arc Module" class="chapter  " data-progress="1.1" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_2">
+                    
+                        <h1 id="arcs-and-sharing-memory">Arcs and Sharing Memory</h1>
+<h2 id="the-arc-module">The Arc Module</h2>
+<p><a name="arcmodule"></a>
+The previous section of this tutorial explored Rust&#39;s tasks. Tasks as we have seen them don&#39;t really do well with sharing data. There are often instances where we may want multiple tasks spawned which reference, or even modify, some data. Enter the Arc module.</p>
+<h3 id="basic-arc-use">Basic Arc Use</h3>
+<p>The <a href="http://static.rust-lang.org/doc/0.9/extra/arc/index.html" target="_blank">extra::arc module</a> is a wrapper for any data type to be shared between tasks. An <code>Arc&lt;T&gt;</code> is a shared immutable state. When spawning tasks that want to reference the same data, using the <code>clone()</code> function creates a new copy of the Arc that can be sent to a task via a <code>(Port&lt;Arc&gt;, Chan&lt;Arc&gt;)</code> pair. The underlying data is not changed, however. This allows sending a new arc to a task, and having it access the same data. Once within the spawned task, the <code>get()</code> function retreives the value wrapped by the Arc. These Arcs can only hold immutable data. We will be looking at a variation of the Arc that allows mutability in a bit. The following bit of code creates a vector of integers, wraps them in an Arc, and then prints out each value within a separate task.</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> nums = [<span class="hljs-number">1</span>,<span class="hljs-number">78</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,-<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,-<span class="hljs-number">11</span>];
+
+    <span class="hljs-keyword">let</span> numArc = Arc::new(nums);
+
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, nums.len()) {
+        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
+        chan.send(numArc.clone());
+        spawn(proc() {
+            <span class="hljs-keyword">let</span> taskArc = port.recv();
+            <span class="hljs-keyword">let</span> taskNums = taskArc.get();
+            println!(<span class="hljs-string">"{:d}"</span>, taskNums[i]);
+        });
+    }
+</code></pre>
+<h3 id="reading-and-writing-with-rwarcs">Reading and Writing with RWArcs</h3>
+<p>Often if we are sharing data across many tasks, we will want to manipulate the data within the task in some manner. The Arc structure, however, has no actual method of accomplishing this. There is an alternative Arc, however called the <code>RWArc&lt;T&gt;</code>. A RWArc has a <code>read(|&amp;T| {block})</code> and <code>write(|&amp;T| {block})</code> function. The variable provided for the <code>&amp;T</code> portion of this call is a borrowed reference to the underlying data of the RWArc. The read function serves similar to using a standard Arc (not RWArc), and provides for simultaneous cocurrent access to the data within the RWArc. Below is an identical implementation of the Arc example, except using a RWArc.</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> nums = [<span class="hljs-number">1</span>,<span class="hljs-number">78</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,-<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,-<span class="hljs-number">11</span>];
+
+    <span class="hljs-keyword">let</span> numArc = RWArc::new(nums);
+
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, nums.len()) {
+        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
+        chan.send(numArc.clone());
+        spawn(proc() {
+            <span class="hljs-keyword">let</span> taskArc = port.recv();
+            taskArc.read(|taskNums| {
+                    println!(<span class="hljs-string">"{:d}"</span>, taskNums[i]);
+                });
+        });
+    }
+</code></pre>
+<h3 id="writing-with-an-rwarc">Writing with an RWArc</h3>
+<p>When write is called, an RWArc flags the underlying data as being accessed and prevents any other write functions from continuing until the one currently accessing the data is complete. The below is a simple example of incrementing a number throughout multiple tasks using RWArc write functions, and then calling the collatz function (modified from the one in Part 1 of this tutorial to not overflow a task&#39;s stack through recursive calls) on the retrieved value.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">mod</span> extra;
+<span class="hljs-keyword">use</span> extra::arc::RWArc;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">let</span> num = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> numArc = RWArc::new(num);
+
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">50000</span>) {
+        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
+        chan.send(numArc.clone());
+        spawn(proc() {
+            <span class="hljs-keyword">let</span> taskArc = port.recv();
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> newNum = <span class="hljs-number">0</span>;
+            taskArc.write(|taskNum| {
+                *taskNum += <span class="hljs-number">1</span>;
+                newNum = *taskNum;
+            });
+            <span class="hljs-keyword">let</span> collatzN = collatz(newNum);
+            println!(<span class="hljs-string">"Collatz of {:d} = {:d}"</span>, newNum, collatzN);
+        });
+    }
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> nLoc = N;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> out = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (nLoc != <span class="hljs-number">1</span>) {
+        out += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">match</span> nLoc % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; {nLoc = nLoc/<span class="hljs-number">2</span>;}
+        <span class="hljs-number">_</span> =&gt; {nLoc = nLoc*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>; }
+    }
+    }
+    <span class="hljs-keyword">return</span> out;
+}
+</code></pre>
+<h4 id="a-note-on-rwarc-failure">A Note on RWArc Failure</h4>
+<p>If for whatever reason a failure occurs during the read or write block of a RWArc, the RWArc will be exited and flagged as &quot;poisoned.&quot; This causes any other read or write functions on the RWArc to immediately fail, thus preserving Rust&#39;s goal of cocurrent safety.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../index.html" class="navigation navigation-prev " aria-label="Previous page: Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../md/05.html#arcmodule" class="navigation navigation-next " aria-label="Next page: The Arc Module"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>
+>
+</html>
+l the one currently accessing the data is complete. The below is a simple example of incrementing a number throughout multiple tasks using RWArc write functions, and then calling the collatz function (modified from the one in Part 1 of this tutorial to not overflow a task&#39;s stack through recursive calls) on the retrieved value.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">mod</span> extra;
+<span class="hljs-keyword">use</span> extra::arc::RWArc;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">let</span> num = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> numArc = RWArc::new(num);
+
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">50000</span>) {
+        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
+        chan.send(numArc.clone());
+        spawn(proc() {
+            <span class="hljs-keyword">let</span> taskArc = port.recv();
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> newNum = <span class="hljs-number">0</span>;
+            taskArc.write(|taskNum| {
+                *taskNum += <span class="hljs-number">1</span>;
+                newNum = *taskNum;
+            });
+            <span class="hljs-keyword">let</span> collatzN = collatz(newNum);
+            println!(<span class="hljs-string">"Collatz of {:d} = {:d}"</span>, newNum, collatzN);
+        });
+    }
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> nLoc = N;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> out = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (nLoc != <span class="hljs-number">1</span>) {
+        out += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">match</span> nLoc % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; {nLoc = nLoc/<span class="hljs-number">2</span>;}
+        <span class="hljs-number">_</span> =&gt; {nLoc = nLoc*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>; }
+    }
+    }
+    <span class="hljs-keyword">return</span> out;
+}
+</code></pre>
+<h4 id="a-note-on-rwarc-failure">A Note on RWArc Failure</h4>
+<p>If for whatever reason a failure occurs during the read or write block of a RWArc, the RWArc will be exited and flagged as &quot;poisoned.&quot; This causes any other read or write functions on the RWArc to immediately fail, thus preserving Rust&#39;s goal of cocurrent safety.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../md/01.html#Program_1:_Collatz" class="navigation navigation-prev " aria-label="Previous page: Program 1: Collatz"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../md/05.html#The_Arc_Module" class="navigation navigation-next " aria-label="Next page: The Arc Module"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>
