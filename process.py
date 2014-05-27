@@ -36,7 +36,8 @@ def processPre(fileLoc, summary):
                 elif line[:3] == '## ':
                         templine = line[3:-1]
                         link = templine.replace(' ', '_')
-                        fileOut.write('<a name="' + link + '"></a>')
+                        fileOut.write('<a name="' + link + '"></a>\n')
+                        fileOut.write(line)
                         summary.write('    * [' + templine + 
                                       '](' + mdLoc + '#' + link + ')\n')
                 elif line[:8] == '//inline':

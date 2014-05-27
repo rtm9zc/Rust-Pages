@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1" data-basepath=".." data-revision="1401220405855">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1" data-basepath=".." data-revision="1401221267969">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -270,9 +270,11 @@
                     
                         <h1 id="getting-started-variables-functions-and-syntax">Getting Started: Variables, Functions, and Syntax</h1>
 <p>In this section, we&#39;ll be going over the basic syntax of Rust. You&#39;ll learn about variable declarations and mutability, how to work with functions, and some basic control structures including loops, conditionals, and matching. Finally, we will analyze
-a simple program to find <a href="http://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz numbers</a>
-<a name="Variables"></a>### Declaration and Typing:
-Here is a valid variable declaration in Rust:</p>
+a simple program to find <a href="http://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz numbers</a>.
+<a name="Variables"></a></p>
+<h2 id="variables">Variables</h2>
+<h3 id="declaration-and-typing-">Declaration and Typing:</h3>
+<p>Here is a valid variable declaration in Rust:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">let</span> foo = <span class="hljs-number">5</span>;
 </code></pre>
 <p>There are several things you should notice about this. 
@@ -320,7 +322,9 @@ we can mix field types.</p>
 <li>A tuple must have at least one field</li>
 </ul>
 
-<p><a name="Conditionals"></a>Rust’s conditionals are very similar to what you’ve probably seen in Java or another 
+<p><a name="Conditionals"></a></p>
+<h2 id="conditionals">Conditionals</h2>
+<p>Rust’s conditionals are very similar to what you’ve probably seen in Java or another 
 C-family language, with two slight exceptions. The associated keywords are <code>if</code>, <code>else if</code>, and <code>else</code>, and are followed by a boolean expression (it must be of type <code>bool</code>; no type conversion will take place automatically) in the case of <code>if</code> and <code>else if</code>. The boolean expressions need not be in parentheses, but the body of the conditional block must be enclosed in braces. That is, whereas in Java, you could have something like: </p>
 <pre><code class="lang-java"><span class="hljs-keyword">if</span>(foo == <span class="hljs-number">5</span>) 
     System.out.println(<span class="hljs-string">"it worked"</span>);
@@ -341,7 +345,9 @@ else if are optional for validity.</p>
     println!(<span class="hljs-string">"it’s not five or six"</span>); 
 }
 </code></pre>
-<p><a name="Pattern_Matching"></a>Rather than using a “switch” statement, as you may have seen in other languages, Rust uses the <code>match</code> statement. <code>match</code> is like a significantly more powerful and useful switch, and is used fairly extensively in a lot of Rust code. You&#39;ll run into it frequently, particularly in the error handling section. Here&#39;s an example:</p>
+<p><a name="Pattern_Matching"></a></p>
+<h2 id="pattern-matching">Pattern Matching</h2>
+<p>Rather than using a “switch” statement, as you may have seen in other languages, Rust uses the <code>match</code> statement. <code>match</code> is like a significantly more powerful and useful switch, and is used fairly extensively in a lot of Rust code. You&#39;ll run into it frequently, particularly in the error handling section. Here&#39;s an example:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">match</span> isOdd(foo) {
     <span class="hljs-keyword">true</span> =&gt; println!(<span class="hljs-string">"Odd"</span>), <span class="hljs-comment">// Notice the comma</span>
     <span class="hljs-keyword">false</span> =&gt; println!(<span class="hljs-string">"Even"</span>)
@@ -363,8 +369,7 @@ else if are optional for validity.</p>
     <span class="hljs-number">_</span> =&gt; { bar(); } <span class="hljs-comment">// Matches every integer value</span>
 }
 </code></pre>
-<p><code>match</code> can also use simple logical expressions in its arms. For example, 
-scode False {&#39;lang&#39;: &#39;rust&#39;}</p>
+<p><code>match</code> can also use simple logical expressions in its arms. For example, </p>
 <pre><code class="lang-rust"><span class="hljs-keyword">match</span> x {
     <span class="hljs-number">3</span>|<span class="hljs-number">5</span>|<span class="hljs-number">6</span>  =&gt; { println!(<span class="hljs-string">"First arm!"</span>); }
     <span class="hljs-number">10</span>..<span class="hljs-number">16</span> =&gt; { println!(<span class="hljs-string">"Second arm!"</span>); }   
@@ -403,10 +408,13 @@ between 20 and 26, (b) if the bool is true and the aforementioned condition isn&
 </code></pre>
 <p>match on it, and manually change its value to test the different branches.
 Put your code inside a block of this form, and run &quot;rustc <filename>&quot; to compile it.</p>
-<pre><code class="lang-rust">    <span class="hljs-comment">// Code goes here</span>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-comment">// Code goes here</span>
 }
 </code></pre>
-<p><a name="Looping"></a>Rust provides several choices of looping structure, similar to those in C and Java. In Rust loops, we can use <code>break</code> to get out of the loop and <code>continue</code> to skip to the next iteration.</p>
+<p><a name="Looping"></a></p>
+<h2 id="looping">Looping</h2>
+<p>Rust provides several choices of looping structure, similar to those in C and Java. In Rust loops, we can use <code>break</code> to get out of the loop and <code>continue</code> to skip to the next iteration.</p>
 <h3 id="loop">Loop</h3>
 <p><code>loop</code> is syntactic sugar for <code>while true</code>.</p>
 <p>For completeness, its syntax is</p>
@@ -435,8 +443,9 @@ Put your code inside a block of this form, and run &quot;rustc <filename>&quot; 
     foo(i);
 }
 </code></pre>
-<p><a name="Expressions"></a>
-Rust’s use of the semicolon may seem confusing when first encountered, but once learned, is intuitive and remarkably useful. Essentially, everything that doesn’t end with a semicolon is an expression, and everything that does is a statement. Expressions have an associated value, whereas statements do not (technically, they have a value of nil or void, but for our purposes this is the same as having none.) You can think of the semicolon in Rust as suppressing the value of an expression, turning it into a statement.</p>
+<p><a name="Expressions"></a></p>
+<h2 id="expressions">Expressions</h2>
+<p>Rust’s use of the semicolon may seem confusing when first encountered, but once learned, is intuitive and remarkably useful. Essentially, everything that doesn’t end with a semicolon is an expression, and everything that does is a statement. Expressions have an associated value, whereas statements do not (technically, they have a value of nil or void, but for our purposes this is the same as having none.) You can think of the semicolon in Rust as suppressing the value of an expression, turning it into a statement.</p>
 <p>Almost everything in Rust can be an expression - the only exceptions are declarations. This allows Rust code to be very nicely concise. For example, an explicit return from a function is not necessary in most cases. In general, this use of expressions makes the <code>return</code> keyword necessary only when you want to leave a function early. Another common use of Rust&#39;s expressions is easy conditional assignment of variables, as a conditional block will have the value of its last expression:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">let</span> foo = <span class="hljs-keyword">if</span> x == <span class="hljs-number">5</span> {
                 <span class="hljs-string">"five"</span>
@@ -455,8 +464,10 @@ last expression:</p>
     <span class="hljs-number">_</span>       =&gt;  { <span class="hljs-string">"Greater than 10"</span> }
 }
 </code></pre>
-<p><a name="Functions"></a>### Definition and Invocation:
-Functions are created by using <code>fn</code>. Like loops, their bodies must be surrounded by braces. Here’s the syntax for a function that accepts no parameters and doesn&#39;t return 
+<p><a name="Functions"></a></p>
+<h2 id="functions">Functions</h2>
+<h3 id="definition-and-invocation-">Definition and Invocation:</h3>
+<p>Functions are created by using <code>fn</code>. Like loops, their bodies must be surrounded by braces. Here’s the syntax for a function that accepts no parameters and doesn&#39;t return 
 anything:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">name</span>(</span>) {
     `code`
@@ -492,8 +503,10 @@ the same syntax that specifies a type during variable declaration, <code>name :t
 <h3 id="yet-another-exercise-">Yet Another Exercise:</h3>
 <p>As another check to make sure you&#39;re good to go so far, try to implement <a href="http://c2.com/cgi/wiki?FizzBuzzTest" target="_blank">Fizz Buzz</a>,
 as specified on that page. Remember that you&#39;ll need to put your code in a main function, as shown above.</p>
-<p><a name="Program_1:_Collatz"></a>### The Collatz Conjecture:
-The <a href="http://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz Conjecture</a>, named after Lothar Collatz, states that starting from any natural number, it is possible to reach 1 by following certain rules:</p>
+<p><a name="Program_1:_Collatz"></a></p>
+<h2 id="program-1-collatz">Program 1: Collatz</h2>
+<h3 id="the-collatz-conjecture-">The Collatz Conjecture:</h3>
+<p>The <a href="http://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz Conjecture</a>, named after Lothar Collatz, states that starting from any natural number, it is possible to reach 1 by following certain rules:</p>
 <ol>
     <li> Take n:
         <ul>

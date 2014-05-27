@@ -16,7 +16,8 @@ if foo == 5
 let x = (51, true);
 //end 4
 
-//inline 5 fn main() {
+//inline 5 
+fn main() {
     // Code goes here
 }
 //end 5
