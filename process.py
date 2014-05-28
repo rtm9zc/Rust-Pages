@@ -29,22 +29,37 @@ def processPre(fileLoc, summary):
         mdLoc = mdLoc[:-4] + '.md'
         fileIn = open(preLoc, 'r')
         fileOut = open(mdLoc, 'w')
+	pastIntro = False
+	headct = 1
+	subLoc = mdLoc[:-3]
+	if not os.path.exists(subLoc):
+		os.makedirs(subLoc)
         for line in fileIn.readlines():
                 if line[:2] == '# ':
                         fileOut.write(line)
                         summary.write('* [' + line[2:-1] + '](' + mdLoc + ')\n')
                 elif line[:3] == '## ':
-                        templine = line[3:-1]
-                        link = templine.replace(' ', '_')
-                        fileOut.write('<a name="' + link + '"></a>\n')
+			if not pastIntro:
+				pastIntro = True
+				subLoc = subLoc + '/' + `headct` + '.md'
+			else:
+				subFile.close()
+				subLoc = mdLoc[:-3] + '/' + `headct` + '.md'
+			subFile = open(subLoc, 'w')
+			headct += 1
+                        linkName = line[3:-1]
                         fileOut.write(line)
-                        summary.write('    * [' + templine + 
-                                      '](' + mdLoc + '#' + link + ')\n')
+			subFile.write(line)
+                        summary.write('    * [' + linkName + '](' + subLoc + ')\n')
                 elif line[:8] == '//inline':
                         params = line.split()
                         codeProc(params[1], params[2], fileOut)
+			if pastIntro:
+				codeProc(params[1], params[2], subFile)
                 else:
                         fileOut.write(line);
+			if pastIntro:
+				subFile.write(line)
 
 summary = open('SUMMARY.md', 'w')
 summary.write('# Summary\n\n')

@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="../../manifest.appcache">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Program 1: Collatz | Rust in Seven Programs</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="rtm9zc">
+        <meta name="description" content="A Tutorial to the Rust programming language">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../../md/05.html" />
+        
+        
+        <link rel="prev" href="../../md/01/6.html" />
+        
+
+        <meta property="og:title" content="Program 1: Collatz | Rust in Seven Programs">
+        <meta property="og:site_name" content="Rust in Seven Programs">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/rtm9zc">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.7" data-basepath="../.." data-revision="1401304625466">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages" target="_blank" class="btn pull-left home-bookmark" aria-label="GitHub home"><i class="fa fa-bookmark-o"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="btn-group btn-block">
+        <button id="reduce-font-size" class="btn btn-default">A</button>
+        <button id="enlarge-font-size" class="btn btn-default">A</button>
+    </div>
+
+    <ul class="list-group font-family-list">
+        <li class="list-group-item" data-font="0">Serif</li>
+        <li class="list-group-item" data-font="1">Sans</li>
+    </ul>
+
+    <div class="btn-group btn-group-xs btn-block color-theme-list">
+        <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages/stargazers" target="_blank" class="btn pull-right count-star hidden-xs"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/rtm9zc/Rust-Pages/watchers" target="_blank" class="btn pull-right count-watch hidden-xs"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-spinner fa-spin"></i>
+        <a href="../../" >Rust in Seven Programs</a>
+    </h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/rtm9zc" target="blank" class="author-link">About the author</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/issues" target="blank"class="issues-link">Questions and Issues</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/01/7.md" target="blank" class="contribute-link">Edit and Contribute</a>
+        </li>
+        
+
+        
+
+        <li data-level="0" data-path="index.html">
+            <a href="../../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li class="chapter " data-level="1" data-path="md/01.html">
+                
+                <a href="../../md/01.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Getting Started: Variables, Functions, and Syntax
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="md/01/1.html">
+                            
+                            <a href="../../md/01/1.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> Variables
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="md/01/2.html">
+                            
+                            <a href="../../md/01/2.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> Conditionals
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="md/01/3.html">
+                            
+                            <a href="../../md/01/3.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Pattern Matching
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="md/01/4.html">
+                            
+                            <a href="../../md/01/4.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> Looping
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="md/01/5.html">
+                            
+                            <a href="../../md/01/5.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> Expressions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="md/01/6.html">
+                            
+                            <a href="../../md/01/6.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path="md/01/7.html">
+                            
+                            <a href="../../md/01/7.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> Program 1: Collatz
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="2" data-path="md/05.html">
+                
+                <a href="../../md/05.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Arcs and Sharing Memory
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="md/05/1.html">
+                            
+                            <a href="../../md/05/1.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> The Arc Module
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Generated using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 80%;min-width: 70%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../../md/01.html" title="Getting Started: Variables, Functions, and Syntax" class="chapter done new-chapter" data-progress="1" style="left: 10%;"></a>
+    
+        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 20%;"></a>
+    
+        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 30%;"></a>
+    
+        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 40%;"></a>
+    
+        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 50%;"></a>
+    
+        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 60%;"></a>
+    
+        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 70%;"></a>
+    
+        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 80%;"></a>
+    
+        <a href="../../md/05.html" title="Arcs and Sharing Memory" class="chapter  new-chapter" data-progress="2" style="left: 90%;"></a>
+    
+        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="2.1" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_8">
+                    
+                        <h2 id="program-1-collatz">Program 1: Collatz</h2>
+<h3 id="the-collatz-conjecture-">The Collatz Conjecture:</h3>
+<p>The <a href="http://en.wikipedia.org/wiki/Collatz_conjecture" target="_blank">Collatz Conjecture</a>, named after Lothar Collatz, states that starting from any natural number, it is possible to reach 1 by following certain rules:</p>
+<ol>
+    <li> Take n:
+        <ul>
+            <li> If n is odd, set n = 3n+1.
+            <li> Else, if n is even, set n = n/2.
+        </ul>
+    <li> Repeat the procedure until 1 is reached.
+</ol>
+
+<p>The conjecture is currently unproven, although it has been shown to hold for numbers up to 5476377146882523136. </p>
+<h3 id="finding-a-collatz-sequence-">Finding a Collatz Sequence:</h3>
+<p>As you might imagine, given the simple nature of the conjecture&#39;s rules, it&#39;s quite easy to 
+find the Collatz sequence for a given number programmatically. The below is Rust code to do just that:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">if</span> N == <span class="hljs-number">1</span> { <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; }
+    <span class="hljs-keyword">match</span> N % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; { <span class="hljs-number">1</span> + collatz(N/<span class="hljs-number">2</span>) }
+        <span class="hljs-number">_</span> =&gt; { <span class="hljs-number">1</span> + collatz(N*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>) }
+    }
+</code></pre>
+<p>We can use this code in the following program to find the number of Collatz steps for a user-input number:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::os;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">if</span> os::args().len() &lt; <span class="hljs-number">2</span> {
+        println!(<span class="hljs-string">"Error: Please provide a number as argument."</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-keyword">let</span> i = from_str::&lt;<span class="hljs-keyword">int</span>&gt;(os::args()[<span class="hljs-number">1</span>]).unwrap();
+    println!(<span class="hljs-string">"{:d} has {:d} Collatz steps"</span>, i, collatz(i));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">if</span> N == <span class="hljs-number">1</span> { <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; }
+    <span class="hljs-keyword">match</span> N % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; { <span class="hljs-number">1</span> + collatz(N/<span class="hljs-number">2</span>) }
+        <span class="hljs-number">_</span> =&gt; { <span class="hljs-number">1</span> + collatz(N*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>) }
+    }
+}
+</code></pre>
+<h3 id="breaking-down-the-code-">Breaking Down the Code:</h3>
+<p>First, let&#39;s look at the main function. There are a couple of things at the beginning which you haven&#39;t seen thus far
+in the tutorial, namely the contents of the first conditional block:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">if</span> os::args().len() &lt; <span class="hljs-number">2</span> {
+        println!(<span class="hljs-string">"Error: Please provide a number as argument."</span>);
+        <span class="hljs-keyword">return</span>;
+    }
+</code></pre>
+<p>We aren&#39;t going to worry about the meaning of the <code>os::</code> in the boolean expression of the conditional block just yet; for now, just know that <code>os::args().len()</code> gets the number of command-line arguments passed in. <code>println</code>, as you&#39;ve probably guessed based on your use of other languages, prints the string argument passed in. The <code>!</code> after <code>println</code> indicates the use of a macro, a kind of language extension in Rust. We&#39;ll be going over them in more detail later. In particular, this macro is like <code>printf</code> in C, and takes as its first argument a format string, with the remaining arguments being used to fill the slots of the format string. The syntax Rust uses for its format strings is similar to that of <a href="http://docs.python.org/2/library/string.html#format-string-syntax" target="_blank">Python</a>.</p>
+<p>The conditional block ends with a return statement, which, as we discussed earlier, is being used to prematurely exit the function. </p>
+<p>Moving into the <code>collatz</code> routine, we see the function declaration syntax we discussed above. <code>collatz</code> takes in an int and returns an int:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">if</span> N == <span class="hljs-number">1</span> { <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>; }
+    <span class="hljs-keyword">match</span> N % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; { <span class="hljs-number">1</span> + collatz(N/<span class="hljs-number">2</span>) }
+        <span class="hljs-number">_</span> =&gt; { <span class="hljs-number">1</span> + collatz(N*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>) }
+    }
+</code></pre>
+<p>The main takeaway from this code is the use of a match block to carry out the actual Collatz conjecture algorithm. Notice that we have to have the <code>_</code> arm of the block in order for it to be comprehensive; given this, it makes sense to only have
+one other arm (as opposed to two other arms, one for 0 and one for 1).</p>
+<p>Finally, notice again that, by not putting semicolons at the end of the calls in each arm of the match block, we are able to use the value of whichever arm of the block is selected as our return value without an explicit return statement.</p>
+<h3 id="final-exercises-">Final Exercises:</h3>
+<p>To finish off this section, we have a small programming problem for you to solve. Starting with the above code (also available in a file <a href="http://rtm9zc.github.io/RustTutorial/code/01/collatz.rs" target="_blank">here</a>), make a program that takes as command-line input a single number, representing a number of Collatz steps (steps required to reach 1 by following the Collatz procedure), and computes the lowest number (greater than zero) which requires this number of Collatz steps. For example, if the number input was 949, your program should output 63,728,127; similarly, if you input 1132, it should output 9,780,657,630 as the lowest number requiring 1132 Collatz steps.</p>
+<p>Since these are fairly large numbers, and it might take your code a very long time to reach them (unless you use a more advanced technique, such as memoizing previous results) you can use the following smaller test cases: For an input of 6, your code should output 10. For an input of 45, it should output 361. Finally, for an input of 260, it should print 18514.</p>
+<p>Bonus points if you can do it using each type of loop in Rust, as well as if you can do it recursively.
+Note: Trying to call <code>collatz(0)</code> will result in a stack overflow, as the Collatz sequence is only defined for positive integers.</p>
+<p>Ready for more Rust? Head to the next section.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01/6.html" class="navigation navigation-prev " aria-label="Previous page: Functions"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/05.html" class="navigation navigation-next " aria-label="Next page: Arcs and Sharing Memory"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>
