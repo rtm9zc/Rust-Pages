@@ -385,3 +385,56 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+rm of the block is selected as our return value without an explicit return statement.</p>
+<h3 id="final-exercises-">Final Exercises:</h3>
+<p>To finish off this section, we have a small programming problem for you to solve. Starting with the above code (also available in a file <a href="http://rtm9zc.github.io/RustTutorial/code/01/collatz.rs" target="_blank">here</a>), make a program that takes as command-line input a single number, representing a number of Collatz steps (steps required to reach 1 by following the Collatz procedure), and computes the lowest number (greater than zero) which requires this number of Collatz steps. For example, if the number input was 949, your program should output 63,728,127; similarly, if you input 1132, it should output 9,780,657,630 as the lowest number requiring 1132 Collatz steps.</p>
+<p>Since these are fairly large numbers, and it might take your code a very long time to reach them (unless you use a more advanced technique, such as memoizing previous results) you can use the following smaller test cases: For an input of 6, your code should output 10. For an input of 45, it should output 361. Finally, for an input of 260, it should print 18514.</p>
+<p>Bonus points if you can do it using each type of loop in Rust, as well as if you can do it recursively.
+Note: Trying to call <code>collatz(0)</code> will result in a stack overflow, as the Collatz sequence is only defined for positive integers.</p>
+<p>Ready for more Rust? Head to the next section.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01/6.html" class="navigation navigation-prev " aria-label="Previous page: Functions"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/02.html" class="navigation navigation-next " aria-label="Next page: Starting to Corrode: Pointers, Memory, Strings, and I/O"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

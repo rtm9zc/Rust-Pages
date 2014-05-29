@@ -344,3 +344,76 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+/code>.</p>
+<p>For completeness, its syntax is</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">loop</span> {
+    `code`
+}
+</code></pre>
+<h3 id="while-loops">While Loops</h3>
+<p>Like most other languages, a <code>while</code> loop iterates until its condition is false. Its condition must be of type bool.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> i = <span class="hljs-number">0</span>;
+<span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">10</span> { 
+    println(<span class="hljs-string">"Hi there"</span>);
+    i += <span class="hljs-number">1</span>; <span class="hljs-comment">// Rust doesn't support ++ or --</span>
+}
+</code></pre>
+<p>Its syntax is</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">while</span> condition {
+    `code`
+}
+</code></pre>
+<h3 id="for-loops">For Loops</h3>
+<p>Rust’s for loop is more akin to Java’s for-each loop than to a traditional for loop. It uses an iterator to loop over the items in a variable. Since we haven’t covered vectors, for now it’s enough to know that we can achieve a traditional for loop by using 
+<code>range(start, end)</code>, which creates a set of integers, <code>[start, end)</code>.</p>
+<pre><code class="lang-rust"><span class="hljs-comment">// Calls foo with 0, 1, ..., 9</span>
+<span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>) {
+    foo(i);
+}
+</code></pre>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01/3.html" class="navigation navigation-prev " aria-label="Previous page: Pattern Matching"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/01/5.html" class="navigation navigation-next " aria-label="Next page: Expressions"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

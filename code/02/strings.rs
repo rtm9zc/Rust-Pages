@@ -1,4 +1,5 @@
 fn main() {
+//inline 1
     let string = ~"This is a string";
     let subst1 = string.slice(10, 16).to_owned();
     let subst2 = string.slice_from(10).to_owned();
@@ -15,4 +16,5 @@ fn main() {
     for &s in wordvec.iter() {
         println!("{}", s);
     }
+//end 1
 }

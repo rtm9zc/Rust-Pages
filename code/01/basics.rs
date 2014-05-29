@@ -126,8 +126,9 @@ let foo = if x == 5 {
           else {
                 "neither"
           }
-//end 15
 }
+//end 15
+
 
 //inline 17
 fn foobar() {

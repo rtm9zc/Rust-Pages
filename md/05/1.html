@@ -384,3 +384,71 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+      taskArc.write(|taskNum| {
+                *taskNum += <span class="hljs-number">1</span>;
+                newNum = *taskNum;
+            });
+            <span class="hljs-keyword">let</span> collatzN = collatz(newNum);
+            println!(<span class="hljs-string">"Collatz of {:d} = {:d}"</span>, newNum, collatzN);
+        });
+    }
+}
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> nLoc = N;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> out = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (nLoc != <span class="hljs-number">1</span>) {
+        out += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">match</span> nLoc % <span class="hljs-number">2</span> {
+        <span class="hljs-number">0</span> =&gt; {nLoc = nLoc/<span class="hljs-number">2</span>;}
+        <span class="hljs-number">_</span> =&gt; {nLoc = nLoc*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>; }
+    }
+    }
+    <span class="hljs-keyword">return</span> out;
+}
+</code></pre>
+<h4 id="a-note-on-rwarc-failure">A Note on RWArc Failure</h4>
+<p>If for whatever reason a failure occurs during the read or write block of a RWArc, the RWArc will be exited and flagged as &quot;poisoned.&quot; This causes any other read or write functions on the RWArc to immediately fail, thus preserving Rust&#39;s goal of cocurrent safety.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/05.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Arcs and Sharing Memory"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

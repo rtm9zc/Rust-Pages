@@ -4,6 +4,7 @@ fn incrementMut(v: &mut [int]) {
     }
 }
 
+//inline 1
 fn main() {
    let mut p = ~[1, 2, 3];
    incrementMut(p);
@@ -11,3 +12,4 @@ fn main() {
       print!("{:d} ", x);
    }
 }
+//end 1

@@ -1,0 +1,322 @@
+# Starting to Corrode: Pointers, Memory, Strings, and I/O
+
+This section of the tutorial introduces one of the "rustiest" aspects of Rust: memory management.  
+
+Rust provides memory references in a way that is quite different from other languages you may be familiar with, and it requires some effort to understand, but provide the big advantage of providing both explicit control and safety. We'll also cover strings and vectors, file and user I/O, and basic error handling in Rust. At the end of this section, you'll write a simple encryption program that employs many of the new concepts.
+
+## Memory Management and Pointers
+### Boxes
+The *box* in Rust is the fundamental abstraction of memory. References in Rust can point to boxes.  Because Rust is designed to emphasize safety, any allocated memory in Rust is *boxed*, and thus any box can be thought of as simply a chunk of memory. 
+
+### Pointer Types
+Rust provides two main pointer types: the *owned* pointer (indicated by the tilde: `~`) and the *borrowed* reference (denoted with ampersand: `&`). Both kinds of pointers point to a box, and the pointer types are in line with the type of data the box contains. For example, `~[&str]` is a owned reference to a vector of borrowed strings.
+
+Similarly to C or C++, dereferencing a Rust pointer is done with the star operator (`*`). The next section on ownership will go into more detail on the usage and interaction of both of these.
+
+<div class="note">
+Note: Legacy Rust code (before 0.9) also has a "managed pointer" represented by the `@` which was automatically managed (garbage collected). As of Rust 0.9, this syntax is deprecated, however it is planned to be reintroduced in future releases. These added a deal of simplicity to pointer management, however other pointer types could be used with more efficency.  Automatically managed pointers may be implemented as library types.
+</div>
+
+### Ownership
+
+In Rust, there is a notion of *ownership* of an object.  The owner of an object, which could be a variable that refers to that object, manages the object's lifetime (that is, when its memory is allocated and reclaimed).  Programmers do not have to explicitly allocate and deallocate storage.  Rather, it is done by the Rust compiler and runtime enviroment based on how the object references are used.
+
+#### Owned Boxes
+A declaration of an owned (`~`) pointer can be thought of as giving the declared variable ownership of the box.  What does this mean in code? The following block works as anticipated, printing out "10".
+
+//inline 02/owned.rs 1
+
+However the following block gives a compilation error:
+
+//inline nonCompiled.rs 9
+
+<pre><code>tut2.rs:3:23: 3:24 <span style="color:red;">error:</span> use of moved value: `x`
+tut2.rs:3     println!("{:d}", *x);
+</code></pre>
+
+The error message is a bit unclear, but what it is reporting is a violation of ownership rules.  When we create the owned box of `~10`, that box is owned by the variable `x`. The initialization, `let y = x;` assigns the *pointer* to y. Because of Rust's emphasis on safety this is not allowed: it creates two references to an owned box.  
+
+In other languages, such as C and Java, there are no restrictions on pointer sharing.  We could do the following:
+
+```c
+	//This assignment works in C, not Rust!
+	y = x;
+	*y = 3;
+```
+
+This changes the value of `*x` through the alias.  With Rust, the assignment, `y = x` transfers ownership of the box `x` refers to from the `x` reference to the `y` reference. From this point on, any attempts to use `x` to manipulate that box will result in a compilation error.
+
+We can make a copy of a box using the `clone()` method which copies over the content of a box and creates a new owned pointer to the copy. So the following code will assign `y` to a new owned pointer pointing to a new copy of the value "10". The dereferencing of `x` no longer causes a compiler error, as `x` still has proper ownership of its box.
+
+//inline 02/owned.rs 2
+
+Keep in mind though, since `x` and `y` refer to different boxes now, so a modification of `*x` will not be visible through `y`.
+
+#### Borrowed References
+
+As we have seen, to use a box in multiple instances with the `~` owned pointers, we need to create copies of the box. Also, we can't access the same box with multiple variables. If we were to exclusively use owned pointers, the copying would be very expensive, and eliminate the benefits of data sharing for uses like pass-by-reference and data structures.  Rust's solution is to provide a way for box owners to loan out their objects.  
+
+Using the `&` operator creates a temporary reference to some memory that has already been allocated. These references are refered to as "borrowed" because they can access the contents of the box during the borrowing period, but do not own the box. This most commonly used to pass in a pointer reference to a method.
+
+Because of Rust's emphasis on safety there are many resctriction on what can be done with a reference. Most notably, if a pointer has a borrowed reference in scope (more on scope in the next section), any function which would free the memory or change the type being pointed to would cause a compile-time error. Think of it this way: creating a reference to a box "lends" that box's contents to the reference until the loaned box is "returned".  Thus, a reference owner gives up full control over a loaned box while it is being borrowed.
+
+Borrowed references are frequently used as function parameters.  For example,
+
+//inline 02/borrowed.rs 1
+
+declares the function `borrow(&int)` to take a borrowed pointer to an int.  We can call it by passing in an owned pointer:
+
+//inline 02/borrowed.rs 2
+
+Borrowed pointers can also be loaned by the borrowee, within the lifetime of the original loan.  We can pass in an owned pointer to borrow2, which borrows that pointer and passes it as a borrowed pointer to borrow:
+
+//inline 02/borrowed.rs 3
+
+#### Pointer Mutability
+As with scalar variables, boxes are immutable by default. The `mut` qualifier is used to indicate that a box is mutable.  Mutability applies to the *contents* of a box, and not the pointer itself.
+
+For example,
+
+```rust
+fn increment(r: &int) {
+    *r = *r + 1;
+}
+```
+
+is not permitted and returns the following compilation error:
+
+<pre><code>
+borrowed.rs:2:4: 2:6 <span style="color:red;">error:</span> cannot assign to immutable dereference of & pointer
+borrowed.rs:2     *r = *r + 1;
+                   ^~
+</code></pre>
+
+To allow the modification, we need to declare the parameter as a borrowed, mutable reference: `r: &mut int`
+
+Now, if we try to pass in a nonmutable reference as the parameter, we will receive a different error. The following code:
+
+//inline nonCompiled.rs 10
+
+Produces the following error:
+
+<pre><code>
+borrowed.rs:16:14: 16:15 <span style="color:red;">error:</span> cannot borrow immutable dereference of ~ pointer as mutable
+borrowed.rs:16     increment(x);
+</code></pre>
+
+To change this, we need to add `mut` to the declaration:
+
+//inline 02/borrowed.rs 5
+
+The `mut` here applies to the reference `x` and is also inherited by the box (so no separate `mut` annotation is needed for the `~`.  It allows both the variable `x` to be reassigned, as well as the contents of the owned box to be modified:
+
+//inline 02/mut.rs 1
+
+The first assignment statement creates a new box owned by `x` holding the value `20`. The second assignment statement modifies the value in that box to be `30`.  Without the `mut`, neither assignment would be permitted by the Rust compiler.
+
+Borrowed references do not inherit mutability.  For example, this code is invalid:
+
+//inline nonCompiled.rs 11
+
+<pre><code>
+borrowed.rs:23:4: 23:13 <span style="color:red;">error:</span> cannot assign to immutable dereference of & pointer
+borrowed.rs:23     *borrowed = 11;
+                   <span style="color:red;">^~~~~~~~~</span>
+</code></pre>
+
+To allow both modifications, we need the following:
+
+//inline 02/borrowed.rs 6
+
+This allows both modifying the referenced box and changing what `borrowed` references. 
+
+Keep in mind that references are type checked (yet another safety measure of Rust!) so the following code produces an error at compile time due to trying to reassign an int reference to a float reference.
+
+//inline nonCompiled.rs 12
+
+<pre><code>tut2.rs:4:16: 6:21 <span style="color:red;">error:</span> mismatched types: expected `&&lt;VI0&gt;` but found `&&lt;VF0&gt;` (expected integral variable but found floating-point variable)
+tut2.rs:4     borrowed = &val3;
+</code></pre>
+
+#### Freezing Objects
+
+When an object is loaned through a borrowed reference, the lender loses the ability to modify that object. This is especially important for
+multi-tasking (which we'll get to soon), but still relevant with a single thread.
+
+For example, the following program produces a compiler error: 
+
+//inline nonCompiled.rs 13
+
+<pre><code>example.rs:4:9: 4:10 <span style="color:red;">error:</span> cannot assign to `x` because it is borrowed
+example.rs:4         x = 11;
+</code></pre>
+
+When the reference `y` borrows the value `x` refers to, the value of `x` is frozen until the reference to it goes out of scope. Thus, the first reassignment here is invalid, but the second (after `y` is out of scope) is fine.
+
+### Lifetimes
+Memory allocated in Rust is automatically freed when its owner either goes out of scope or is reassigned. This eliminates the need to explicitly free storage (as in C or C++), but guarantees safety without giving up control to an expensive garbage collector.  
+
+Owned pointers follow similar rules of deallocation, so borrowing a reference to some box and trying to access it once it has gone out of scope throws a compiler error.
+
+//inline nonCompiled.rs 14
+
+<pre><code>example.rs:4:21: 4:25 <span style="color:red;">error:</span> borrowed value does not live long enough
+example.rs:4         reference = &val;
+</code></pre>
+
+## Vectors and Strings
+
+Rust provides built-in vector and string types, consistent with Rust's focus on safety.
+
+#### Vectors
+
+A vector is defined by using comma seperated values within brackets. 
+
+A specific element can be accessed via `foo[index]`. The following examples show simple vector functions:
+
+//inline 02/vectors.rs 1
+
+The above includes some of the more useful functions for a `Vec`, and a more extensive list can be found at [the official Rust documentation](http://static.rust-lang.org/doc/master/std/vec/struct.Vec.html)
+#### Strings
+
+Rust supposrts a `string` type, which is a vector of characters.  Each character is a UTF-8 sequence, represented by the `u8` type in Rust.
+
+A notable construct that is very important for strings is the `slice`. This represents a view into a string, but not a string itself. Its type is `&string`.  
+ 
+Methods that produce a slice include `slice(&self, begin: int, end: int)`, which returns a slice of characters between begin and end - 1, `slice_from(&self, begin: int)`, which returns a slice with first element from the index provided that continues to the end, and `slice_to(&self, end: int)`, which returns a slice starting at the beginning with final element from index end - 1. 
+
+These slice methods each produce an immutable value, so they cannot be modified. 
+
+To do something such as taking a substring, a slice may be converted to an owned string via the `to_owned(&self)` method. These slice methods work on any vector, but string manipulation is the most common use of slices.
+
+Other notable string methods include `str::eq(&~str, &~str)`, which checks two strings for bytewise equality, and `split(&self, char)`, which returns an iterator that splits the string the method is called on into slices delimited by the parameter character. 
+
+For string concatenation, the `+` operator is used. 
+
+These methods are used in the example below:
+
+//inline 02/strings.rs 1
+
+As with vectors, further documentation on string functions can be found in the [official Rust documentation](static.rust-lang.org/doc/master/std/str).
+
+phead 4 Exercises
+
+<div class="exercise">
+**Exercise 2.1.** Implement a function, `increment(v: &[int])` that takes as input a vector of integers and returns a new vector of integers that has the values of the original list each incremented by one.  For example:
+
+//inline 02/increment.rs 1
+
+should print out 2 3 4.
+</div>
+
+<div class="exercise">
+**Exercise 2.2.**  Implement a function, `incrementMut(v: &mut [int])`, that takes as input a vector of integers and modifies the values of the original list by incrementing each value by one.  For example:
+
+//inline 02/incrementMut.rs 1
+
+should print out 2 3 4.  
+</div>
+
+phead 2 Error Handling
+
+Error handling in Rust is done with the intention of catching what can be caught at compile-time, and reducing runtime errors. To accomplish this, Rust has two special types to assist with error handling: the `Option<T>`, and `Result<T,E>`. The `Option<T>` type used for functions which either create an object of type `T`, or fail (represented by None()). A `Result<T,E>` is similar to an `Option<T>`, but the value is determined on whether a function succeds as intended on a pre-existing object (as opposed to the creation of a new object with `Option<T>`). 
+
+An `Option` or `Result` requires a match statement to use the values obtained. For an `Option`, there are two possible outcomes for the value: a successful object creation, represented as `Some(T)`, or a failure, represented as `None`. In the branch which specifies `Some(T)`, `T` is filled in with a variable of type `T`. In the event of a failed creation, the `fail` macro can be used to output an error message upon failure. In the following example, the method `File::create(&Path)` returns an `Option<File>`. If the file, foo.txt, doesn't properly open, the message specified in the macro will be printed upon the exit. If it does, in the `Some` branch, `file` refers to the `File` foo.txt.
+
+//inline 02/optionResult.rs 1
+
+Similar to the `Option`, a `Result` must have a match statement called upon it to use the value as well. Instead of `Some(T)` and `None`, however, a `Result` has branches of `Ok(T)` and `Err(E)` respectively. In these cases, the `Err(E)` branch has the value of  `E` assigned to an error of type `E`, specified in the function that returns the `Result`. For example, the `read_line(&mut self)` function of the `io::BufferedReader` class (which will be gone over more extensively in the next section in IO) returns a `Result<String, IoError>'. In the following example, a line is read from stdin using this function, and then matched accordingly. Note how the `Err(E)` branch requires defining a new variable to represent the error type, as opposed to `None` in an `Option`, which has no associated variable returned.
+
+//inline 02/optionResult.rs 2
+
+## Basic I/O
+
+**NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS**
+
+Rust handles file and user input/output using the [std::io](http://static.rust-lang.org/doc/master/std/io/index.html) module. 
+
+The most intuitive way to work with reading in stdin and files is through the use of a [BufferedReader](http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html), which will be explained more in depth in the following sections. Take note that many methods in `BufferedReader` return vectors of bytes, not strings, so appropriate conversions may be necessary.
+
+### Working with Standard Input (stdin)
+
+Standard input is provided through `std::io::stdin`, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The `lines` method returns an iterator that goes through each line until the end of input.
+
+//inline 02/io1.rs 1
+
+Reading line by line is done using the `read_line()` function, which was used in an example in the previous section. This is a bit more difficult to implement, as `readline()` uses an `IoResult<String>` as it's output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.
+
+//inline 02/io1.rs 2
+
+### Files
+The standard library functions for working with files in Rust are handled via the [std::io::File](http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html) module. This module contains methods for opening and writing to a file. 
+
+A file is opened using `Path` objects, which are included in any Rust program by default. Creating a `Path` object is done through `Path::new("path/to/file.foo")`. 
+
+To simply open a new file for writing, `File::create(&Path)` is the simplest call. This returns an `Option<File>` type, so it must be matched to ensure that a file was successfully opened. 
+
+The two most common ways to write to the file once opened are the following: `File::write(&mut self, &[u8])`, which writes a buffer of bytes to a file, and `File::write_str(&mut self, &str)`, which writes a string to the file.
+
+This example demonstrated opening a file for writing using both of these methods:
+
+//inline 02/fileIO.rs 1
+
+Reading a file can be accomplished easily through using the [BufferedReader](static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html) module, much like reading from standard in. 
+
+Opening a file to a `BufferedReader` is done using the `File::open(&Path)` function, which opens the file at a given path in read-only mode, followed by `BufferedReader::new(File)`. 
+
+Note that the file needs to be matched before converting to a `BufferedReader`, as `File::open()` returns an `Option<File>` type. Once converted to a `BufferedReader`, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the [BufferedReader](static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html) documentation.
+
+Here's a simple example of reading a file:
+
+//inline 02/fileIO.rs 2
+
+The `File::open_mode(&Path, FileMode, FileAccess)` method allows specifying the mode in which a file is accessed. `FileMode` and `FileAccess` are *enumerable types* imported from [std::io::FileMode](http://static.rust-lang.org/doc/master/std/io/type.FileMode.html) and [std::io::FileAccess](http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html) respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.
+
+//inline 02/enumIO.rs 1
+
+Like the other file methods, this returns an `Option` object that must be matched to check for opening failures.
+
+## Example: Secret Sharing
+
+The XOR operation is a simple, but effective method for hiding meaning. It's derived from the identity <code>A = (A ^ B) ^ B</code>.  XOR-ing a message with a random key provides <em>perfect</em> encryption, known as a *one-time pad*. It is essentially the only form of encryption
+that is information-theoretically secure, but is impractical for most purposes since it requires a perfectly-random key as long as the message and that key can never be reused.
+
+It works by taking in a message and a random bit sequence (key) of equal length. Each bit in the message is XORed with the corresponding bit in the key to produce the encrypted message. The original message can then be recovered by applying the XOR process to the key and the encrypted message.
+
+For this exercise, we will use this strategy to convert a plaintext file into two secret shares, each of which discloses no information about the original file (other than its length), but if someone has both shares they can put them together to produce the original file.  A paranoid individual might use such an approach to store a file in the cloud by storing one share using Dropbox and the other share using Google Docs. The user could acquire both shares to obtain the file, and if the NSA can hypothetically (of course) obtain all of the data from one of the services but not both of them, it would not be enough to learn the contents of the file.
+
+Note that our implementation uses `td::rand::random` o generate the random key.  This is not cryptographically strong randomness, so should be used for entertainment purposes only!  (If you are interested in better random numbers, see <a href="https://github.com/wbkostan/cs4414-ps4">tRustees: True Random Number Generation</a>.)
+
+We'll provide the code to do the splitting, and leave it as an exercise for you to write the joining code.
+
+### Splitter
+
+The following Rust code implements the splitter. It takes as input the name of a file, and writes out two share files.
+
+//inline 02/splitter.rs 1
+
+#### Joiner
+
+The joiner reverses the splitting process, taking the two shares and combining them to produce the original message.
+
+<div class="exercise"> 
+
+**Exercise 2.3.** Implement the joiner.  It should take two file names as its inputs, and output to standard output
+the result of XOR-ing the bytes in those files. The input files must be the same length.
+
+</div>
+
+Your joiner should be able to produce the plaintext from the example
+files: <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share1">msg.share1</a> and <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share2">msg.share2</a>.  You should download these files (look at them to confirm they appear to be random bytes).  
+
+Then, try executing:
+<pre><code>
+joiner msg.share1 msg.share2
+</code>
+</pre>
+
+If you implemented the joiner correctly, you should see a (somewhat) <a href="http://www.gutenberg.org/cache/epub/1518/pg1518.html">meaningful message</a>.
+
+<div class="credits">
+This tutorial was created by Alex&nbsp;Lamana, Rob&nbsp;Michaels, Wil&nbsp;Thomason, and David&nbsp;Evans for <a href="http://rust-class.org">University of Virginia cs4414 Spring 2014</a>.
+</div>

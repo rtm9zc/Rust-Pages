@@ -336,3 +336,69 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+ght exceptions. The associated keywords are <code>if</code>, <code>else if</code>, and <code>else</code>, and are followed by a boolean expression (it must be of type <code>bool</code>; no type conversion will take place automatically) in the case of <code>if</code> and <code>else if</code>. The boolean expressions need not be in parentheses, but the body of the conditional block must be enclosed in braces. That is, whereas in Java, you could have something like: </p>
+<pre><code class="lang-java"><span class="hljs-keyword">if</span>(foo == <span class="hljs-number">5</span>) 
+    System.out.println(<span class="hljs-string">"it worked"</span>);
+</code></pre>
+<p>the equivalent in Rust of </p>
+<pre><code class="lang-rust"><span class="hljs-keyword">if</span> foo == <span class="hljs-number">5</span> 
+    println!(<span class="hljs-string">"it worked"</span>);
+</code></pre>
+<p>is illegal. The following is a legal conditional block. Note that the else and 
+else if are optional for validity.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">if</span> foo == <span class="hljs-number">5</span> { 
+    println!(<span class="hljs-string">"it’s five"</span>); 
+}
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> foo == <span class="hljs-number">6</span> { 
+    println!(<span class="hljs-string">"it’s six"</span>);
+}
+<span class="hljs-keyword">else</span> { 
+    println!(<span class="hljs-string">"it’s not five or six"</span>); 
+}
+</code></pre>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01/1.html" class="navigation navigation-prev " aria-label="Previous page: Variables"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/01/3.html" class="navigation navigation-next " aria-label="Next page: Pattern Matching"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

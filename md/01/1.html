@@ -364,3 +364,70 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+ing due to previous error
+</code></pre>
+This is because all Rust local variables are, by default, immutable - meaning that you cannot change their assigned value once given. In other words, variables are not actually variable by default. This will be familiar ifyou have experience with functional programming. In order to make a mutable local variable, you must introduce another keyword - <code>mut</code>. The following code will work:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> foo = <span class="hljs-number">5</span>;
+foo = <span class="hljs-number">6</span>;
+</code></pre>
+<h3 id="tuples-">Tuples:</h3>
+<p>Rust features an additional type named a tuple. Tuples are groupings of values,
+similar in appearance but different in function to a list of variables. </p>
+<p>Making a tuple is easy. The values to be included are enclosed in parentheses 
+and separated by commas. One nice feature is that tuples are heterogeneous; 
+we can mix field types.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">let</span> tup = (<span class="hljs-number">4</span>, <span class="hljs-number">5.0</span>, <span class="hljs-keyword">false</span>, <span class="hljs-string">"hello"</span>);
+</code></pre>
+<p>There are a few caveats that we need to be wary of:</p>
+<ul>
+<li>Elements in a tuple are immutable</li>
+<li>Tuple fields cannot be accessed directly</li>
+<li>A tuple must have at least one field</li>
+</ul>
+
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01.html" class="navigation navigation-prev " aria-label="Previous page: Getting Started: Variables, Functions, and Syntax"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/01/2.html" class="navigation navigation-next " aria-label="Next page: Conditionals"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

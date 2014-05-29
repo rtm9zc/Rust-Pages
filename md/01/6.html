@@ -352,3 +352,67 @@ require(["gitbook"], function(gitbook) {
 
     </body>
 </html>
+s and Return Values:</h3>
+<p>When parameters are given to a function, their types must be specified using
+the same syntax that specifies a type during variable declaration, <code>name :type</code>.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rprime_sum</span>(</span>x: <span class="hljs-keyword">int</span>, y: <span class="hljs-keyword">int</span>, m: <span class="hljs-keyword">int</span>) {
+    <span class="hljs-keyword">match</span> (x+y)%m {
+        <span class="hljs-number">0</span> =&gt; println(<span class="hljs-string">"Multiple"</span>),
+        <span class="hljs-number">_</span> =&gt; println(<span class="hljs-string">"Relatively prime"</span>)
+    }
+}
+</code></pre>
+<p>A return value is specified using <code>-&gt; type</code> after the parameter list. To actually return a value, we use Rust&#39;s expressions.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">square</span>(</span>x: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    x*x
+}
+</code></pre>
+<h3 id="yet-another-exercise-">Yet Another Exercise:</h3>
+<p>As another check to make sure you&#39;re good to go so far, try to implement <a href="http://c2.com/cgi/wiki?FizzBuzzTest" target="_blank">Fizz Buzz</a>,
+as specified on that page. Remember that you&#39;ll need to put your code in a main function, as shown above.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/01/5.html" class="navigation navigation-prev " aria-label="Previous page: Expressions"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/01/7.html" class="navigation navigation-next " aria-label="Next page: Program 1: Collatz"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

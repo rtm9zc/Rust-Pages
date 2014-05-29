@@ -39,3 +39,47 @@ fn name() {
 	`code`
 }
 //end 8
+
+//inline 9
+    let x = ~10;
+    let y = x;
+    println!("{:d}", *x);
+//end 9
+
+//inline 10
+    let x = ~10
+    increment(x)
+//end 10
+
+//inline 11
+    let mut val1 = 10;
+    let mut val2 = 20;
+    let mut borrowed = &val1;
+    borrowed = &val2;
+    *borrowed = 11;
+//end 11
+
+//inline 12
+    let mut val1 = 10;
+    let mut val3 = 10.0;
+    let borrowed = &val1;
+    borrowed = &val3;
+//end 12
+
+//inline 13
+    let mut x = 10;
+    {
+        let y = &x;
+        x = 11; // Error
+    }
+    x = 12; //This is fine
+//end 13
+
+//inline 14
+    let mut reference: &~int;
+    {
+        let val: ~int = ~10;
+        reference = &val;
+    } //val deallocated here
+    println!("{:d}", **reference); //Referencing something that's gone!
+//end 14

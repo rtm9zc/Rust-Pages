@@ -1,0 +1,444 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="../../manifest.appcache">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Basic I/O | Rust in Seven Programs</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="rtm9zc">
+        <meta name="description" content="A Tutorial to the Rust programming language">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        <link rel="next" href="../../md/02/4.html" />
+        
+        
+        <link rel="prev" href="../../md/02/2.html" />
+        
+
+        <meta property="og:title" content="Basic I/O | Rust in Seven Programs">
+        <meta property="og:site_name" content="Rust in Seven Programs">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/rtm9zc">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.3" data-basepath="../.." data-revision="1401396635554">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages" target="_blank" class="btn pull-left home-bookmark" aria-label="GitHub home"><i class="fa fa-bookmark-o"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="btn-group btn-block">
+        <button id="reduce-font-size" class="btn btn-default">A</button>
+        <button id="enlarge-font-size" class="btn btn-default">A</button>
+    </div>
+
+    <ul class="list-group font-family-list">
+        <li class="list-group-item" data-font="0">Serif</li>
+        <li class="list-group-item" data-font="1">Sans</li>
+    </ul>
+
+    <div class="btn-group btn-group-xs btn-block color-theme-list">
+        <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages/stargazers" target="_blank" class="btn pull-right count-star hidden-xs"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/rtm9zc/Rust-Pages/watchers" target="_blank" class="btn pull-right count-watch hidden-xs"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-spinner fa-spin"></i>
+        <a href="../../" >Rust in Seven Programs</a>
+    </h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/rtm9zc" target="blank" class="author-link">About the author</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/issues" target="blank"class="issues-link">Questions and Issues</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/02/3.md" target="blank" class="contribute-link">Edit and Contribute</a>
+        </li>
+        
+
+        
+
+        <li data-level="0" data-path="index.html">
+            <a href="../../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li class="chapter " data-level="1" data-path="md/01.html">
+                
+                <a href="../../md/01.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Getting Started: Variables, Functions, and Syntax
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="md/01/1.html">
+                            
+                            <a href="../../md/01/1.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> Variables
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="md/01/2.html">
+                            
+                            <a href="../../md/01/2.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> Conditionals
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="md/01/3.html">
+                            
+                            <a href="../../md/01/3.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Pattern Matching
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="md/01/4.html">
+                            
+                            <a href="../../md/01/4.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> Looping
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="md/01/5.html">
+                            
+                            <a href="../../md/01/5.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> Expressions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="md/01/6.html">
+                            
+                            <a href="../../md/01/6.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path="md/01/7.html">
+                            
+                            <a href="../../md/01/7.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> Program 1: Collatz
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="2" data-path="md/02.html">
+                
+                <a href="../../md/02.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Starting to Corrode: Pointers, Memory, Strings, and I/O
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="md/02/1.html">
+                            
+                            <a href="../../md/02/1.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> Memory Management and Pointers
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.2" data-path="md/02/2.html">
+                            
+                            <a href="../../md/02/2.html">
+                                <i class="fa fa-check"></i> <b>2.2.</b> Vectors and Strings
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.3" data-path="md/02/3.html">
+                            
+                            <a href="../../md/02/3.html">
+                                <i class="fa fa-check"></i> <b>2.3.</b> Basic I/O
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.4" data-path="md/02/4.html">
+                            
+                            <a href="../../md/02/4.html">
+                                <i class="fa fa-check"></i> <b>2.4.</b> Example: Secret Sharing
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="3" data-path="md/05.html">
+                
+                <a href="../../md/05.html">
+                    <i class="fa fa-check"></i> <b>3.</b> Arcs and Sharing Memory
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="3.1" data-path="md/05/1.html">
+                            
+                            <a href="../../md/05/1.html">
+                                <i class="fa fa-check"></i> <b>3.1.</b> The Arc Module
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Generated using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 80%;min-width: 73.33333333333333%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../../md/01.html" title="Getting Started: Variables, Functions, and Syntax" class="chapter done new-chapter" data-progress="1" style="left: 6.666666666666667%;"></a>
+    
+        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 13.333333333333334%;"></a>
+    
+        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 20%;"></a>
+    
+        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 26.666666666666668%;"></a>
+    
+        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 33.333333333333336%;"></a>
+    
+        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 40%;"></a>
+    
+        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 46.666666666666664%;"></a>
+    
+        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 53.333333333333336%;"></a>
+    
+        <a href="../../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 60%;"></a>
+    
+        <a href="../../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 66.66666666666667%;"></a>
+    
+        <a href="../../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 73.33333333333333%;"></a>
+    
+        <a href="../../md/02/3.html" title="Basic I/O" class="chapter done " data-progress="2.3" style="left: 80%;"></a>
+    
+        <a href="../../md/02/4.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.4" style="left: 86.66666666666667%;"></a>
+    
+        <a href="../../md/05.html" title="Arcs and Sharing Memory" class="chapter  new-chapter" data-progress="3" style="left: 93.33333333333333%;"></a>
+    
+        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="3.1" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_12">
+                    
+                        <h2 id="basic-i-o">Basic I/O</h2>
+<p><strong>NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS</strong></p>
+<p>Rust handles file and user input/output using the <a href="http://static.rust-lang.org/doc/master/std/io/index.html" target="_blank">std::io</a> module. </p>
+<p>The most intuitive way to work with reading in stdin and files is through the use of a <a href="http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html" target="_blank">BufferedReader</a>, which will be explained more in depth in the following sections. Take note that many methods in <code>BufferedReader</code> return vectors of bytes, not strings, so appropriate conversions may be necessary.</p>
+<h3 id="working-with-standard-input-stdin-">Working with Standard Input (stdin)</h3>
+<p>Standard input is provided through <code>std::io::stdin</code>, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The <code>lines</code> method returns an iterator that goes through each line until the end of input.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::buffered::BufferedReader;
+<span class="hljs-keyword">use</span> std::io::stdin;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>){
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
+    <span class="hljs-keyword">for</span> line in stdin.lines() {
+        print(line);
+    }
+}
+</code></pre>
+<p>Reading line by line is done using the <code>read_line()</code> function, which was used in an example in the previous section. This is a bit more difficult to implement, as <code>readline()</code> uses an <code>IoResult&lt;String&gt;</code> as it&#39;s output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>) {
+        <span class="hljs-keyword">match</span> stdin.read_line() {
+            Some(line) =&gt; {
+                print(line);
+            }
+            None =&gt; {
+                println(<span class="hljs-string">"End of input!"</span>);
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+    }
+</code></pre>
+<h3 id="files">Files</h3>
+<p>The standard library functions for working with files in Rust are handled via the <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html" target="_blank">std::io::File</a> module. This module contains methods for opening and writing to a file. </p>
+<p>A file is opened using <code>Path</code> objects, which are included in any Rust program by default. Creating a <code>Path</code> object is done through <code>Path::new(&quot;path/to/file.foo&quot;)</code>. </p>
+<p>To simply open a new file for writing, <code>File::create(&amp;Path)</code> is the simplest call. This returns an <code>Option&lt;File&gt;</code> type, so it must be matched to ensure that a file was successfully opened. </p>
+<p>The two most common ways to write to the file once opened are the following: <code>File::write(&amp;mut self, &amp;[u8])</code>, which writes a buffer of bytes to a file, and <code>File::write_str(&amp;mut self, &amp;str)</code>, which writes a string to the file.</p>
+<p>This example demonstrated opening a file for writing using both of these methods:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::File;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
+{
+    <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
+        Some(<span class="hljs-keyword">mut</span> file) =&gt; {
+            file.write(bytes!(<span class="hljs-string">"line one\n"</span>));
+            file.write_str(<span class="hljs-string">"line two\n"</span>);
+        }
+        None =&gt;{
+            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
+        }
+    }
+}
+</code></pre>
+<p>Reading a file can be accomplished easily through using the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> module, much like reading from standard in. </p>
+<p>Opening a file to a <code>BufferedReader</code> is done using the <code>File::open(&amp;Path)</code> function, which opens the file at a given path in read-only mode, followed by <code>BufferedReader::new(File)</code>. </p>
+<p>Note that the file needs to be matched before converting to a <code>BufferedReader</code>, as <code>File::open()</code> returns an <code>Option&lt;File&gt;</code> type. Once converted to a <code>BufferedReader</code>, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> documentation.</p>
+<p>Here&#39;s a simple example of reading a file:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">match</span> File::open(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
+        Some(file) =&gt; {
+            <span class="hljs-keyword">let</span> reader = BufferedReader::new(file);
+            <span class="hljs-comment">//reading from file</span>
+        }
+        None =&gt;{
+            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
+        }
+    }
+</code></pre>
+<p>The <code>File::open_mode(&amp;Path, FileMode, FileAccess)</code> method allows specifying the mode in which a file is accessed. <code>FileMode</code> and <code>FileAccess</code> are <em>enumerable types</em> imported from <a href="http://static.rust-lang.org/doc/master/std/io/type.FileMode.html" target="_blank">std::io::FileMode</a> and <a href="http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html" target="_blank">std::io::FileAccess</a> respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::{File, Append, ReadWrite};
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+   <span class="hljs-keyword">let</span> file = File::open_mode(&amp;Path::new(<span class="hljs-string">"message.txt"</span>), Append, ReadWrite);
+}
+</code></pre>
+<p>Like the other file methods, this returns an <code>Option</code> object that must be matched to check for opening failures.</p>
+
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../md/02/2.html" class="navigation navigation-prev " aria-label="Previous page: Vectors and Strings"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../md/02/4.html" class="navigation navigation-next " aria-label="Next page: Example: Secret Sharing"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../../gitbook/app.js"></script>
+        
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

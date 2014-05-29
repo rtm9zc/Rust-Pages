@@ -8,6 +8,7 @@ fn increment(v: &[int]) -> ~[int] {
     res
 }
 
+//inline 1
 fn main() {
    let p = ~[1, 2, 3];
    let q = increment(p);
@@ -15,3 +16,4 @@ fn main() {
       print!("{:d} ", x);
    }
 }
+//end 1

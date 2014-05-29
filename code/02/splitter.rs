@@ -1,3 +1,4 @@
+//inline 1
 use std::rand::random;
 use std::os;
 use std::io::File;
@@ -52,3 +53,4 @@ fn split(msg_bytes: &[u8], mut share1: File, mut share2: File) {
     share1.write(random_bytes);
     share2.write(encrypted_bytes);
 }
+//end 1

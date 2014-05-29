@@ -1,8 +1,7 @@
 fn main() {
+//inline 1
     let mut x = ~10;
-    println(fmt!("*x = %?", *x));
-//    x = ~20;
-    println(fmt!("*x = %?", *x));
+    x = ~20;
     *x = 30;
-    println(fmt!("*x = %?", *x));
+//end 1
 }
