@@ -1,3 +1,4 @@
+//inline 1
 #[deriving(Clone)]
 #[deriving(ToStr)]
 type LinkedList = Option<~Node>;
@@ -81,3 +82,4 @@ fn main() {
     l10.mapr(expensive_inc);
     println!("List: {:s}", print_list(l10.clone()));
 }
+//end 1

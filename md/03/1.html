@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Basic I/O | Rust in Seven Programs</title>
+        <title>Structures | Rust in Seven Programs</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../../md/02/5.html" />
+        <link rel="next" href="../../md/03/2.html" />
         
         
-        <link rel="prev" href="../../md/02/3.html" />
+        <link rel="prev" href="../../md/03.html" />
         
 
-        <meta property="og:title" content="Basic I/O | Rust in Seven Programs">
+        <meta property="og:title" content="Structures | Rust in Seven Programs">
         <meta property="og:site_name" content="Rust in Seven Programs">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.4" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.1" data-basepath="../.." data-revision="1401726962514">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -120,7 +120,7 @@
 
         
         <li>
-            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/02/4.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/03/1.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -362,7 +362,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 54.166666666666664%;min-width: 50%;"></div>
+        <div class="inner" style="width: 66.66666666666667%;min-width: 62.5%;"></div>
     </div>
     <div class="chapters">
     
@@ -394,11 +394,11 @@
     
         <a href="../../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 54.166666666666664%;"></a>
     
-        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.5" style="left: 58.333333333333336%;"></a>
+        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 58.333333333333336%;"></a>
     
-        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter  new-chapter" data-progress="3" style="left: 62.5%;"></a>
+        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter done new-chapter" data-progress="3" style="left: 62.5%;"></a>
     
-        <a href="../../md/03/1.html" title="Structures" class="chapter  " data-progress="3.1" style="left: 66.66666666666667%;"></a>
+        <a href="../../md/03/1.html" title="Structures" class="chapter done " data-progress="3.1" style="left: 66.66666666666667%;"></a>
     
         <a href="../../md/03/2.html" title="Traits" class="chapter  " data-progress="3.2" style="left: 70.83333333333333%;"></a>
     
@@ -421,81 +421,53 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_14">
+                    <section class="normal" id="section-gitbook_18">
                     
-                        <h2 id="basic-i-o">Basic I/O</h2>
-<p><strong>NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS</strong></p>
-<p>Rust handles file and user input/output using the <a href="http://static.rust-lang.org/doc/master/std/io/index.html" target="_blank">std::io</a> module. </p>
-<p>The most intuitive way to work with reading in stdin and files is through the use of a <a href="http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html" target="_blank">BufferedReader</a>, which will be explained more in depth in the following sections. Take note that many methods in <code>BufferedReader</code> return vectors of bytes, not strings, so appropriate conversions may be necessary.</p>
-<h3 id="working-with-standard-input-stdin-">Working with Standard Input (stdin)</h3>
-<p>Standard input is provided through <code>std::io::stdin</code>, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The <code>lines</code> method returns an iterator that goes through each line until the end of input.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::buffered::BufferedReader;
-<span class="hljs-keyword">use</span> std::io::stdin;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>){
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> line in stdin.lines() {
-        print(line);
-    }
+                        <h2 id="structures">Structures</h2>
+<p>A <code>struct</code> is Rust&#39;s way of packaging data into a structure. It is similar to <code>struct</code> in C. </p>
+<h3 id="defining-structs">Defining Structs</h3>
+<p>A <code>struct</code> type is defined using:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Name { 
+   field1: T1, 
+   field2: T2, 
+   <span class="hljs-comment">/* ... */</span>
 }
 </code></pre>
-<p>Reading line by line is done using the <code>read_line()</code> function, which was used in an example in the previous section. This is a bit more difficult to implement, as <code>readline()</code> uses an <code>IoResult&lt;String&gt;</code> as it&#39;s output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>) {
-        <span class="hljs-keyword">match</span> stdin.read_line() {
-            Some(line) =&gt; {
-                print(line);
-            }
-            None =&gt; {
-                println(<span class="hljs-string">"End of input!"</span>);
-                <span class="hljs-keyword">break</span>;
-            }
-        }
-    }
-</code></pre>
-<h3 id="files">Files</h3>
-<p>The standard library functions for working with files in Rust are handled via the <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html" target="_blank">std::io::File</a> module. This module contains methods for opening and writing to a file. </p>
-<p>A file is opened using <code>Path</code> objects, which are included in any Rust program by default. Creating a <code>Path</code> object is done through <code>Path::new(&quot;path/to/file.foo&quot;)</code>. </p>
-<p>To simply open a new file for writing, <code>File::create(&amp;Path)</code> is the simplest call. This returns an <code>Option&lt;File&gt;</code> type, so it must be matched to ensure that a file was successfully opened. </p>
-<p>The two most common ways to write to the file once opened are the following: <code>File::write(&amp;mut self, &amp;[u8])</code>, which writes a buffer of bytes to a file, and <code>File::write_str(&amp;mut self, &amp;str)</code>, which writes a string to the file.</p>
-<p>This example demonstrated opening a file for writing using both of these methods:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::File;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
-{
-    <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(<span class="hljs-keyword">mut</span> file) =&gt; {
-            file.write(bytes!(<span class="hljs-string">"line one\n"</span>));
-            file.write_str(<span class="hljs-string">"line two\n"</span>);
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
+<p>where <code>T1</code> and <code>T2</code> are the types of the preceding fields. </p>
+<p>Note that mutability is not specified in the <code>struct</code> type definition. A <code>struct</code> is declared mutable upon creation, and mutability applied to all fields within.</p>
+<p>The following code defines a <code>Node</code> for a linked list. The field <code>val</code> is an integer, and the <code>tail</code> field is either a pointer to the next <code>Node</code>, or <code>None</code> for the last <code>Node</code> in the list. </p>
+<pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Node {
+    val: <span class="hljs-keyword">int</span>,
+    tail: Option&lt;~Node&gt;
 }
 </code></pre>
-<p>Reading a file can be accomplished easily through using the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> module, much like reading from standard in. </p>
-<p>Opening a file to a <code>BufferedReader</code> is done using the <code>File::open(&amp;Path)</code> function, which opens the file at a given path in read-only mode, followed by <code>BufferedReader::new(File)</code>. </p>
-<p>Note that the file needs to be matched before converting to a <code>BufferedReader</code>, as <code>File::open()</code> returns an <code>Option&lt;File&gt;</code> type. Once converted to a <code>BufferedReader</code>, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> documentation.</p>
-<p>Here&#39;s a simple example of reading a file:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">match</span> File::open(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(file) =&gt; {
-            <span class="hljs-keyword">let</span> reader = BufferedReader::new(file);
-            <span class="hljs-comment">//reading from file</span>
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-</code></pre>
-<p>The <code>File::open_mode(&amp;Path, FileMode, FileAccess)</code> method allows specifying the mode in which a file is accessed. <code>FileMode</code> and <code>FileAccess</code> are <em>enumerable types</em> imported from <a href="http://static.rust-lang.org/doc/master/std/io/type.FileMode.html" target="_blank">std::io::FileMode</a> and <a href="http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html" target="_blank">std::io::FileAccess</a> respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::{File, Append, ReadWrite};
+<p>The <code>tail</code> is an <code>Option&lt;~Node&gt;</code>, so it either points to an owned <code>Node</code>, or is <code>None</code> (an empty LinkedList).</p>
+<p>The <code>type Name = Type;</code> construct provides a way to define a new name for a type.  Note that this is just for convenience; the <code>Name</code> defined by the <code>type</code> definition means exactly the same thing to the type checker as the <code>Type</code> it is defined to.  </p>
+<p>A useful utility of Rust is the <code>defining</code> attribute. This is defined by the syntax <code>#[defining(Foo, Bar)]</code>, where Foo and Bar are valid <em>Traits</em>. There is a list of valid traits for the <code>defining</code> attribute on the <a href="http://static.rust-lang.org/doc/master/rust.html#deriving" target="_blank">official Rust reference section for the defining attribute</a>. Looking up any of these traits on the <a href="http://static.rust-lang.org/doc/master/std/index.html" target="_blank">Rust documentation</a> shows which methods are provided by each of these traits.</p>
+<p>In the following example, we define the <code>LinkedList</code> type using: <code>type</code> keyword. It also pre-generates a <code>clone()</code> method and checks for equality (the <code>eq(&amp;self, other: &amp;LinkedList)</code> and <code>ne(&amp;self, other: &amp;LinkedList)</code> methods) for the <code>LinkedList</code>, as well as a <code>clone()</code> method for the <code>Node</code>.</p>
+<pre><code class="lang-rust"><span class="hljs-preprocessor">#[deriving(Clone, Eq)]</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;~Node&gt;;
 
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-   <span class="hljs-keyword">let</span> file = File::open_mode(&amp;Path::new(<span class="hljs-string">"message.txt"</span>), Append, ReadWrite);
+<span class="hljs-preprocessor">#[deriving(Clone)]</span>
+<span class="hljs-keyword">struct</span> Node {
+   val: <span class="hljs-keyword">int</span>,
+   tail: LinkedList
 }
 </code></pre>
-<p>Like the other file methods, this returns an <code>Option</code> object that must be matched to check for opening failures.</p>
+<h3 id="constructing-structs">Constructing Structs</h3>
+<p>A <code>struct</code> is constructed in a similar syntax to how it was defined, with the name of the <code>struct</code> followed by braces with the fields defined using <code>fieldName:value</code>. </p>
+<p>The following code defines one immutable and one mutable <code>Node</code>: </p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> node1 = Node {val:<span class="hljs-number">10</span>,  tail: None};
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> node2 = Node {val: <span class="hljs-number">10</span>, tail: None};
+    node2.val = <span class="hljs-number">15</span>;
+</code></pre>
+<p>The mutability qualifier applies all the fields in the struct.  Trying to change a field of <code>node1</code> would result in a compiler error.</p>
+<p>For an example, the code below creates a list of <code>n</code> elements:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">Length</span> {
+   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">length</span>(</span>&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-keyword">int</span>;
+}
+</code></pre>
+<p>(See the <a href="http://static.rust-lang.org/doc/master/tutorial.html#implementing-a-linked-list" target="_blank">official Rust tutorial</a> for a more elegant way to implement a linked list in Rust using an <code>enum</code>, which we don&#39;t cover in this tutorial.)</p>
 
                     
                     </section>
@@ -505,10 +477,10 @@
         </div>
 
         
-        <a href="../../md/02/3.html" class="navigation navigation-prev " aria-label="Previous page: Error Handling"><i class="fa fa-angle-left"></i></a>
+        <a href="../../md/03.html" class="navigation navigation-prev " aria-label="Previous page: Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../../md/02/5.html" class="navigation navigation-next " aria-label="Next page: Example: Secret Sharing"><i class="fa fa-angle-right"></i></a>
+        <a href="../../md/03/2.html" class="navigation navigation-next " aria-label="Next page: Traits"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

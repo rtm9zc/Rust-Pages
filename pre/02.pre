@@ -199,33 +199,31 @@ These methods are used in the example below:
 
 As with vectors, further documentation on string functions can be found in the [official Rust documentation](static.rust-lang.org/doc/master/std/str).
 
-phead 4 Exercises
+#### Exercises
 
-<div class="exercise">
-**Exercise 2.1.** Implement a function, `increment(v: &[int])` that takes as input a vector of integers and returns a new vector of integers that has the values of the original list each incremented by one.  For example:
+>**Exercise 2.1.** Implement a function, `increment(v: &[int])` that takes as input a vector of integers and returns a new vector of integers that has the values of the original list each incremented by one.  For example:
+>
+>//inline 02/increment.rs 1
+>
+>should print out 2 3 4.
 
-//inline 02/increment.rs 1
+***
 
-should print out 2 3 4.
-</div>
+>**Exercise 2.2.**  Implement a function, `incrementMut(v: &mut [int])`, that takes as input a vector of integers and modifies the values of the original list by incrementing each value by one.  For example:
+>
+>//inline 02/incrementMut.rs 1
+>
+>should print out 2 3 4.  
 
-<div class="exercise">
-**Exercise 2.2.**  Implement a function, `incrementMut(v: &mut [int])`, that takes as input a vector of integers and modifies the values of the original list by incrementing each value by one.  For example:
+## Error Handling
 
-//inline 02/incrementMut.rs 1
-
-should print out 2 3 4.  
-</div>
-
-phead 2 Error Handling
-
-Error handling in Rust is done with the intention of catching what can be caught at compile-time, and reducing runtime errors. To accomplish this, Rust has two special types to assist with error handling: the `Option<T>`, and `Result<T,E>`. The `Option<T>` type used for functions which either create an object of type `T`, or fail (represented by None()). A `Result<T,E>` is similar to an `Option<T>`, but the value is determined on whether a function succeds as intended on a pre-existing object (as opposed to the creation of a new object with `Option<T>`). 
+Error handling in Rust is done with the intention of catching what can be caught at compile-time, and reducing runtime errors. To accomplish this, Rust has two special types to assist with error handling: the `Option<T>`, and `Result<T,E>`. The `Option<T>` type used for functions which either create an object of type `T`, or fail (represented by `None()`). A `Result<T,E>` is similar to an `Option<T>`, but the value is determined on whether a function succeds as intended on a pre-existing object (as opposed to the creation of a new object with `Option<T>`). 
 
 An `Option` or `Result` requires a match statement to use the values obtained. For an `Option`, there are two possible outcomes for the value: a successful object creation, represented as `Some(T)`, or a failure, represented as `None`. In the branch which specifies `Some(T)`, `T` is filled in with a variable of type `T`. In the event of a failed creation, the `fail` macro can be used to output an error message upon failure. In the following example, the method `File::create(&Path)` returns an `Option<File>`. If the file, foo.txt, doesn't properly open, the message specified in the macro will be printed upon the exit. If it does, in the `Some` branch, `file` refers to the `File` foo.txt.
 
 //inline 02/optionResult.rs 1
 
-Similar to the `Option`, a `Result` must have a match statement called upon it to use the value as well. Instead of `Some(T)` and `None`, however, a `Result` has branches of `Ok(T)` and `Err(E)` respectively. In these cases, the `Err(E)` branch has the value of  `E` assigned to an error of type `E`, specified in the function that returns the `Result`. For example, the `read_line(&mut self)` function of the `io::BufferedReader` class (which will be gone over more extensively in the next section in IO) returns a `Result<String, IoError>'. In the following example, a line is read from stdin using this function, and then matched accordingly. Note how the `Err(E)` branch requires defining a new variable to represent the error type, as opposed to `None` in an `Option`, which has no associated variable returned.
+Similar to the `Option`, a `Result` must have a match statement called upon it to use the value as well. Instead of `Some(T)` and `None`, however, a `Result` has branches of `Ok(T)` and `Err(E)` respectively. In these cases, the `Err(E)` branch has the value of  `E` assigned to an error of type `E`, specified in the function that returns the `Result`. For example, the `read_line(&mut self)` function of the `io::BufferedReader` class (which will be gone over more extensively in the next section in IO) returns a `Result<String, IoError>`. In the following example, a line is read from stdin using this function, and then matched accordingly. Note how the `Err(E)` branch requires defining a new variable to represent the error type, as opposed to `None` in an `Option`, which has no associated variable returned.
 
 //inline 02/optionResult.rs 2
 
@@ -299,12 +297,8 @@ The following Rust code implements the splitter. It takes as input the name of a
 
 The joiner reverses the splitting process, taking the two shares and combining them to produce the original message.
 
-<div class="exercise"> 
 
-**Exercise 2.3.** Implement the joiner.  It should take two file names as its inputs, and output to standard output
-the result of XOR-ing the bytes in those files. The input files must be the same length.
-
-</div>
+>**Exercise 2.3.** Implement the joiner.  It should take two file names as its inputs, and output to standard output the result of XOR-ing the bytes in those files. The input files must be the same length.
 
 Your joiner should be able to produce the plaintext from the example
 files: <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share1">msg.share1</a> and <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share2">msg.share2</a>.  You should download these files (look at them to confirm they appear to be random bytes).  

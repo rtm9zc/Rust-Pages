@@ -1,0 +1,156 @@
+# Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions
+
+This section covers creating and using structs in Rust, making use of higher order functions and traits to create generic functions.  We also introduce tasks, Rust's way of handling multiprocessing, and a simple mechanism for communicating between tasks.  In the following section, we'll cover some of the richer cross-task communication abstractions provided by Rust. 
+
+As a running example, we will use these concepts to build a structure for a simple linked list, a map function which will apply a given function to all elements in the list, and finally use of tasks to make our simple map execute in parallel.
+
+## Structures
+A `struct` is Rust's way of packaging data into a structure. It is similar to `struct` in C. 
+
+### Defining Structs
+
+A `struct` type is defined using:
+
+```rust
+struct Name { 
+   field1: T1, 
+   field2: T2, 
+   /* ... */
+}
+```
+
+where `T1` and `T2` are the types of the preceding fields. 
+
+Note that mutability is not specified in the `struct` type definition. A `struct` is declared mutable upon creation, and mutability applied to all fields within.
+
+The following code defines a `Node` for a linked list. The field `val` is an integer, and the `tail` field is either a pointer to the next `Node`, or `None` for the last `Node` in the list. 
+
+//inline 03/map.rs 1
+
+The `tail` is an `Option<~Node>`, so it either points to an owned `Node`, or is `None` (an empty LinkedList).
+
+The `type Name = Type;` construct provides a way to define a new name for a type.  Note that this is just for convenience; the `Name` defined by the `type` definition means exactly the same thing to the type checker as the `Type` it is defined to.  
+
+A useful utility of Rust is the `defining` attribute. This is defined by the syntax `#[defining(Foo, Bar)]`, where Foo and Bar are valid *Traits*. There is a list of valid traits for the `defining` attribute on the [official Rust reference section for the defining attribute](http://static.rust-lang.org/doc/master/rust.html#deriving). Looking up any of these traits on the [Rust documentation](http://static.rust-lang.org/doc/master/std/index.html) shows which methods are provided by each of these traits.
+
+In the following example, we define the `LinkedList` type using: `type` keyword. It also pre-generates a `clone()` method and checks for equality (the `eq(&self, other: &LinkedList)` and `ne(&self, other: &LinkedList)` methods) for the `LinkedList`, as well as a `clone()` method for the `Node`.
+
+//inline 03/list.rs 1
+
+### Constructing Structs
+
+A `struct` is constructed in a similar syntax to how it was defined, with the name of the `struct` followed by braces with the fields defined using `fieldName:value`. 
+
+The following code defines one immutable and one mutable `Node`: 
+
+//inline 03/map.rs 2
+
+The mutability qualifier applies all the fields in the struct.  Trying to change a field of `node1` would result in a compiler error.
+
+For an example, the code below creates a list of `n` elements:
+
+//inline 03/list.rs 3
+
+(See the [official Rust tutorial](http://static.rust-lang.org/doc/master/tutorial.html#implementing-a-linked-list) for a more elegant way to implement a linked list in Rust using an `enum`, which we don't cover in this tutorial.)
+
+## Traits
+
+*Traits* provide a way of defining a set of methods.  The thing in Java they most closely resemble is interfaces, but traits in Rust can
+also include implementations of methods.
+
+### Defining Traits
+The syntax for defining a trait is similar to that for a struct:
+
+```rust
+trait Name {
+   method1;
+   method2;
+   ...
+}
+```
+
+Each method is a function type declaration.  
+
+For example, we can define a Length trait like this:
+
+//inline 03/list.rs 3
+
+The function declaration uses `&self` as the parameter to indicate the object on which length is invoked (similar to how <tt>this</tt> is used in Java).  Note that it does not have a type yet, since we can implement a trait for different types.
+
+### Implementing Traits
+
+The `impl` construct is used to implement a trait for a type.  For example, the following implements the `Length` trait for our `LinkedList` type by providing an implementation of the `length()` method.
+
+//inline 03/list.rs 4
+
+In this implementation, we need the `ref` qualifier for the matched variable. This indicates that is it bound by reference rather than by value. 
+
+We'll see a more interesting example of implementing a trait for the linked list type at the end of this section.
+
+
+>**Exercise 3.1.* Define a `Tree` type that can be used to represent a tree where each node has an `int` value and a vector of children nodes.
+
+***
+
+>**Exercise 3.2.** Define a `ToString` trait that provides a method, `fn to_string(&self) -> ~str` for producing a string representation of an object. Implement the `ToString` trait for both the example `LinkedList` type and your `Tree` type from the previous exercise.  (Note that Rust already defines a `ToStr` trait similar to the `ToString` trait here.)
+
+## Higher-Order Functions
+
+A higher-order function is a function which operates on other functions. We can have functions that take other functions as inputs, as well as
+functions that create and return new functions as their output. Higher-order functions provide a lot of power for concisely and very generally describe computations. By the end of this section, you'll be able to write a single function that can do all of the things in the previous set of exercises!
+
+### Functions as Parameters
+
+A parameter can have function type, just like any other type.  The type of a function includes the types of its inputs and the type of its output.
+
+For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, `|arg1, arg2, ...| -> result` (with vertical bars around a list of parameter types) specifies a function that takes the `argn` types as inputs and returns a value of type `result`.
+
+//inline 03/twice.rs 1
+
+Here's an example using `twice(int, fn())`:
+
+//inline 03/twice.rs 2
+
+The result is (((1 + 1) + 1) * 2) * 2 = 12.
+
+### Functions as Results
+
+It would be a lot more useful if `twice` didn't take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:
+
+```rust
+    let square = twice(double);
+```
+
+to define a squaring function.  
+
+We can do this by defining a function that returns a function:
+
+//inline 03/btwixt.rs 1
+
+Now, `twice` is a function that take a function as its input (we use `proc(int) -> int` here to describe the input function, and need to use `proc(int) -> int` instead of `|int| -> int` because of Rust's lifetime rules, and with the way we defined this, we can only use the returned function once.)  
+
+We can now use `twice` as in this example:
+
+//inline 03/btwixt.rs 2
+
+>**Exercise 3.3.**  Define a `compose` function that takes as inputs two functions and outputs a function that composes the two input functions.  Both of the input functions and the returned function should have type `proc(int) -> int`. You should be able to use your `compose` function to define `let sixthpower = compose(cube, square)` where `cube` and `square` are functions that compute the cube and square of an int input respectively.
+
+## Example: Mapping a List
+
+The above examples hopefully give you a sense of the power of higher-order functions, but perhaps not how they would be useful in typical code.  Next, we'll see how higher-order functions can be used to provide generic functions for manipulating our `LinkedList` type. We'll implement a mapping function that applies a function to each element of a list.
+
+We define the Map trait as:
+
+//inline 03/list.rs 5
+
+Now, we will implement the `Map` trait for our `LinkedList` type:
+
+//inline 03/list.rs 6
+
+This `mapr` function works well for the purposes of small lists, but is highly parallelizable. For more information on how to do this, as well as Rust's `tasks`, head on over to the next section.
+
+For now, here are some examples using our list mapping functionality:
+
+//inline 03/list.rs 7
+
+>**Exercise 3.4.** Implement the `Map` trait for your previously defined `Tree` type. The `mapr` function should iterate through all of the nodes of the `Tree`.

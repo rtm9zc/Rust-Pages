@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Arcs and Sharing Memory | Rust in Seven Programs</title>
+        <title>Tasks and Communication | Rust in Seven Programs</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../md/05/1.html" />
+        <link rel="next" href="../md/04/1.html" />
         
         
-        <link rel="prev" href="../md/04/2.html" />
+        <link rel="prev" href="../md/03/4.html" />
         
 
-        <meta property="og:title" content="Arcs and Sharing Memory | Rust in Seven Programs">
+        <meta property="og:title" content="Tasks and Communication | Rust in Seven Programs">
         <meta property="og:site_name" content="Rust in Seven Programs">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="5" data-basepath=".." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="4" data-basepath=".." data-revision="1401726962514">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -120,7 +120,7 @@
 
         
         <li>
-            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/05.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/04.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -362,7 +362,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 95.83333333333333%;min-width: 91.66666666666667%;"></div>
+        <div class="inner" style="width: 83.33333333333333%;min-width: 79.16666666666667%;"></div>
     </div>
     <div class="chapters">
     
@@ -408,11 +408,11 @@
     
         <a href="../md/04.html" title="Tasks and Communication" class="chapter done new-chapter" data-progress="4" style="left: 83.33333333333333%;"></a>
     
-        <a href="../md/04/1.html" title="Task Properties" class="chapter done " data-progress="4.1" style="left: 87.5%;"></a>
+        <a href="../md/04/1.html" title="Task Properties" class="chapter  " data-progress="4.1" style="left: 87.5%;"></a>
     
-        <a href="../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter done " data-progress="4.2" style="left: 91.66666666666667%;"></a>
+        <a href="../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter  " data-progress="4.2" style="left: 91.66666666666667%;"></a>
     
-        <a href="../md/05.html" title="Arcs and Sharing Memory" class="chapter done new-chapter" data-progress="5" style="left: 95.83333333333333%;"></a>
+        <a href="../md/05.html" title="Arcs and Sharing Memory" class="chapter  new-chapter" data-progress="5" style="left: 95.83333333333333%;"></a>
     
         <a href="../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="5.1" style="left: 100%;"></a>
     
@@ -421,83 +421,185 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_29">
+                    <section class="normal" id="section-gitbook_27">
                     
-                        <h1 id="arcs-and-sharing-memory">Arcs and Sharing Memory</h1>
-<h2 id="the-arc-module">The Arc Module</h2>
-<p>The previous section of this tutorial explored Rust&#39;s tasks. Tasks as we have seen them don&#39;t really do well with sharing data. There are often instances where we may want multiple tasks spawned which reference, or even modify, some data. Enter the Arc module.</p>
-<h3 id="basic-arc-use">Basic Arc Use</h3>
-<p>The <a href="http://static.rust-lang.org/doc/0.9/extra/arc/index.html" target="_blank">extra::arc module</a> is a wrapper for any data type to be shared between tasks. An <code>Arc&lt;T&gt;</code> is a shared immutable state. When spawning tasks that want to reference the same data, using the <code>clone()</code> function creates a new copy of the Arc that can be sent to a task via a <code>(Port&lt;Arc&gt;, Chan&lt;Arc&gt;)</code> pair. The underlying data is not changed, however. This allows sending a new arc to a task, and having it access the same data. Once within the spawned task, the <code>get()</code> function retreives the value wrapped by the Arc. These Arcs can only hold immutable data. We will be looking at a variation of the Arc that allows mutability in a bit. The following bit of code creates a vector of integers, wraps them in an Arc, and then prints out each value within a separate task.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> nums = [<span class="hljs-number">1</span>,<span class="hljs-number">78</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,-<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,-<span class="hljs-number">11</span>];
-
-    <span class="hljs-keyword">let</span> numArc = Arc::new(nums);
-
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, nums.len()) {
-        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
-        chan.send(numArc.clone());
-        spawn(proc() {
-            <span class="hljs-keyword">let</span> taskArc = port.recv();
-            <span class="hljs-keyword">let</span> taskNums = taskArc.get();
-            println!(<span class="hljs-string">"{:d}"</span>, taskNums[i]);
-        });
-    }
+                        <h1 id="tasks-and-communication">Tasks and Communication</h1>
+<h2 id="task-properties">Task Properties</h2>
+<p>Rust is described by the developers as a language that concentrates on, amoung other things, safety and concurrency. In order to ensure safe, cocurrent computation, Rust makes use of <em>tasks</em>.</p>
+<p>A Rust <em>task</em> is an abstraction that has its own memory space and registers, like a process, but doesn&#39;t have a processes&#39; associated operating system cost. Tasks split computation like threads, however do not share memory, thus preventing implicit data races and other perplexing bugs that occur when multiple threads access and modify the same data.</p>
+<h3 id="spawning-a-task">Spawning a Task</h3>
+<p>Tasks are created using the <code>spawn(fn())</code> function, which creates a new task and executes the input function, <code>fn()</code> in that task.  After the function completes, the task is terminated. </p>
+<p>Another way to do this is with the <code>do</code> construct.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">do</span> expr { block }
 </code></pre>
-<h3 id="reading-and-writing-with-rwarcs">Reading and Writing with RWArcs</h3>
-<p>Often if we are sharing data across many tasks, we will want to manipulate the data within the task in some manner. The Arc structure, however, has no actual method of accomplishing this. There is an alternative Arc, however called the <code>RWArc&lt;T&gt;</code>. A RWArc has a <code>read(|&amp;T| {block})</code> and <code>write(|&amp;T| {block})</code> function. The variable provided for the <code>&amp;T</code> portion of this call is a borrowed reference to the underlying data of the RWArc. The read function serves similar to using a standard Arc (not RWArc), and provides for simultaneous cocurrent access to the data within the RWArc. Below is an identical implementation of the Arc example, except using a RWArc.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> nums = [<span class="hljs-number">1</span>,<span class="hljs-number">78</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,-<span class="hljs-number">2</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,-<span class="hljs-number">11</span>];
-
-    <span class="hljs-keyword">let</span> numArc = RWArc::new(nums);
-
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, nums.len()) {
-        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
-        chan.send(numArc.clone());
-        spawn(proc() {
-            <span class="hljs-keyword">let</span> taskArc = port.recv();
-            taskArc.read(|taskNums| {
-                    println!(<span class="hljs-string">"{:d}"</span>, taskNums[i]);
-                });
-        });
-    }
+<p>The above block is syntactic sugar for </p>
+<pre><code class="lang-rust">expr(proc() { block })
 </code></pre>
-<h3 id="writing-with-an-rwarc">Writing with an RWArc</h3>
-<p>When write is called, an RWArc flags the underlying data as being accessed and prevents any other write functions from continuing until the one currently accessing the data is complete. The below is a simple example of incrementing a number throughout multiple tasks using RWArc write functions, and then calling the collatz function (modified from the one in Part 1 of this tutorial to not overflow a task&#39;s stack through recursive calls) on the retrieved value.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">mod</span> extra;
-<span class="hljs-keyword">use</span> extra::arc::RWArc;
+<p>Thus, applying this to Rust task spawning, code, the following two blocks will spawn a task in a functionally identical manner.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">do</span> spawn { a; }
+</code></pre>
+<pre><code class="lang-rust">spawn(proc() { a; })
+</code></pre>
+<p><b>Note:</b> there are <a href="https://github.com/mozilla/rust/issues/10815">plans to remove 
+do</a> from upcoming versions of Rust, so we don&#39;t recommend using it, but since you will see it in lots of example code still describe it here.</p>
+<p>Here&#39;s an example program that spawns tasks:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">count</span>(</span>m: &amp;<span class="hljs-keyword">str</span>, n: <span class="hljs-keyword">int</span>) {
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">1</span>, n) {
+        println!(<span class="hljs-string">"{:s}{:d}"</span>, m, i); 
+    }
+}
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-    <span class="hljs-keyword">let</span> num = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">let</span> numArc = RWArc::new(num);
-
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">50000</span>) {
-        <span class="hljs-keyword">let</span> (port, chan)  = Chan::new();
-        chan.send(numArc.clone());
-        spawn(proc() {
-            <span class="hljs-keyword">let</span> taskArc = port.recv();
-            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> newNum = <span class="hljs-number">0</span>;
-            taskArc.write(|taskNum| {
-                *taskNum += <span class="hljs-number">1</span>;
-                newNum = *taskNum;
-            });
-            <span class="hljs-keyword">let</span> collatzN = collatz(newNum);
-            println!(<span class="hljs-string">"Collatz of {:d} = {:d}"</span>, newNum, collatzN);
-        });
-    }
-}
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">collatz</span>(</span>N: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> nLoc = N;
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> out = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">while</span> (nLoc != <span class="hljs-number">1</span>) {
-        out += <span class="hljs-number">1</span>;
-        <span class="hljs-keyword">match</span> nLoc % <span class="hljs-number">2</span> {
-        <span class="hljs-number">0</span> =&gt; {nLoc = nLoc/<span class="hljs-number">2</span>;}
-        <span class="hljs-number">_</span> =&gt; {nLoc = nLoc*<span class="hljs-number">3</span>+<span class="hljs-number">1</span>; }
-    }
-    }
-    <span class="hljs-keyword">return</span> out;
+    spawn(proc() { count(<span class="hljs-string">"A"</span>, <span class="hljs-number">1000</span>); });
+    spawn(proc() { count(<span class="hljs-string">"B"</span>, <span class="hljs-number">1000</span>); });
+    spawn(proc() { count(<span class="hljs-string">"C"</span>, <span class="hljs-number">1000</span>); });
 }
 </code></pre>
-<h4 id="a-note-on-rwarc-failure">A Note on RWArc Failure</h4>
-<p>If for whatever reason a failure occurs during the read or write block of a RWArc, the RWArc will be exited and flagged as &quot;poisoned.&quot; This causes any other read or write functions on the RWArc to immediately fail, thus preserving Rust&#39;s goal of cocurrent safety.</p>
+<p>If you try running this, you will see something like:</p>
+<blockquote>
+<p>B1
+C1
+A1
+C2
+B2
+A2
+B3
+...</p>
+</blockquote>
+<p>where the events from the three tasks are interleaved.  (Try changing the <code>println!</code> to a <code>print!</code> and see how that impacts the amount of interleaving you see.)</p>
+<h3 id="task-communication">Task Communication</h3>
+<p>Tasks do not share memory, and each task has its own memory space. The tasks all run in the same process, though, the memory isloation is provided by the Rust compiler and run-time, not by the operating system with hardware support as is done for an OS process.</p>
+<p>Spawning a task and then trying to access mutable variables from outside the scope of the task itself will result in a compiler error.  For example, the following code is okay since is okay since <code>n</code> is declared as immutable.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">let</span> n = <span class="hljs-number">10</span>;
+    spawn(proc() { count(<span class="hljs-string">"A"</span>, n); });
+    spawn(proc() { count(<span class="hljs-string">"B"</span>, n); });
+    spawn(proc() { count(<span class="hljs-string">"C"</span>, n); });
+}
+</code></pre>
+<p>But if we change the variable <code>n</code> to be mutable, the compiler will disallow the code with this error: </p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> n = <span class="hljs-number">10</span>;
+    spawn(proc() { count(<span class="hljs-string">"A"</span>, n); });
+    ...
+</code></pre>
+<pre><code>sharing.rs:9:31: 9:32 <span style="color:red;">error: mutable variables cannot be implicitly captured</span>
+sharing.rs:9     spawn(proc() { count("A", n); });
+</code></pre>
+
+<p>The problem here is that mutable data cannot be shared across tasks, since this could lead to dangerous and difficult to find bugs.  Instead, we need to make all communication between tasks explicit.</p>
+<h4 id="ports-and-channels">Ports and Channels</h4>
+<p>Cross-task communication is accomplished through the use of <code>Port&lt;T&gt;</code> and <code>Chan&lt;T&gt;</code> objects. These can be thought of as a link between a spawned task and its parent (the task which spawned it).</p>
+<p>A Port/Chan pair is created as a tuple, as demonstrated in the code below. The type of <code>&lt;T&gt;</code> is unrestricted, however the <code>Port</code> and <code>Chan</code> must have matching types.</p>
+<p>The transfer of values between tasks is accomplished with the <code>Chan.send(T)</code> function, which puts a value into the <code>(Port&lt;T&gt;, Chan&lt;T&gt;)</code> pair, and the <code>Port.recv()</code> function, which returns the value that had been sent by the <code>Chan</code>. </p>
+<p>The following spawns a very simple task to call a <code>plustwo</code> function, and then send the result back to the parent thread.</p>
+<pre><code class="lang-rust">   <span class="hljs-keyword">let</span> (port, chan): (Port&lt;<span class="hljs-keyword">int</span>&gt;, Chan&lt;<span class="hljs-keyword">int</span>&gt;) = Chan::new();
+   spawn(proc() {
+        <span class="hljs-keyword">let</span> x = <span class="hljs-number">10</span>;
+        chan.send(plustwo(x));
+    });
+    <span class="hljs-keyword">let</span> new_x = port.recv(); <span class="hljs-comment">// new_x == 12</span>
+</code></pre>
+<p>A <code>(Port&lt;T&gt;, Chan&lt;T&gt;)</code> pair can only be sent to from a single task. Once <code>Chan.send(T)</code> has been called from a specific task, that task owns the channel. Trying to call <code>Chan.send(T)</code> from multiple tasks will result in a compile time error. Thus, to send objects back and forth between tasks, two different channels are necessary. </p>
+<p>The following example does the same as the previous, but receives the value for <code>plustwo(x)</code> from the parent task, instead of creating it within the spawned task.</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> (port1, chan1): (Port&lt;<span class="hljs-keyword">int</span>&gt;, Chan&lt;<span class="hljs-keyword">int</span>&gt;) = Chan::new();
+    <span class="hljs-keyword">let</span> (port2, chan2): (Port&lt;<span class="hljs-keyword">int</span>&gt;, Chan&lt;<span class="hljs-keyword">int</span>&gt;) = Chan::new();
+    <span class="hljs-keyword">do</span> spawn {
+        <span class="hljs-keyword">let</span> x = port2.recv();
+        chan1.send(plustwo(x));
+    }
+    chan2.send(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">let</span> new_x = port1.recv(); <span class="hljs-comment">//new_x == 12</span>
+</code></pre>
+<p>Recieving is synchronous.  So, once <code>Port.recv()</code> has been called, the task that called it will not continue until a value is sent.</p>
+<p>This can lead to deadlocking programs.  For example, if a <code>Port.recv()</code> is waiting on a send from another task, but that other task is waiting to receive something from the original task, neither task can make progress.</p>
+<h2 id="example-multi-tasking-map">Example: Multi-Tasking Map</h2>
+<p>To put everything together, we modify the mapping code from the previous tutorial section to update each element in a separate task.  If the computation needed to produce each new value is expensive, this will potentially divide the mapping time by the number of cores available (with some overhead for spawning the tasks and the communication channels).</p>
+<p>Try running the code below, and see if you can figure out why the order of the statements in the mapr function matters.</p>
+<pre><code class="lang-rust"><span class="hljs-preprocessor">#[deriving(Clone)]</span>
+<span class="hljs-preprocessor">#[deriving(ToStr)]</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;~Node&gt;;
+
+<span class="hljs-preprocessor">#[deriving(Clone)]</span>
+<span class="hljs-keyword">struct</span> Node {
+   val: <span class="hljs-keyword">int</span>,
+   tail: LinkedList
+}
+
+<span class="hljs-keyword">trait</span> <span class="hljs-title">Length</span> {
+   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">length</span>(</span>&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-keyword">int</span>;
+}
+
+<span class="hljs-preprocessor">#[allow(dead_code)]</span> 
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">length</span>(</span>p: LinkedList) -&gt; <span class="hljs-keyword">int</span> {
+   <span class="hljs-keyword">match</span> p {
+      None =&gt; { <span class="hljs-number">0</span> }
+      Some(node) =&gt; { <span class="hljs-number">1</span> + length(node.tail) }
+   }
+}
+
+<span class="hljs-keyword">impl</span> Length <span class="hljs-keyword">for</span> LinkedList {
+   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">length</span>(</span>&amp;<span class="hljs-keyword">self</span>) -&gt; <span class="hljs-keyword">int</span> {
+      <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span> {
+        &amp;Some(<span class="hljs-keyword">ref</span> node) =&gt; { <span class="hljs-number">1</span> + node.tail.length() }
+        &amp;None =&gt; <span class="hljs-number">0</span>
+      }
+   }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">construct_list</span>(</span>n: <span class="hljs-keyword">int</span>, x: <span class="hljs-keyword">int</span>) -&gt; LinkedList {
+    <span class="hljs-keyword">match</span> n {
+        <span class="hljs-number">0</span> =&gt; { None }
+        <span class="hljs-number">_</span> =&gt; { Some(~Node{val: x, tail: construct_list(n - <span class="hljs-number">1</span>, x + <span class="hljs-number">1</span>)}) }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">print_list</span>(</span>p: LinkedList) -&gt; ~<span class="hljs-keyword">str</span> {
+    <span class="hljs-keyword">match</span> p {
+        None =&gt; { ~<span class="hljs-string">""</span> }
+        Some(node) =&gt; { node.val.to_str() + <span class="hljs-string">", "</span> + print_list(node.tail) }
+    }
+}
+
+<span class="hljs-keyword">trait</span> <span class="hljs-title">Map</span> {
+   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>);
+}
+
+
+<span class="hljs-keyword">impl</span> Map <span class="hljs-keyword">for</span> LinkedList {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, f: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
+         <span class="hljs-keyword">match</span>(*<span class="hljs-keyword">self</span>) {
+            None =&gt; { }
+            Some(<span class="hljs-keyword">ref</span> <span class="hljs-keyword">mut</span> current) =&gt; { 
+               <span class="hljs-keyword">let</span> (port, chan) : (Port&lt;<span class="hljs-keyword">int</span>&gt;, Chan&lt;<span class="hljs-keyword">int</span>&gt;) = Chan::new();
+               <span class="hljs-keyword">let</span> val = current.val; <span class="hljs-comment">// Can't use current inside task!</span>
+               spawn(proc() { chan.send(f(val)); });
+               current.tail.mapr(f); <span class="hljs-comment">// Make sure to do this first, so we're not waiting for recv!</span>
+               current.val = port.recv();
+            }
+        } 
+    } 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">expensive_inc</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { 
+   <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> a = <span class="hljs-number">1</span>;
+   println!(<span class="hljs-string">"starting inc: {:d}"</span>, n);
+   <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, <span class="hljs-number">10000</span>) {
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, <span class="hljs-number">1000000</span>) {
+           a = a + <span class="hljs-number">1</span>;
+        }
+   }
+
+   println!(<span class="hljs-string">"finished inc: {:d} ({:d})"</span>, n, a);
+   n + <span class="hljs-number">1</span> 
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> l10 : LinkedList = construct_list(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+    l10.mapr(expensive_inc);
+    println!(<span class="hljs-string">"List: {:s}"</span>, print_list(l10.clone()));
+}
+</code></pre>
 
                     
                     </section>
@@ -507,10 +609,10 @@
         </div>
 
         
-        <a href="../md/04/2.html" class="navigation navigation-prev " aria-label="Previous page: Example: Multi-Tasking Map"><i class="fa fa-angle-left"></i></a>
+        <a href="../md/03/4.html" class="navigation navigation-prev " aria-label="Previous page: Example: Mapping a List"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../md/05/1.html" class="navigation navigation-next " aria-label="Next page: The Arc Module"><i class="fa fa-angle-right"></i></a>
+        <a href="../md/04/1.html" class="navigation navigation-next " aria-label="Next page: Task Properties"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

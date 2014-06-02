@@ -1,6 +1,7 @@
 #!/bin/bash
 echo Building Markdown pages...
 rm md/*.html
+rm md/*/*.html
 python process.py
 echo Building GitBook format...
 gitbook build --output=./book

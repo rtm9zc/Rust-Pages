@@ -83,3 +83,26 @@ fn name() {
     } //val deallocated here
     println!("{:d}", **reference); //Referencing something that's gone!
 //end 14
+
+//inline 15
+do expr { block }
+//end 15
+
+//inline 16
+expr(proc() { block })
+//end 16
+
+//inline 17
+do spawn { a; }
+//end 17
+
+//inline 18
+spawn(proc() { a; })
+//end 18
+
+//inline 19
+fn main() {
+    let mut n = 10;
+    spawn(proc() { count("A", n); });
+    ...
+//end 19

@@ -1,0 +1,93 @@
+# Tasks and Communication
+
+## Task Properties
+
+Rust is described by the developers as a language that concentrates on, amoung other things, safety and concurrency. In order to ensure safe, cocurrent computation, Rust makes use of *tasks*.
+
+A Rust *task* is an abstraction that has its own memory space and registers, like a process, but doesn't have a processes' associated operating system cost. Tasks split computation like threads, however do not share memory, thus preventing implicit data races and other perplexing bugs that occur when multiple threads access and modify the same data.
+
+### Spawning a Task
+Tasks are created using the `spawn(fn())` function, which creates a new task and executes the input function, `fn()` in that task.  After the function completes, the task is terminated. 
+
+Another way to do this is with the `do` construct.
+
+//inline nonCompiled.rs 15
+
+The above block is syntactic sugar for 
+
+//inline nonCompiled.rs 16
+
+Thus, applying this to Rust task spawning, code, the following two blocks will spawn a task in a functionally identical manner.
+
+//inline nonCompiled.rs 17
+
+//inline nonCompiled.rs 18
+
+<b>Note:</b> there are <a href="https://github.com/mozilla/rust/issues/10815">plans to remove 
+do</a> from upcoming versions of Rust, so we don't recommend using it, but since you will see it in lots of example code still describe it here.
+
+Here's an example program that spawns tasks:
+
+//inline 04/spawn.rs 1
+
+If you try running this, you will see something like:
+
+>B1
+>C1
+>A1
+>C2
+>B2
+>A2
+>B3
+>...
+
+where the events from the three tasks are interleaved.  (Try changing the `println!` to a `print!` and see how that impacts the amount of interleaving you see.)
+
+
+### Task Communication
+
+Tasks do not share memory, and each task has its own memory space. The tasks all run in the same process, though, the memory isloation is provided by the Rust compiler and run-time, not by the operating system with hardware support as is done for an OS process.
+
+Spawning a task and then trying to access mutable variables from outside the scope of the task itself will result in a compiler error.  For example, the following code is okay since is okay since `n` is declared as immutable.
+
+//inline 04/sharing.rs 1
+
+But if we change the variable `n` to be mutable, the compiler will disallow the code with this error: 
+
+//inline nonCompiled.rs 19
+
+<pre><code>sharing.rs:9:31: 9:32 <span style="color:red;">error: mutable variables cannot be implicitly captured</span>
+sharing.rs:9     spawn(proc() { count("A", n); });
+</code></pre>
+
+The problem here is that mutable data cannot be shared across tasks, since this could lead to dangerous and difficult to find bugs.  Instead, we need to make all communication between tasks explicit.
+
+#### Ports and Channels
+
+Cross-task communication is accomplished through the use of `Port<T>` and `Chan<T>` objects. These can be thought of as a link between a spawned task and its parent (the task which spawned it).
+
+A Port/Chan pair is created as a tuple, as demonstrated in the code below. The type of `<T>` is unrestricted, however the `Port` and `Chan` must have matching types.
+
+The transfer of values between tasks is accomplished with the `Chan.send(T)` function, which puts a value into the `(Port<T>, Chan<T>)` pair, and the `Port.recv()` function, which returns the value that had been sent by the `Chan`. 
+
+The following spawns a very simple task to call a `plustwo` function, and then send the result back to the parent thread.
+
+//inline 04/channels.rs 1
+
+A `(Port<T>, Chan<T>)` pair can only be sent to from a single task. Once `Chan.send(T)` has been called from a specific task, that task owns the channel. Trying to call `Chan.send(T)` from multiple tasks will result in a compile time error. Thus, to send objects back and forth between tasks, two different channels are necessary. 
+
+The following example does the same as the previous, but receives the value for `plustwo(x)` from the parent task, instead of creating it within the spawned task.
+
+//inline 04/channels.rs 2
+
+Recieving is synchronous.  So, once `Port.recv()` has been called, the task that called it will not continue until a value is sent.
+
+This can lead to deadlocking programs.  For example, if a `Port.recv()` is waiting on a send from another task, but that other task is waiting to receive something from the original task, neither task can make progress.
+
+## Example: Multi-Tasking Map
+
+To put everything together, we modify the mapping code from the previous tutorial section to update each element in a separate task.  If the computation needed to produce each new value is expensive, this will potentially divide the mapping time by the number of cores available (with some overhead for spawning the tasks and the communication channels).
+
+Try running the code below, and see if you can figure out why the order of the statements in the mapr function matters.
+
+//inline 04/mtmap.rs 1

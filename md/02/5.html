@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Basic I/O | Rust in Seven Programs</title>
+        <title>Example: Secret Sharing | Rust in Seven Programs</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../../md/02/5.html" />
+        <link rel="next" href="../../md/03.html" />
         
         
-        <link rel="prev" href="../../md/02/3.html" />
+        <link rel="prev" href="../../md/02/4.html" />
         
 
-        <meta property="og:title" content="Basic I/O | Rust in Seven Programs">
+        <meta property="og:title" content="Example: Secret Sharing | Rust in Seven Programs">
         <meta property="og:site_name" content="Rust in Seven Programs">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.4" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.5" data-basepath="../.." data-revision="1401726962514">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -120,7 +120,7 @@
 
         
         <li>
-            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/02/4.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/02/5.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -362,7 +362,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 54.166666666666664%;min-width: 50%;"></div>
+        <div class="inner" style="width: 58.333333333333336%;min-width: 54.166666666666664%;"></div>
     </div>
     <div class="chapters">
     
@@ -394,7 +394,7 @@
     
         <a href="../../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 54.166666666666664%;"></a>
     
-        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.5" style="left: 58.333333333333336%;"></a>
+        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 58.333333333333336%;"></a>
     
         <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter  new-chapter" data-progress="3" style="left: 62.5%;"></a>
     
@@ -421,81 +421,89 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_14">
+                    <section class="normal" id="section-gitbook_15">
                     
-                        <h2 id="basic-i-o">Basic I/O</h2>
-<p><strong>NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS</strong></p>
-<p>Rust handles file and user input/output using the <a href="http://static.rust-lang.org/doc/master/std/io/index.html" target="_blank">std::io</a> module. </p>
-<p>The most intuitive way to work with reading in stdin and files is through the use of a <a href="http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html" target="_blank">BufferedReader</a>, which will be explained more in depth in the following sections. Take note that many methods in <code>BufferedReader</code> return vectors of bytes, not strings, so appropriate conversions may be necessary.</p>
-<h3 id="working-with-standard-input-stdin-">Working with Standard Input (stdin)</h3>
-<p>Standard input is provided through <code>std::io::stdin</code>, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The <code>lines</code> method returns an iterator that goes through each line until the end of input.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::buffered::BufferedReader;
-<span class="hljs-keyword">use</span> std::io::stdin;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>){
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> line in stdin.lines() {
-        print(line);
-    }
-}
-</code></pre>
-<p>Reading line by line is done using the <code>read_line()</code> function, which was used in an example in the previous section. This is a bit more difficult to implement, as <code>readline()</code> uses an <code>IoResult&lt;String&gt;</code> as it&#39;s output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>) {
-        <span class="hljs-keyword">match</span> stdin.read_line() {
-            Some(line) =&gt; {
-                print(line);
-            }
-            None =&gt; {
-                println(<span class="hljs-string">"End of input!"</span>);
-                <span class="hljs-keyword">break</span>;
-            }
-        }
-    }
-</code></pre>
-<h3 id="files">Files</h3>
-<p>The standard library functions for working with files in Rust are handled via the <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html" target="_blank">std::io::File</a> module. This module contains methods for opening and writing to a file. </p>
-<p>A file is opened using <code>Path</code> objects, which are included in any Rust program by default. Creating a <code>Path</code> object is done through <code>Path::new(&quot;path/to/file.foo&quot;)</code>. </p>
-<p>To simply open a new file for writing, <code>File::create(&amp;Path)</code> is the simplest call. This returns an <code>Option&lt;File&gt;</code> type, so it must be matched to ensure that a file was successfully opened. </p>
-<p>The two most common ways to write to the file once opened are the following: <code>File::write(&amp;mut self, &amp;[u8])</code>, which writes a buffer of bytes to a file, and <code>File::write_str(&amp;mut self, &amp;str)</code>, which writes a string to the file.</p>
-<p>This example demonstrated opening a file for writing using both of these methods:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::File;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
-{
-    <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(<span class="hljs-keyword">mut</span> file) =&gt; {
-            file.write(bytes!(<span class="hljs-string">"line one\n"</span>));
-            file.write_str(<span class="hljs-string">"line two\n"</span>);
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-}
-</code></pre>
-<p>Reading a file can be accomplished easily through using the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> module, much like reading from standard in. </p>
-<p>Opening a file to a <code>BufferedReader</code> is done using the <code>File::open(&amp;Path)</code> function, which opens the file at a given path in read-only mode, followed by <code>BufferedReader::new(File)</code>. </p>
-<p>Note that the file needs to be matched before converting to a <code>BufferedReader</code>, as <code>File::open()</code> returns an <code>Option&lt;File&gt;</code> type. Once converted to a <code>BufferedReader</code>, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> documentation.</p>
-<p>Here&#39;s a simple example of reading a file:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">match</span> File::open(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(file) =&gt; {
-            <span class="hljs-keyword">let</span> reader = BufferedReader::new(file);
-            <span class="hljs-comment">//reading from file</span>
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-</code></pre>
-<p>The <code>File::open_mode(&amp;Path, FileMode, FileAccess)</code> method allows specifying the mode in which a file is accessed. <code>FileMode</code> and <code>FileAccess</code> are <em>enumerable types</em> imported from <a href="http://static.rust-lang.org/doc/master/std/io/type.FileMode.html" target="_blank">std::io::FileMode</a> and <a href="http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html" target="_blank">std::io::FileAccess</a> respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::{File, Append, ReadWrite};
+                        <h2 id="example-secret-sharing">Example: Secret Sharing</h2>
+<p>The XOR operation is a simple, but effective method for hiding meaning. It&#39;s derived from the identity <code>A = (A ^ B) ^ B</code>.  XOR-ing a message with a random key provides <em>perfect</em> encryption, known as a <em>one-time pad</em>. It is essentially the only form of encryption
+that is information-theoretically secure, but is impractical for most purposes since it requires a perfectly-random key as long as the message and that key can never be reused.</p>
+<p>It works by taking in a message and a random bit sequence (key) of equal length. Each bit in the message is XORed with the corresponding bit in the key to produce the encrypted message. The original message can then be recovered by applying the XOR process to the key and the encrypted message.</p>
+<p>For this exercise, we will use this strategy to convert a plaintext file into two secret shares, each of which discloses no information about the original file (other than its length), but if someone has both shares they can put them together to produce the original file.  A paranoid individual might use such an approach to store a file in the cloud by storing one share using Dropbox and the other share using Google Docs. The user could acquire both shares to obtain the file, and if the NSA can hypothetically (of course) obtain all of the data from one of the services but not both of them, it would not be enough to learn the contents of the file.</p>
+<p>Note that our implementation uses <code>td::rand::random</code> o generate the random key.  This is not cryptographically strong randomness, so should be used for entertainment purposes only!  (If you are interested in better random numbers, see <a href="https://github.com/wbkostan/cs4414-ps4">tRustees: True Random Number Generation</a>.)</p>
+<p>We&#39;ll provide the code to do the splitting, and leave it as an exercise for you to write the joining code.</p>
+<h3 id="splitter">Splitter</h3>
+<p>The following Rust code implements the splitter. It takes as input the name of a file, and writes out two share files.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::rand::random;
+<span class="hljs-keyword">use</span> std::os;
+<span class="hljs-keyword">use</span> std::io::File;
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-   <span class="hljs-keyword">let</span> file = File::open_mode(&amp;Path::new(<span class="hljs-string">"message.txt"</span>), Append, ReadWrite);
+    <span class="hljs-keyword">let</span> args: ~[~<span class="hljs-keyword">str</span>] = os::args();
+    <span class="hljs-keyword">if</span> args.len() != <span class="hljs-number">2</span> {
+        println!(<span class="hljs-string">"Usage: {:s} &lt;inputfile&gt;"</span>, args[<span class="hljs-number">0</span>]); 
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">let</span> fname = args[<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">let</span> path = Path::new(fname.clone());
+        <span class="hljs-keyword">let</span> msg_file = File::open(&amp;path);
+
+        <span class="hljs-keyword">match</span> (msg_file) {
+            Some(<span class="hljs-keyword">mut</span> msg) =&gt; {
+                <span class="hljs-keyword">let</span> msg_bytes: ~[<span class="hljs-keyword">u8</span>] = msg.read_to_end();
+                <span class="hljs-keyword">let</span> share1_file 
+                       = File::create(&amp;Path::new(fname + <span class="hljs-string">".share1"</span>));
+                <span class="hljs-keyword">let</span> share2_file 
+                       = File::create(&amp;Path::new(fname + <span class="hljs-string">".share2"</span>));
+
+                <span class="hljs-keyword">match</span> (share1_file, share2_file) {
+                    (Some(share1), Some(share2)) =&gt; { 
+                        split(msg_bytes, share1, share2); 
+                        } ,
+                    (<span class="hljs-number">_</span>, <span class="hljs-number">_</span>) =&gt; <span class="hljs-keyword">fail</span>!(<span class="hljs-string">"Error opening output files!"</span>),
+                }
+            } ,
+            None =&gt; <span class="hljs-keyword">fail</span>!(<span class="hljs-string">"Error opening message file: {:s}"</span>, fname)
+        }
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">xor</span>(</span>a: &amp;[<span class="hljs-keyword">u8</span>], b: &amp;[<span class="hljs-keyword">u8</span>]) -&gt; ~[<span class="hljs-keyword">u8</span>] {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> ret = ~[];
+    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, a.len()) {
+    ret.push(a[i] ^ b[i]);
+    }
+    ret
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">split</span>(</span>msg_bytes: &amp;[<span class="hljs-keyword">u8</span>], <span class="hljs-keyword">mut</span> share1: File, <span class="hljs-keyword">mut</span> share2: File) {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> random_bytes: ~[<span class="hljs-keyword">u8</span>] = ~[];
+    <span class="hljs-comment">// This is not cryptographically strong randomness! </span>
+    <span class="hljs-comment">// (For entertainment purposes only.)</span>
+    <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, msg_bytes.len()) {
+    <span class="hljs-keyword">let</span> random_byte = random();
+    random_bytes.push(random_byte);
+    }
+
+    <span class="hljs-keyword">let</span> encrypted_bytes = xor(msg_bytes, random_bytes);
+    share1.write(random_bytes);
+    share2.write(encrypted_bytes);
 }
 </code></pre>
-<p>Like the other file methods, this returns an <code>Option</code> object that must be matched to check for opening failures.</p>
+<h4 id="joiner">Joiner</h4>
+<p>The joiner reverses the splitting process, taking the two shares and combining them to produce the original message.</p>
+<blockquote>
+<p><strong>Exercise 2.3.</strong> Implement the joiner.  It should take two file names as its inputs, and output to standard output the result of XOR-ing the bytes in those files. The input files must be the same length.</p>
+</blockquote>
+<p>Your joiner should be able to produce the plaintext from the example
+files: <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share1">msg.share1</a> and <a href="http://rtm9zc.github.io/Rust-Pages/code/msg.share2">msg.share2</a>.  You should download these files (look at them to confirm they appear to be random bytes).  </p>
+<p>Then, try executing:</p>
+<pre><code>
+joiner msg.share1 msg.share2
+</code>
+</pre>
+
+<p>If you implemented the joiner correctly, you should see a (somewhat) <a href="http://www.gutenberg.org/cache/epub/1518/pg1518.html">meaningful message</a>.</p>
+<div class="credits">
+This tutorial was created by Alex&nbsp;Lamana, Rob&nbsp;Michaels, Wil&nbsp;Thomason, and David&nbsp;Evans for <a href="http://rust-class.org">University of Virginia cs4414 Spring 2014</a>.
+</div>
 
                     
                     </section>
@@ -505,10 +513,10 @@
         </div>
 
         
-        <a href="../../md/02/3.html" class="navigation navigation-prev " aria-label="Previous page: Error Handling"><i class="fa fa-angle-left"></i></a>
+        <a href="../../md/02/4.html" class="navigation navigation-prev " aria-label="Previous page: Basic I/O"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../../md/02/5.html" class="navigation navigation-next " aria-label="Next page: Example: Secret Sharing"><i class="fa fa-angle-right"></i></a>
+        <a href="../../md/03.html" class="navigation navigation-next " aria-label="Next page: Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

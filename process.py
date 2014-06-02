@@ -23,6 +23,29 @@ def codeProc(rustLoc, blockNum, fileOut):
 
         fileOut.write("```\n");
         
+def codeBloc(rustLoc, blockNum, fileOut): #used for example blocks
+        rust = 'code/' + rustLoc
+        rustFile = open(rust)
+        fileOut.write(">```rust\n")
+        writeflag = False
+        for line in rustFile.readlines():
+                if writeflag:
+                        if line[:5] == '//end':
+                                numcheck = line.split()[1]
+                                if numcheck == blockNum:
+                                        break
+			elif line[:8] == '//inline':
+					continue
+                        else:
+                                fileOut.write('>' + line)
+                else:
+                        if line[:8] == '//inline':
+                                numcheck = line.split()[1]
+                                if numcheck == blockNum:
+                                        writeflag = True
+
+        fileOut.write("```\n");
+        
 def processPre(fileLoc, summary):
         preLoc = 'pre/' + fileLoc
         mdLoc = 'md/' + fileLoc
@@ -56,6 +79,11 @@ def processPre(fileLoc, summary):
                         codeProc(params[1], params[2], fileOut)
 			if pastIntro:
 				codeProc(params[1], params[2], subFile)
+		elif line[:9] == '>//inline':
+                        params = line.split()
+                        codeBloc(params[1], params[2], fileOut)
+			if pastIntro:
+				codeBloc(params[1], params[2], subFile)
                 else:
                         fileOut.write(line);
 			if pastIntro:

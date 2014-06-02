@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Basic I/O | Rust in Seven Programs</title>
+        <title>Example: Mapping a List | Rust in Seven Programs</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../../md/02/5.html" />
+        <link rel="next" href="../../md/04.html" />
         
         
-        <link rel="prev" href="../../md/02/3.html" />
+        <link rel="prev" href="../../md/03/3.html" />
         
 
-        <meta property="og:title" content="Basic I/O | Rust in Seven Programs">
+        <meta property="og:title" content="Example: Mapping a List | Rust in Seven Programs">
         <meta property="og:site_name" content="Rust in Seven Programs">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.4" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.4" data-basepath="../.." data-revision="1401726962514">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -120,7 +120,7 @@
 
         
         <li>
-            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/02/4.md" target="blank" class="contribute-link">Edit and Contribute</a>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/03/4.md" target="blank" class="contribute-link">Edit and Contribute</a>
         </li>
         
 
@@ -362,7 +362,7 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 54.166666666666664%;min-width: 50%;"></div>
+        <div class="inner" style="width: 79.16666666666667%;min-width: 75%;"></div>
     </div>
     <div class="chapters">
     
@@ -394,17 +394,17 @@
     
         <a href="../../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 54.166666666666664%;"></a>
     
-        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.5" style="left: 58.333333333333336%;"></a>
+        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 58.333333333333336%;"></a>
     
-        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter  new-chapter" data-progress="3" style="left: 62.5%;"></a>
+        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter done new-chapter" data-progress="3" style="left: 62.5%;"></a>
     
-        <a href="../../md/03/1.html" title="Structures" class="chapter  " data-progress="3.1" style="left: 66.66666666666667%;"></a>
+        <a href="../../md/03/1.html" title="Structures" class="chapter done " data-progress="3.1" style="left: 66.66666666666667%;"></a>
     
-        <a href="../../md/03/2.html" title="Traits" class="chapter  " data-progress="3.2" style="left: 70.83333333333333%;"></a>
+        <a href="../../md/03/2.html" title="Traits" class="chapter done " data-progress="3.2" style="left: 70.83333333333333%;"></a>
     
-        <a href="../../md/03/3.html" title="Higher-Order Functions" class="chapter  " data-progress="3.3" style="left: 75%;"></a>
+        <a href="../../md/03/3.html" title="Higher-Order Functions" class="chapter done " data-progress="3.3" style="left: 75%;"></a>
     
-        <a href="../../md/03/4.html" title="Example: Mapping a List" class="chapter  " data-progress="3.4" style="left: 79.16666666666667%;"></a>
+        <a href="../../md/03/4.html" title="Example: Mapping a List" class="chapter done " data-progress="3.4" style="left: 79.16666666666667%;"></a>
     
         <a href="../../md/04.html" title="Tasks and Communication" class="chapter  new-chapter" data-progress="4" style="left: 83.33333333333333%;"></a>
     
@@ -421,81 +421,43 @@
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_14">
+                    <section class="normal" id="section-gitbook_22">
                     
-                        <h2 id="basic-i-o">Basic I/O</h2>
-<p><strong>NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS</strong></p>
-<p>Rust handles file and user input/output using the <a href="http://static.rust-lang.org/doc/master/std/io/index.html" target="_blank">std::io</a> module. </p>
-<p>The most intuitive way to work with reading in stdin and files is through the use of a <a href="http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html" target="_blank">BufferedReader</a>, which will be explained more in depth in the following sections. Take note that many methods in <code>BufferedReader</code> return vectors of bytes, not strings, so appropriate conversions may be necessary.</p>
-<h3 id="working-with-standard-input-stdin-">Working with Standard Input (stdin)</h3>
-<p>Standard input is provided through <code>std::io::stdin</code>, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The <code>lines</code> method returns an iterator that goes through each line until the end of input.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::buffered::BufferedReader;
-<span class="hljs-keyword">use</span> std::io::stdin;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>){
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> line in stdin.lines() {
-        print(line);
-    }
+                        <h2 id="example-mapping-a-list">Example: Mapping a List</h2>
+<p>The above examples hopefully give you a sense of the power of higher-order functions, but perhaps not how they would be useful in typical code.  Next, we&#39;ll see how higher-order functions can be used to provide generic functions for manipulating our <code>LinkedList</code> type. We&#39;ll implement a mapping function that applies a function to each element of a list.</p>
+<p>We define the Map trait as:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">Map</span> {
+   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>);
 }
 </code></pre>
-<p>Reading line by line is done using the <code>read_line()</code> function, which was used in an example in the previous section. This is a bit more difficult to implement, as <code>readline()</code> uses an <code>IoResult&lt;String&gt;</code> as it&#39;s output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>) {
-        <span class="hljs-keyword">match</span> stdin.read_line() {
-            Some(line) =&gt; {
-                print(line);
+<p>Now, we will implement the <code>Map</code> trait for our <code>LinkedList</code> type:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">impl</span> Map <span class="hljs-keyword">for</span> LinkedList {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, f: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
+         <span class="hljs-keyword">match</span>(*<span class="hljs-keyword">self</span>) {
+            None =&gt; { }
+            Some(<span class="hljs-keyword">ref</span> <span class="hljs-keyword">mut</span> current) =&gt; { 
+               current.val = f(current.val);
+               current.tail.mapr(f); 
             }
-            None =&gt; {
-                println(<span class="hljs-string">"End of input!"</span>);
-                <span class="hljs-keyword">break</span>;
-            }
-        }
-    }
-</code></pre>
-<h3 id="files">Files</h3>
-<p>The standard library functions for working with files in Rust are handled via the <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html" target="_blank">std::io::File</a> module. This module contains methods for opening and writing to a file. </p>
-<p>A file is opened using <code>Path</code> objects, which are included in any Rust program by default. Creating a <code>Path</code> object is done through <code>Path::new(&quot;path/to/file.foo&quot;)</code>. </p>
-<p>To simply open a new file for writing, <code>File::create(&amp;Path)</code> is the simplest call. This returns an <code>Option&lt;File&gt;</code> type, so it must be matched to ensure that a file was successfully opened. </p>
-<p>The two most common ways to write to the file once opened are the following: <code>File::write(&amp;mut self, &amp;[u8])</code>, which writes a buffer of bytes to a file, and <code>File::write_str(&amp;mut self, &amp;str)</code>, which writes a string to the file.</p>
-<p>This example demonstrated opening a file for writing using both of these methods:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::File;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
-{
-    <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(<span class="hljs-keyword">mut</span> file) =&gt; {
-            file.write(bytes!(<span class="hljs-string">"line one\n"</span>));
-            file.write_str(<span class="hljs-string">"line two\n"</span>);
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
+        } 
+    } 
 }
 </code></pre>
-<p>Reading a file can be accomplished easily through using the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> module, much like reading from standard in. </p>
-<p>Opening a file to a <code>BufferedReader</code> is done using the <code>File::open(&amp;Path)</code> function, which opens the file at a given path in read-only mode, followed by <code>BufferedReader::new(File)</code>. </p>
-<p>Note that the file needs to be matched before converting to a <code>BufferedReader</code>, as <code>File::open()</code> returns an <code>Option&lt;File&gt;</code> type. Once converted to a <code>BufferedReader</code>, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> documentation.</p>
-<p>Here&#39;s a simple example of reading a file:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">match</span> File::open(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(file) =&gt; {
-            <span class="hljs-keyword">let</span> reader = BufferedReader::new(file);
-            <span class="hljs-comment">//reading from file</span>
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-</code></pre>
-<p>The <code>File::open_mode(&amp;Path, FileMode, FileAccess)</code> method allows specifying the mode in which a file is accessed. <code>FileMode</code> and <code>FileAccess</code> are <em>enumerable types</em> imported from <a href="http://static.rust-lang.org/doc/master/std/io/type.FileMode.html" target="_blank">std::io::FileMode</a> and <a href="http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html" target="_blank">std::io::FileAccess</a> respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::{File, Append, ReadWrite};
+<p>This <code>mapr</code> function works well for the purposes of small lists, but is highly parallelizable. For more information on how to do this, as well as Rust&#39;s <code>tasks</code>, head on over to the next section.</p>
+<p>For now, here are some examples using our list mapping functionality:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">inc</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n + <span class="hljs-number">1</span> }
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">double</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n * <span class="hljs-number">2</span> }
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-   <span class="hljs-keyword">let</span> file = File::open_mode(&amp;Path::new(<span class="hljs-string">"message.txt"</span>), Append, ReadWrite);
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> l10 : LinkedList = construct_list(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+    l10.mapr(inc);
+    l10.mapr(double);
+    println!(<span class="hljs-string">"List: {:s}"</span>, print_list(l10.clone()));
 }
 </code></pre>
-<p>Like the other file methods, this returns an <code>Option</code> object that must be matched to check for opening failures.</p>
+<blockquote>
+<p><strong>Exercise 3.4.</strong> Implement the <code>Map</code> trait for your previously defined <code>Tree</code> type. The <code>mapr</code> function should iterate through all of the nodes of the <code>Tree</code>.</p>
+</blockquote>
 
                     
                     </section>
@@ -505,10 +467,10 @@
         </div>
 
         
-        <a href="../../md/02/3.html" class="navigation navigation-prev " aria-label="Previous page: Error Handling"><i class="fa fa-angle-left"></i></a>
+        <a href="../../md/03/3.html" class="navigation navigation-prev " aria-label="Previous page: Higher-Order Functions"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../../md/02/5.html" class="navigation navigation-next " aria-label="Next page: Example: Secret Sharing"><i class="fa fa-angle-right"></i></a>
+        <a href="../../md/04.html" class="navigation navigation-next " aria-label="Next page: Tasks and Communication"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>

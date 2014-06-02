@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Basic I/O | Rust in Seven Programs</title>
+        <title>Error Handling | Rust in Seven Programs</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -19,7 +19,7 @@
         <link rel="prev" href="../../md/02/2.html" />
         
 
-        <meta property="og:title" content="Basic I/O | Rust in Seven Programs">
+        <meta property="og:title" content="Error Handling | Rust in Seven Programs">
         <meta property="og:site_name" content="Rust in Seven Programs">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.3" data-basepath="../.." data-revision="1401396635554">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2.3" data-basepath="../.." data-revision="1401726962514">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -227,7 +227,7 @@
                         <li  data-level="2.3" data-path="md/02/3.html">
                             
                             <a href="../../md/02/3.html">
-                                <i class="fa fa-check"></i> <b>2.3.</b> Basic I/O
+                                <i class="fa fa-check"></i> <b>2.3.</b> Error Handling
                             </a>
                             
                         </li>
@@ -235,7 +235,15 @@
                         <li  data-level="2.4" data-path="md/02/4.html">
                             
                             <a href="../../md/02/4.html">
-                                <i class="fa fa-check"></i> <b>2.4.</b> Example: Secret Sharing
+                                <i class="fa fa-check"></i> <b>2.4.</b> Basic I/O
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.5" data-path="md/02/5.html">
+                            
+                            <a href="../../md/02/5.html">
+                                <i class="fa fa-check"></i> <b>2.5.</b> Example: Secret Sharing
                             </a>
                             
                         </li>
@@ -244,19 +252,93 @@
                 
             </li>
         
-            <li class="chapter " data-level="3" data-path="md/05.html">
+            <li class="chapter " data-level="3" data-path="md/03.html">
                 
-                <a href="../../md/05.html">
-                    <i class="fa fa-check"></i> <b>3.</b> Arcs and Sharing Memory
+                <a href="../../md/03.html">
+                    <i class="fa fa-check"></i> <b>3.</b> Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions
                 </a>
                 
                 
                 <ul class="articles">
                     
-                        <li  data-level="3.1" data-path="md/05/1.html">
+                        <li  data-level="3.1" data-path="md/03/1.html">
+                            
+                            <a href="../../md/03/1.html">
+                                <i class="fa fa-check"></i> <b>3.1.</b> Structures
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.2" data-path="md/03/2.html">
+                            
+                            <a href="../../md/03/2.html">
+                                <i class="fa fa-check"></i> <b>3.2.</b> Traits
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.3" data-path="md/03/3.html">
+                            
+                            <a href="../../md/03/3.html">
+                                <i class="fa fa-check"></i> <b>3.3.</b> Higher-Order Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.4" data-path="md/03/4.html">
+                            
+                            <a href="../../md/03/4.html">
+                                <i class="fa fa-check"></i> <b>3.4.</b> Example: Mapping a List
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="4" data-path="md/04.html">
+                
+                <a href="../../md/04.html">
+                    <i class="fa fa-check"></i> <b>4.</b> Tasks and Communication
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="4.1" data-path="md/04/1.html">
+                            
+                            <a href="../../md/04/1.html">
+                                <i class="fa fa-check"></i> <b>4.1.</b> Task Properties
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="4.2" data-path="md/04/2.html">
+                            
+                            <a href="../../md/04/2.html">
+                                <i class="fa fa-check"></i> <b>4.2.</b> Example: Multi-Tasking Map
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="5" data-path="md/05.html">
+                
+                <a href="../../md/05.html">
+                    <i class="fa fa-check"></i> <b>5.</b> Arcs and Sharing Memory
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="5.1" data-path="md/05/1.html">
                             
                             <a href="../../md/05/1.html">
-                                <i class="fa fa-check"></i> <b>3.1.</b> The Arc Module
+                                <i class="fa fa-check"></i> <b>5.1.</b> The Arc Module
                             </a>
                             
                         </li>
@@ -280,122 +362,84 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 80%;min-width: 73.33333333333333%;"></div>
+        <div class="inner" style="width: 50%;min-width: 45.833333333333336%;"></div>
     </div>
     <div class="chapters">
     
         <a href="../../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
     
-        <a href="../../md/01.html" title="Getting Started: Variables, Functions, and Syntax" class="chapter done new-chapter" data-progress="1" style="left: 6.666666666666667%;"></a>
+        <a href="../../md/01.html" title="Getting Started: Variables, Functions, and Syntax" class="chapter done new-chapter" data-progress="1" style="left: 4.166666666666667%;"></a>
     
-        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 13.333333333333334%;"></a>
+        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 8.333333333333334%;"></a>
     
-        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 20%;"></a>
+        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 12.5%;"></a>
     
-        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 26.666666666666668%;"></a>
+        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 16.666666666666668%;"></a>
     
-        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 33.333333333333336%;"></a>
+        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 20.833333333333332%;"></a>
     
-        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 40%;"></a>
+        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 25%;"></a>
     
-        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 46.666666666666664%;"></a>
+        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 29.166666666666668%;"></a>
     
-        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 53.333333333333336%;"></a>
+        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 33.333333333333336%;"></a>
     
-        <a href="../../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 60%;"></a>
+        <a href="../../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 37.5%;"></a>
     
-        <a href="../../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 66.66666666666667%;"></a>
+        <a href="../../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 41.666666666666664%;"></a>
     
-        <a href="../../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 73.33333333333333%;"></a>
+        <a href="../../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 45.833333333333336%;"></a>
     
-        <a href="../../md/02/3.html" title="Basic I/O" class="chapter done " data-progress="2.3" style="left: 80%;"></a>
+        <a href="../../md/02/3.html" title="Error Handling" class="chapter done " data-progress="2.3" style="left: 50%;"></a>
     
-        <a href="../../md/02/4.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.4" style="left: 86.66666666666667%;"></a>
+        <a href="../../md/02/4.html" title="Basic I/O" class="chapter  " data-progress="2.4" style="left: 54.166666666666664%;"></a>
     
-        <a href="../../md/05.html" title="Arcs and Sharing Memory" class="chapter  new-chapter" data-progress="3" style="left: 93.33333333333333%;"></a>
+        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter  " data-progress="2.5" style="left: 58.333333333333336%;"></a>
     
-        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="3.1" style="left: 100%;"></a>
+        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter  new-chapter" data-progress="3" style="left: 62.5%;"></a>
+    
+        <a href="../../md/03/1.html" title="Structures" class="chapter  " data-progress="3.1" style="left: 66.66666666666667%;"></a>
+    
+        <a href="../../md/03/2.html" title="Traits" class="chapter  " data-progress="3.2" style="left: 70.83333333333333%;"></a>
+    
+        <a href="../../md/03/3.html" title="Higher-Order Functions" class="chapter  " data-progress="3.3" style="left: 75%;"></a>
+    
+        <a href="../../md/03/4.html" title="Example: Mapping a List" class="chapter  " data-progress="3.4" style="left: 79.16666666666667%;"></a>
+    
+        <a href="../../md/04.html" title="Tasks and Communication" class="chapter  new-chapter" data-progress="4" style="left: 83.33333333333333%;"></a>
+    
+        <a href="../../md/04/1.html" title="Task Properties" class="chapter  " data-progress="4.1" style="left: 87.5%;"></a>
+    
+        <a href="../../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter  " data-progress="4.2" style="left: 91.66666666666667%;"></a>
+    
+        <a href="../../md/05.html" title="Arcs and Sharing Memory" class="chapter  new-chapter" data-progress="5" style="left: 95.83333333333333%;"></a>
+    
+        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="5.1" style="left: 100%;"></a>
     
     </div>
 </div>
 
                 <div class="page-inner">
                 
-                    <section class="normal" id="section-gitbook_12">
+                    <section class="normal" id="section-gitbook_13">
                     
-                        <h2 id="basic-i-o">Basic I/O</h2>
-<p><strong>NOTE: THE EXAMPLES IN THIS SECTION ARE MOSTLY OBSOLETE, CURRENT EXAMPLES ARE PLACEHOLDERS</strong></p>
-<p>Rust handles file and user input/output using the <a href="http://static.rust-lang.org/doc/master/std/io/index.html" target="_blank">std::io</a> module. </p>
-<p>The most intuitive way to work with reading in stdin and files is through the use of a <a href="http://static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html" target="_blank">BufferedReader</a>, which will be explained more in depth in the following sections. Take note that many methods in <code>BufferedReader</code> return vectors of bytes, not strings, so appropriate conversions may be necessary.</p>
-<h3 id="working-with-standard-input-stdin-">Working with Standard Input (stdin)</h3>
-<p>Standard input is provided through <code>std::io::stdin</code>, and implemented by creating a buffered reader.  The following example (taken from the Rust documentation) prints out a series of lines from standard input, automatically stopping at the end of input. The <code>lines</code> method returns an iterator that goes through each line until the end of input.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::buffered::BufferedReader;
-<span class="hljs-keyword">use</span> std::io::stdin;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>){
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> line in stdin.lines() {
-        print(line);
-    }
-}
+                        <h2 id="error-handling">Error Handling</h2>
+<p>Error handling in Rust is done with the intention of catching what can be caught at compile-time, and reducing runtime errors. To accomplish this, Rust has two special types to assist with error handling: the <code>Option&lt;T&gt;</code>, and <code>Result&lt;T,E&gt;</code>. The <code>Option&lt;T&gt;</code> type used for functions which either create an object of type <code>T</code>, or fail (represented by <code>None()</code>). A <code>Result&lt;T,E&gt;</code> is similar to an <code>Option&lt;T&gt;</code>, but the value is determined on whether a function succeds as intended on a pre-existing object (as opposed to the creation of a new object with <code>Option&lt;T&gt;</code>). </p>
+<p>An <code>Option</code> or <code>Result</code> requires a match statement to use the values obtained. For an <code>Option</code>, there are two possible outcomes for the value: a successful object creation, represented as <code>Some(T)</code>, or a failure, represented as <code>None</code>. In the branch which specifies <code>Some(T)</code>, <code>T</code> is filled in with a variable of type <code>T</code>. In the event of a failed creation, the <code>fail</code> macro can be used to output an error message upon failure. In the following example, the method <code>File::create(&amp;Path)</code> returns an <code>Option&lt;File&gt;</code>. If the file, foo.txt, doesn&#39;t properly open, the message specified in the macro will be printed upon the exit. If it does, in the <code>Some</code> branch, <code>file</code> refers to the <code>File</code> foo.txt.</p>
+<pre><code class="lang-rust">     <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"foo.txt"</span>)) {
+               Some(<span class="hljs-keyword">mut</span> file) =&gt; { <span class="hljs-comment">//File was created successfully!, the variable "file" is the instance of File opened }</span>
+               None =&gt; { <span class="hljs-comment">//File failed to open correctly</span>
+                         <span class="hljs-keyword">fail</span>!(<span class="hljs-string">"Creating foo.txt failed!"</span>);
+             }
+     }
 </code></pre>
-<p>Reading line by line is done using the <code>read_line()</code> function, which was used in an example in the previous section. This is a bit more difficult to implement, as <code>readline()</code> uses an <code>IoResult&lt;String&gt;</code> as it&#39;s output. Using what we learned from the previous section, the example code below reads in the next 5 lines from stdin, and prints them. If there are less than 5 lines, the loop ends without crashing the program.</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> stdin = BufferedReader::new(stdin());
-    <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>) {
-        <span class="hljs-keyword">match</span> stdin.read_line() {
-            Some(line) =&gt; {
-                print(line);
-            }
-            None =&gt; {
-                println(<span class="hljs-string">"End of input!"</span>);
-                <span class="hljs-keyword">break</span>;
-            }
+<p>Similar to the <code>Option</code>, a <code>Result</code> must have a match statement called upon it to use the value as well. Instead of <code>Some(T)</code> and <code>None</code>, however, a <code>Result</code> has branches of <code>Ok(T)</code> and <code>Err(E)</code> respectively. In these cases, the <code>Err(E)</code> branch has the value of  <code>E</code> assigned to an error of type <code>E</code>, specified in the function that returns the <code>Result</code>. For example, the <code>read_line(&amp;mut self)</code> function of the <code>io::BufferedReader</code> class (which will be gone over more extensively in the next section in IO) returns a <code>Result&lt;String, IoError&gt;</code>. In the following example, a line is read from stdin using this function, and then matched accordingly. Note how the <code>Err(E)</code> branch requires defining a new variable to represent the error type, as opposed to <code>None</code> in an <code>Option</code>, which has no associated variable returned.</p>
+<pre><code class="lang-rust">      <span class="hljs-keyword">let</span> reader = io::stdio::stdin();
+      <span class="hljs-keyword">match</span> reader.read_line() {
+              Ok(stringRead) =&gt; println!(<span class="hljs-string">"Line read: {}"</span>, stringRead),
+            Err(e) =&gt; println!(<span class="hljs-string">"Read failed! Error: {}"</span>, e)
         }
-    }
 </code></pre>
-<h3 id="files">Files</h3>
-<p>The standard library functions for working with files in Rust are handled via the <a href="http://static.rust-lang.org/doc/master/std/io/fs/struct.File.html" target="_blank">std::io::File</a> module. This module contains methods for opening and writing to a file. </p>
-<p>A file is opened using <code>Path</code> objects, which are included in any Rust program by default. Creating a <code>Path</code> object is done through <code>Path::new(&quot;path/to/file.foo&quot;)</code>. </p>
-<p>To simply open a new file for writing, <code>File::create(&amp;Path)</code> is the simplest call. This returns an <code>Option&lt;File&gt;</code> type, so it must be matched to ensure that a file was successfully opened. </p>
-<p>The two most common ways to write to the file once opened are the following: <code>File::write(&amp;mut self, &amp;[u8])</code>, which writes a buffer of bytes to a file, and <code>File::write_str(&amp;mut self, &amp;str)</code>, which writes a string to the file.</p>
-<p>This example demonstrated opening a file for writing using both of these methods:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::File;
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
-{
-    <span class="hljs-keyword">match</span> File::create(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(<span class="hljs-keyword">mut</span> file) =&gt; {
-            file.write(bytes!(<span class="hljs-string">"line one\n"</span>));
-            file.write_str(<span class="hljs-string">"line two\n"</span>);
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-}
-</code></pre>
-<p>Reading a file can be accomplished easily through using the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> module, much like reading from standard in. </p>
-<p>Opening a file to a <code>BufferedReader</code> is done using the <code>File::open(&amp;Path)</code> function, which opens the file at a given path in read-only mode, followed by <code>BufferedReader::new(File)</code>. </p>
-<p>Note that the file needs to be matched before converting to a <code>BufferedReader</code>, as <code>File::open()</code> returns an <code>Option&lt;File&gt;</code> type. Once converted to a <code>BufferedReader</code>, a file is read in an identical manner to reading from stdin in the previous example, and all relevant methods are outlined on the <a href="static.rust-lang.org/doc/master/std/io/struct.BufferedReader.html">BufferedReader</a> documentation.</p>
-<p>Here&#39;s a simple example of reading a file:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">match</span> File::open(&amp;Path::new(<span class="hljs-string">"message.txt"</span>)) {
-        Some(file) =&gt; {
-            <span class="hljs-keyword">let</span> reader = BufferedReader::new(file);
-            <span class="hljs-comment">//reading from file</span>
-        }
-        None =&gt;{
-            println(<span class="hljs-string">"Opening message.txt failed!"</span>);
-        }
-    }
-</code></pre>
-<p>The <code>File::open_mode(&amp;Path, FileMode, FileAccess)</code> method allows specifying the mode in which a file is accessed. <code>FileMode</code> and <code>FileAccess</code> are <em>enumerable types</em> imported from <a href="http://static.rust-lang.org/doc/master/std/io/type.FileMode.html" target="_blank">std::io::FileMode</a> and <a href="http://static.rust-lang.org/doc/master/std/io/type.FileAccess.html" target="_blank">std::io::FileAccess</a> respectively. For example, to open a file with read and write access, positioned to append to the end of the file, the following must be included, and then called as so.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::io::{File, Append, ReadWrite};
-
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-   <span class="hljs-keyword">let</span> file = File::open_mode(&amp;Path::new(<span class="hljs-string">"message.txt"</span>), Append, ReadWrite);
-}
-</code></pre>
-<p>Like the other file methods, this returns an <code>Option</code> object that must be matched to check for opening failures.</p>
 
                     
                     </section>
@@ -408,7 +452,7 @@
         <a href="../../md/02/2.html" class="navigation navigation-prev " aria-label="Previous page: Vectors and Strings"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../../md/02/4.html" class="navigation navigation-next " aria-label="Next page: Example: Secret Sharing"><i class="fa fa-angle-right"></i></a>
+        <a href="../../md/02/4.html" class="navigation navigation-next " aria-label="Next page: Basic I/O"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
