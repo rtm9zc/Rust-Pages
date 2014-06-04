@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2" data-basepath=".." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="2" data-basepath=".." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -475,7 +475,7 @@ tut2.rs:3     println!("{:d}", *x);
 }
 </code></pre>
 <p>declares the function <code>borrow(&amp;int)</code> to take a borrowed pointer to an int.  We can call it by passing in an owned pointer:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = ~<span class="hljs-number">10</span>;
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = box <span class="hljs-number">10</span>;
     println!(<span class="hljs-string">"borrow(x): {:d}"</span>, borrow(x));
 </code></pre>
 <p>Borrowed pointers can also be loaned by the borrowee, within the lifetime of the original loan.  We can pass in an owned pointer to borrow2, which borrows that pointer and passes it as a borrowed pointer to borrow:</p>
@@ -509,7 +509,7 @@ borrowed.rs:16     increment(x);
 </code></pre>
 
 <p>To change this, we need to add <code>mut</code> to the declaration:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = ~<span class="hljs-number">10</span>;
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> x = box <span class="hljs-number">10</span>;
     increment(x);
 </code></pre>
 <p>The <code>mut</code> here applies to the reference <code>x</code> and is also inherited by the box (so no separate <code>mut</code> annotation is needed for the <code>~</code>.  It allows both the variable <code>x</code> to be reassigned, as well as the contents of the owned box to be modified:</p>

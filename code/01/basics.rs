@@ -1,4 +1,12 @@
 fn main() {
+//inline 8
+let x = 4;
+match x {
+	0 => { ; } // Do nothing
+	4 => { foo(); } 
+	_ => { bar(); } // Matches every integer value
+}
+//end 8
 //inline 1
 let foo = 5; 
 //end 1
@@ -27,18 +35,10 @@ match isOdd(foo) {
 //end 6
 //inline 7
 match isOdd(foo) {
-	true => { println!("Odd"); 0 }
-	false => { println!("Even"); 1 }
+	true => { println!("Odd"); }
+	false => { println!("Even"); }
 	}
 //end 7
-//inline 8
-let x = 4;
-match x {
-	0 => { ; } // Do nothing
-	4 => { foo(); } 
-	_ => { bar(); } // Matches every integer value
-}
-//end 8
 //inline 9
 match x {
 	3|5|6  => { println!("First arm!"); }
@@ -47,15 +47,15 @@ match x {
 	}
 //end 9
 //inline 14
-// Calls foo with 0, 1, ..., 9
+// Calls foo2 with 0, 1, ..., 9
 for i in range(0, 10) {
-	foo(i);
+	foo2(i);
 }
 //end 14
 //inline 13
 let mut i = 0;
 while i < 10 { 
-	println("Hi there");
+	println!("Hi there");
 	i += 1; // Rust doesn't support ++ or --
 }
 //end 13
@@ -65,15 +65,17 @@ fn otherAlloc() {
 let foo: int = 5;
 //end 2
 }
+fn foo2(i: int) {
 
-fn mut() {
+}
+fn mutable() {
 //inline 3
 let mut foo = 5;
 foo = 6;
 //end 3
 }
 
-fn isOdd(int: x) -> bool {
+fn isOdd(x: int) -> bool {
 	if x%2 == 0{
 		false
 	}else{
@@ -114,7 +116,7 @@ fn express(y: int, x: int) {
 let status = match y {
     0..9    =>  { "Less than 10" }
     _       =>  { "Greater than 10" }
-}
+};
 //end 16
 //inline 15
 let foo = if x == 5 {
@@ -125,29 +127,29 @@ let foo = if x == 5 {
           }
           else {
                 "neither"
-          }
+          };
 }
 //end 15
 
 
 //inline 17
 fn foobar() {
-	println("foo");
+	println!("foo");
 }
 //end 17
 
 //inline 18
-fn foo() {
-	fn bar() { println("bar"); }
-	bar();
+fn foo1() {
+	fn bar1() { println!("bar"); }
+	bar1();
 }
 //end 18
 
 //inline 19
 fn rprime_sum(x: int, y: int, m: int) {
 	match (x+y)%m {
-		0 => println("Multiple"),
-		_ => println("Relatively prime")
+		0 => println!("Multiple"),
+		_ => println!("Relatively prime")
 	}
 }
 //end 19

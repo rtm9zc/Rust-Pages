@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.7" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.7" data-basepath="../.." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -448,6 +448,7 @@ find the Collatz sequence for a given number programmatically. The below is Rust
 </code></pre>
 <p>We can use this code in the following program to find the number of Collatz steps for a user-input number:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::os;
+<span class="hljs-keyword">use</span> std::<span class="hljs-keyword">int</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
     <span class="hljs-keyword">if</span> os::args().len() &lt; <span class="hljs-number">2</span> {
@@ -455,7 +456,13 @@ find the Collatz sequence for a given number programmatically. The below is Rust
         <span class="hljs-keyword">return</span>;
     }
 
-    <span class="hljs-keyword">let</span> i = from_str::&lt;<span class="hljs-keyword">int</span>&gt;(os::args()[<span class="hljs-number">1</span>]).unwrap();
+    <span class="hljs-keyword">let</span> option = <span class="hljs-keyword">int</span>::parse_bytes(os::args().get(<span class="hljs-number">1</span>).clone().into_bytes(), <span class="hljs-number">10</span>);
+    <span class="hljs-keyword">let</span> i: <span class="hljs-keyword">int</span>;
+    <span class="hljs-keyword">match</span> option {
+    Some(x) =&gt; { i = x;}
+    None =&gt; { i = <span class="hljs-number">0</span>;}
+    }
+
     println!(<span class="hljs-string">"{:d} has {:d} Collatz steps"</span>, i, collatz(i));
 }
 

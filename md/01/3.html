@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.3" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.3" data-basepath="../.." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -433,8 +433,8 @@
 <p>A <code>match</code> statement evaluates the first branch with a matching pattern. The pattern is an expression with the same type as the object being matched. If the object has the same value as one that the pattern accepts (see below for accepting multiple values with a single match arm), then the corresponding arm will be evaluated.</p>
 <p>If we want to include more than one statement in a branch of the <code>match</code>, we have to surround the code in braces. With braces, we don&#39;t need a comma, but they&#39;re allowed.</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">match</span> isOdd(foo) {
-    <span class="hljs-keyword">true</span> =&gt; { println!(<span class="hljs-string">"Odd"</span>); <span class="hljs-number">0</span> }
-    <span class="hljs-keyword">false</span> =&gt; { println!(<span class="hljs-string">"Even"</span>); <span class="hljs-number">1</span> }
+    <span class="hljs-keyword">true</span> =&gt; { println!(<span class="hljs-string">"Odd"</span>); }
+    <span class="hljs-keyword">false</span> =&gt; { println!(<span class="hljs-string">"Even"</span>); }
     }
 </code></pre>
 <p>The compiler checks that at least one pattern of the <code>match</code> expression will always match. When a variable is matched, the patterns must completely represent the possible values the variable could hold. This is easy for booleans; there&#39;s just <code>true</code> and <code>false</code>. For other types, listing every possible value would be tedious and awful. </p>

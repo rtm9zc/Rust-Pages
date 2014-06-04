@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1" data-basepath=".." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1" data-basepath=".." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -508,8 +508,8 @@ else if are optional for validity.</p>
 <p>A <code>match</code> statement evaluates the first branch with a matching pattern. The pattern is an expression with the same type as the object being matched. If the object has the same value as one that the pattern accepts (see below for accepting multiple values with a single match arm), then the corresponding arm will be evaluated.</p>
 <p>If we want to include more than one statement in a branch of the <code>match</code>, we have to surround the code in braces. With braces, we don&#39;t need a comma, but they&#39;re allowed.</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">match</span> isOdd(foo) {
-    <span class="hljs-keyword">true</span> =&gt; { println!(<span class="hljs-string">"Odd"</span>); <span class="hljs-number">0</span> }
-    <span class="hljs-keyword">false</span> =&gt; { println!(<span class="hljs-string">"Even"</span>); <span class="hljs-number">1</span> }
+    <span class="hljs-keyword">true</span> =&gt; { println!(<span class="hljs-string">"Odd"</span>); }
+    <span class="hljs-keyword">false</span> =&gt; { println!(<span class="hljs-string">"Even"</span>); }
     }
 </code></pre>
 <p>The compiler checks that at least one pattern of the <code>match</code> expression will always match. When a variable is matched, the patterns must completely represent the possible values the variable could hold. This is easy for booleans; there&#39;s just <code>true</code> and <code>false</code>. For other types, listing every possible value would be tedious and awful. </p>
@@ -577,7 +577,7 @@ Put your code inside a block of this form, and run &quot;rustc <filename>&quot; 
 <p>Like most other languages, a <code>while</code> loop iterates until its condition is false. Its condition must be of type bool.</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> i = <span class="hljs-number">0</span>;
 <span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">10</span> { 
-    println(<span class="hljs-string">"Hi there"</span>);
+    println!(<span class="hljs-string">"Hi there"</span>);
     i += <span class="hljs-number">1</span>; <span class="hljs-comment">// Rust doesn't support ++ or --</span>
 }
 </code></pre>
@@ -589,9 +589,9 @@ Put your code inside a block of this form, and run &quot;rustc <filename>&quot; 
 <h3 id="for-loops">For Loops</h3>
 <p>Rust’s for loop is more akin to Java’s for-each loop than to a traditional for loop. It uses an iterator to loop over the items in a variable. Since we haven’t covered vectors, for now it’s enough to know that we can achieve a traditional for loop by using 
 <code>range(start, end)</code>, which creates a set of integers, <code>[start, end)</code>.</p>
-<pre><code class="lang-rust"><span class="hljs-comment">// Calls foo with 0, 1, ..., 9</span>
+<pre><code class="lang-rust"><span class="hljs-comment">// Calls foo2 with 0, 1, ..., 9</span>
 <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>) {
-    foo(i);
+    foo2(i);
 }
 </code></pre>
 <h2 id="expressions">Expressions</h2>
@@ -605,7 +605,7 @@ Put your code inside a block of this form, and run &quot;rustc <filename>&quot; 
           }
           <span class="hljs-keyword">else</span> {
                 <span class="hljs-string">"neither"</span>
-          }
+          };
 }
 </code></pre>
 <p>The same can be done with pattern matching, as, again, the block will have the value of its
@@ -613,7 +613,7 @@ last expression:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">let</span> status = <span class="hljs-keyword">match</span> y {
     <span class="hljs-number">0</span>..<span class="hljs-number">9</span>    =&gt;  { <span class="hljs-string">"Less than 10"</span> }
     <span class="hljs-number">_</span>       =&gt;  { <span class="hljs-string">"Greater than 10"</span> }
-}
+};
 </code></pre>
 <h2 id="functions">Functions</h2>
 <h3 id="definition-and-invocation-">Definition and Invocation:</h3>
@@ -625,14 +625,14 @@ anything:</p>
 </code></pre>
 <p>And here is an example:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foobar</span>(</span>) {
-    println(<span class="hljs-string">"foo"</span>);
+    println!(<span class="hljs-string">"foo"</span>);
 }
 </code></pre>
 <p>As expected, this function can be called with <code>foo()</code>. </p>
 <p>Functions can be declared inside other functions. This means that the following is valid Rust:</p>
-<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span>(</span>) {
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bar</span>(</span>) { println(<span class="hljs-string">"bar"</span>); }
-    bar();
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo1</span>(</span>) {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bar1</span>(</span>) { println!(<span class="hljs-string">"bar"</span>); }
+    bar1();
 }
 </code></pre>
 <h3 id="parameters-and-return-values-">Parameters and Return Values:</h3>
@@ -640,8 +640,8 @@ anything:</p>
 the same syntax that specifies a type during variable declaration, <code>name :type</code>.</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rprime_sum</span>(</span>x: <span class="hljs-keyword">int</span>, y: <span class="hljs-keyword">int</span>, m: <span class="hljs-keyword">int</span>) {
     <span class="hljs-keyword">match</span> (x+y)%m {
-        <span class="hljs-number">0</span> =&gt; println(<span class="hljs-string">"Multiple"</span>),
-        <span class="hljs-number">_</span> =&gt; println(<span class="hljs-string">"Relatively prime"</span>)
+        <span class="hljs-number">0</span> =&gt; println!(<span class="hljs-string">"Multiple"</span>),
+        <span class="hljs-number">_</span> =&gt; println!(<span class="hljs-string">"Relatively prime"</span>)
     }
 }
 </code></pre>
@@ -678,6 +678,7 @@ find the Collatz sequence for a given number programmatically. The below is Rust
 </code></pre>
 <p>We can use this code in the following program to find the number of Collatz steps for a user-input number:</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::os;
+<span class="hljs-keyword">use</span> std::<span class="hljs-keyword">int</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
     <span class="hljs-keyword">if</span> os::args().len() &lt; <span class="hljs-number">2</span> {
@@ -685,7 +686,13 @@ find the Collatz sequence for a given number programmatically. The below is Rust
         <span class="hljs-keyword">return</span>;
     }
 
-    <span class="hljs-keyword">let</span> i = from_str::&lt;<span class="hljs-keyword">int</span>&gt;(os::args()[<span class="hljs-number">1</span>]).unwrap();
+    <span class="hljs-keyword">let</span> option = <span class="hljs-keyword">int</span>::parse_bytes(os::args().get(<span class="hljs-number">1</span>).clone().into_bytes(), <span class="hljs-number">10</span>);
+    <span class="hljs-keyword">let</span> i: <span class="hljs-keyword">int</span>;
+    <span class="hljs-keyword">match</span> option {
+    Some(x) =&gt; { i = x;}
+    None =&gt; { i = <span class="hljs-number">0</span>;}
+    }
+
     println!(<span class="hljs-string">"{:d} has {:d} Collatz steps"</span>, i, collatz(i));
 }
 

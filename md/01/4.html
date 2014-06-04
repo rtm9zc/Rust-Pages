@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.4" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.4" data-basepath="../.." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -436,7 +436,7 @@
 <p>Like most other languages, a <code>while</code> loop iterates until its condition is false. Its condition must be of type bool.</p>
 <pre><code class="lang-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> i = <span class="hljs-number">0</span>;
 <span class="hljs-keyword">while</span> i &lt; <span class="hljs-number">10</span> { 
-    println(<span class="hljs-string">"Hi there"</span>);
+    println!(<span class="hljs-string">"Hi there"</span>);
     i += <span class="hljs-number">1</span>; <span class="hljs-comment">// Rust doesn't support ++ or --</span>
 }
 </code></pre>
@@ -448,9 +448,9 @@
 <h3 id="for-loops">For Loops</h3>
 <p>Rust’s for loop is more akin to Java’s for-each loop than to a traditional for loop. It uses an iterator to loop over the items in a variable. Since we haven’t covered vectors, for now it’s enough to know that we can achieve a traditional for loop by using 
 <code>range(start, end)</code>, which creates a set of integers, <code>[start, end)</code>.</p>
-<pre><code class="lang-rust"><span class="hljs-comment">// Calls foo with 0, 1, ..., 9</span>
+<pre><code class="lang-rust"><span class="hljs-comment">// Calls foo2 with 0, 1, ..., 9</span>
 <span class="hljs-keyword">for</span> i in range(<span class="hljs-number">0</span>, <span class="hljs-number">10</span>) {
-    foo(i);
+    foo2(i);
 }
 </code></pre>
 

@@ -1,6 +1,8 @@
+extern crate rand;
+
 use std::io::buffered::BufferedReader;
 use std::io::{stdin,File};
-use std::rand::random;
+use rand::XorShiftRng;
 
 fn main(){
 	let mut stdin = BufferedReader::new(stdin());

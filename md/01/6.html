@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.6" data-basepath="../.." data-revision="1401726962514">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="1.6" data-basepath="../.." data-revision="1401901919866">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -433,14 +433,14 @@ anything:</p>
 </code></pre>
 <p>And here is an example:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foobar</span>(</span>) {
-    println(<span class="hljs-string">"foo"</span>);
+    println!(<span class="hljs-string">"foo"</span>);
 }
 </code></pre>
 <p>As expected, this function can be called with <code>foo()</code>. </p>
 <p>Functions can be declared inside other functions. This means that the following is valid Rust:</p>
-<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo</span>(</span>) {
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bar</span>(</span>) { println(<span class="hljs-string">"bar"</span>); }
-    bar();
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">foo1</span>(</span>) {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">bar1</span>(</span>) { println!(<span class="hljs-string">"bar"</span>); }
+    bar1();
 }
 </code></pre>
 <h3 id="parameters-and-return-values-">Parameters and Return Values:</h3>
@@ -448,8 +448,8 @@ anything:</p>
 the same syntax that specifies a type during variable declaration, <code>name :type</code>.</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">rprime_sum</span>(</span>x: <span class="hljs-keyword">int</span>, y: <span class="hljs-keyword">int</span>, m: <span class="hljs-keyword">int</span>) {
     <span class="hljs-keyword">match</span> (x+y)%m {
-        <span class="hljs-number">0</span> =&gt; println(<span class="hljs-string">"Multiple"</span>),
-        <span class="hljs-number">_</span> =&gt; println(<span class="hljs-string">"Relatively prime"</span>)
+        <span class="hljs-number">0</span> =&gt; println!(<span class="hljs-string">"Multiple"</span>),
+        <span class="hljs-number">_</span> =&gt; println!(<span class="hljs-string">"Relatively prime"</span>)
     }
 }
 </code></pre>

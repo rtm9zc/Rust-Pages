@@ -18,13 +18,13 @@ fn increment(r : &mut int) {
 
 fn incrementExample() {
 //inline 5
-    let mut x = ~10;
+    let mut x = box 10;
     increment(x);
 //end 5
 }
 fn main() {
 //inline 2
-    let mut x = ~10;
+    let mut x = box 10;
     println!("borrow(x): {:d}", borrow(x));
 //end 2
     increment(x);
@@ -35,7 +35,7 @@ fn main() {
 //inline 6
     let mut borrowed = &mut val1;
 //end 6
-    borrowed = &val2;
+    borrowed = &mut val2;
     *borrowed = 11;
 }
 

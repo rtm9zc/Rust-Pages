@@ -1,5 +1,6 @@
 //inline 2
 use std::os;
+use std::int;
 
 fn main() {
 //inline 3
@@ -9,7 +10,13 @@ fn main() {
 	}
 //end 3
 
-	let i = from_str::<int>(os::args()[1]).unwrap();
+	let option = int::parse_bytes(os::args().get(1).clone().into_bytes(), 10);
+	let i: int;
+	match option {
+	Some(x) => { i = x;}
+	None => { i = 0;}
+	}
+	
 	println!("{:d} has {:d} Collatz steps", i, collatz(i));
 }
 
