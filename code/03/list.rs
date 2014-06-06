@@ -1,6 +1,6 @@
 //inline 1
 #[deriving(Clone, Eq)]
-type LinkedList = Option<~Node>;
+type LinkedList = Option<Box<Node>>;
 
 #[deriving(Clone)]
 struct Node {
@@ -35,14 +35,14 @@ impl Length for LinkedList {
 fn construct_list(n: int, x: int) -> LinkedList {
     match n {
         0 => { None }
-        _ => { Some(~Node{val: x, tail: construct_list(n - 1, x + 1)}) }
+        _ => { Some(box Node{val: x, tail: construct_list(n - 1, x + 1)}) }
     }
 }
 //end 2
-fn print_list(p: LinkedList) -> ~str {
+fn print_list(p: LinkedList) -> String {
     match p {
-        None => { ~"" }
-        Some(node) => { node.val.to_str() + ", " + print_list(node.tail) }
+        None => { "".to_string() }
+        Some(node) => { node.val.to_str().append(",").append(print_list(node.tail).as_slice())}
     }
 }
 //inline 5
@@ -71,6 +71,6 @@ fn main() {
     let mut l10 : LinkedList = construct_list(5, 10);
     l10.mapr(inc);
     l10.mapr(double);
-    println!("List: {:s}", print_list(l10.clone()));
+    println!("List: {}", print_list(l10.clone()));
 }
 //end 7

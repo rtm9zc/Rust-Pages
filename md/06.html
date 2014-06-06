@@ -40,7 +40,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="6" data-basepath=".." data-revision="1402070953793">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="6" data-basepath=".." data-revision="1402080426539">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -600,11 +600,9 @@ go count some words!</p>
 </code></pre>
 <p>Since we&#39;re using some simple input in this example, we&#39;re only splitting the string by a single space instead of handling punctuation or bigger spaces. Then for each &quot;word&quot; created by our split, we push a pair of <code>(&quot;word&quot;, 1)</code> into our return values vector. When our <code>reduce</code> function gets called, every <code>(&quot;word&quot;, 1)</code> pair has been aggregated into a <code>&quot;word&quot; : [1, 1, ..]</code> mapping, so all <code>reduce_pairs</code> has to do is sum up the 1&#39;s and hand back a list with a single pair of <code>(&quot;word&quot;, total)</code>!</p>
 <p>Let&#39;s put it all together and check out the output.</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">extern</span> crate collections;
-
-<span class="hljs-keyword">use</span> std::fmt::Show; 
+<pre><code class="lang-rust"><span class="hljs-keyword">use</span> std::fmt::Show; 
 <span class="hljs-keyword">use</span> std::hash::Hash;
-<span class="hljs-keyword">use</span> collections::HashMap;
+<span class="hljs-keyword">use</span> std::collections::hashmap::HashMap;
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
 

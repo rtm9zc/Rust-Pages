@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3" data-basepath=".." data-revision="1402070953793">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3" data-basepath=".." data-revision="1402080426539">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -462,7 +462,7 @@
 <p>The following code defines a <code>Node</code> for a linked list. The field <code>val</code> is an integer, and the <code>tail</code> field is either a pointer to the next <code>Node</code>, or <code>None</code> for the last <code>Node</code> in the list. </p>
 <pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Node {
     val: <span class="hljs-keyword">int</span>,
-    tail: Option&lt;~Node&gt;
+    tail: Option&lt;Box&lt;Node&gt;&gt;
 }
 </code></pre>
 <p>The <code>tail</code> is an <code>Option&lt;~Node&gt;</code>, so it either points to an owned <code>Node</code>, or is <code>None</code> (an empty LinkedList).</p>
@@ -470,7 +470,7 @@
 <p>A useful utility of Rust is the <code>defining</code> attribute. This is defined by the syntax <code>#[defining(Foo, Bar)]</code>, where Foo and Bar are valid <em>Traits</em>. There is a list of valid traits for the <code>defining</code> attribute on the <a href="http://static.rust-lang.org/doc/master/rust.html#deriving" target="_blank">official Rust reference section for the defining attribute</a>. Looking up any of these traits on the <a href="http://static.rust-lang.org/doc/master/std/index.html" target="_blank">Rust documentation</a> shows which methods are provided by each of these traits.</p>
 <p>In the following example, we define the <code>LinkedList</code> type using: <code>type</code> keyword. It also pre-generates a <code>clone()</code> method and checks for equality (the <code>eq(&amp;self, other: &amp;LinkedList)</code> and <code>ne(&amp;self, other: &amp;LinkedList)</code> methods) for the <code>LinkedList</code>, as well as a <code>clone()</code> method for the <code>Node</code>.</p>
 <pre><code class="lang-rust"><span class="hljs-preprocessor">#[deriving(Clone, Eq)]</span>
-<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;~Node&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;Box&lt;Node&gt;&gt;;
 
 <span class="hljs-preprocessor">#[deriving(Clone)]</span>
 <span class="hljs-keyword">struct</span> Node {
@@ -535,9 +535,10 @@ also include implementations of methods.</p>
 functions that create and return new functions as their output. Higher-order functions provide a lot of power for concisely and very generally describe computations. By the end of this section, you&#39;ll be able to write a single function that can do all of the things in the previous set of exercises!</p>
 <h3 id="functions-as-parameters">Functions as Parameters</h3>
 <p>A parameter can have function type, just like any other type.  The type of a function includes the types of its inputs and the type of its output.</p>
-<p>For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, <code>|arg1, arg2, ...| -&gt; result</code> (with vertical bars around a list of parameter types) specifies a function that takes the <code>argn</code> types as inputs and returns a value of type <code>result</code>.</p>
+<p>For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, <code>|arg1, arg2, ...| -&gt; result</code> (with vertical bars around a list of parameter types) specifies a function that takes the <code>argn</code> types as inputs and returns a value of type <code>result</code>. </p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">twice</span>(</span>n: <span class="hljs-keyword">int</span>, f: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
-    f(f(n))
+    <span class="hljs-keyword">let</span> x = f(n);
+    f(x)
 }
 </code></pre>
 <p>Here&#39;s an example using <code>twice(int, fn())</code>:</p>
@@ -550,20 +551,30 @@ functions that create and return new functions as their output. Higher-order fun
 }
 </code></pre>
 <p>The result is (((1 + 1) + 1) <em> 2) </em> 2 = 12.</p>
-<h3 id="functions-as-results">Functions as Results</h3>
-<p>It would be a lot more useful if <code>twice</code> didn&#39;t take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> square = twice(double);
+<p>A quick note about using a function as an input: the most obvious implementation of the twice function would probably be <code>f(f(x))</code>, however this produces the following compiler error:</p>
+<pre><code>twice.rs:4:7: 4:8 <span style = "color:red;">error:</span> closure requires unique access to `f` but it is already borrowed
+twice.rs:4     f(f(n))
 </code></pre>
-<p>to define a squaring function.  </p>
-<p>We can do this by defining a function that returns a function:</p>
-<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">twice</span>(</span>f: proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) -&gt; (proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
-    proc(n: <span class="hljs-keyword">int</span>) { f(f(n)) }
+
+<p>Much like how boxed values can only be referenced from one place, a function requires a reference for each time it is called, and does not support multiple instances of calling a function in the same line. This can be circumvented by either storing the function&#39;s result (as seen in the <code>twice</code> example code) or having multiple functions passed in. The below code works as anticipated, with no compiler errors.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fofg</span>(</span>n: <span class="hljs-keyword">int</span>, f: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>, g: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>  {
+    f(g(n))
 }
 </code></pre>
-<p>Now, <code>twice</code> is a function that take a function as its input (we use <code>proc(int) -&gt; int</code> here to describe the input function, and need to use <code>proc(int) -&gt; int</code> instead of <code>|int| -&gt; int</code> because of Rust&#39;s lifetime rules, and with the way we defined this, we can only use the returned function once.)  </p>
-<p>We can now use <code>twice</code> as in this example:</p>
-<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> hexaple = twice(twice(double));
-    println!(<span class="hljs-string">"Result: {:d}"</span>, hexaple(<span class="hljs-number">2</span>));
+<h3 id="functions-as-results">Functions as Results</h3>
+<p>It would be a lot more useful if <code>fofg</code> didn&#39;t take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> tothefourth = fofg(square, square);
+</code></pre>
+<p>to define a power to the fourth function.  </p>
+<p>We can do this by defining a function that returns a function:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fofg</span>(</span>f: proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>, g:proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) -&gt; (proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
+    proc(n: <span class="hljs-keyword">int</span>) { g(f(n)) }
+}
+</code></pre>
+<p>Now, <code>fofg</code> is a function that takes two functions as its input (we use <code>proc(int) -&gt; int</code> here to describe the input functions, and need to use <code>proc(int) -&gt; int</code> instead of <code>|int| -&gt; int</code> because of Rust&#39;s lifetime rules, and with the way we defined this, we can only use the returned function once.)  </p>
+<p>We can now use <code>fofg</code> as in this example:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> toEighth = fofg(fofg(square, square), fofg(square, square));
+    println!(<span class="hljs-string">"Result: {:d}"</span>, toEighth(<span class="hljs-number">2</span>));
 </code></pre>
 <blockquote>
 <p><strong>Exercise 3.3.</strong>  Define a <code>compose</code> function that takes as inputs two functions and outputs a function that composes the two input functions.  Both of the input functions and the returned function should have type <code>proc(int) -&gt; int</code>. You should be able to use your <code>compose</code> function to define <code>let sixthpower = compose(cube, square)</code> where <code>cube</code> and <code>square</code> are functions that compute the cube and square of an int input respectively.</p>
@@ -597,7 +608,7 @@ functions that create and return new functions as their output. Higher-order fun
     <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> l10 : LinkedList = construct_list(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
     l10.mapr(inc);
     l10.mapr(double);
-    println!(<span class="hljs-string">"List: {:s}"</span>, print_list(l10.clone()));
+    println!(<span class="hljs-string">"List: {}"</span>, print_list(l10.clone()));
 }
 </code></pre>
 <blockquote>

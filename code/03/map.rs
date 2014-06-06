@@ -1,22 +1,24 @@
+use std::comm::channel;
+
 //inline 1
 struct Node {
     val: int,
-    tail: Option<~Node>
+    tail: Option<Box<Node>>
 }
 //end 1
 
-type List = Option<~Node>;
+type List = Option<Box<Node>>;
 
 fn test_list(n: int, x: int) -> List {
     if n == 0 {
         None
     } else {
-        Some(~Node{val: x, tail: test_list(n - 1, x + 1)})
+        Some(box Node{val: x, tail: test_list(n - 1, x + 1)} )
     }
 }
 //inline 3
 trait Map {
-    fn mapr(&self, extern fn(int) -> int) -> List;
+    fn mapr(&self, fn(int) -> int) -> List;
 }
 //end 3
 impl Map for List {
@@ -24,15 +26,15 @@ impl Map for List {
          match(*self) {
             None => None,
             Some(ref current) => { 
-                let (port, chan) : (Port<int>, Chan<int>) = Chan::new();
+                let (port, chan) = channel();
                 let currentval = current.val;
-                do spawn {
+                spawn(proc() {
                     let result = f(currentval);
-                    chan.send(result);
-                }
+                    port.send(result);
+                });
                 let newtail = current.tail.mapr(f);
-                let newval = port.recv();
-                Some(~Node{ val: newval, tail: newtail }) },
+                let newval = chan.recv();
+                Some(box Node{ val: newval, tail: newtail }) },
         } 
     } 
 }

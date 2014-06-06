@@ -1,9 +1,7 @@
 //inline 7
-extern crate collections;
-
 use std::fmt::Show; 
 use std::hash::Hash;
-use collections::HashMap;
+use std::collections::hashmap::HashMap;
 
 fn main() {
 	

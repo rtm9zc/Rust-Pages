@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.1" data-basepath="../.." data-revision="1402070953793">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.1" data-basepath="../.." data-revision="1402080426539">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -459,7 +459,7 @@
 <p>The following code defines a <code>Node</code> for a linked list. The field <code>val</code> is an integer, and the <code>tail</code> field is either a pointer to the next <code>Node</code>, or <code>None</code> for the last <code>Node</code> in the list. </p>
 <pre><code class="lang-rust"><span class="hljs-keyword">struct</span> Node {
     val: <span class="hljs-keyword">int</span>,
-    tail: Option&lt;~Node&gt;
+    tail: Option&lt;Box&lt;Node&gt;&gt;
 }
 </code></pre>
 <p>The <code>tail</code> is an <code>Option&lt;~Node&gt;</code>, so it either points to an owned <code>Node</code>, or is <code>None</code> (an empty LinkedList).</p>
@@ -467,7 +467,7 @@
 <p>A useful utility of Rust is the <code>defining</code> attribute. This is defined by the syntax <code>#[defining(Foo, Bar)]</code>, where Foo and Bar are valid <em>Traits</em>. There is a list of valid traits for the <code>defining</code> attribute on the <a href="http://static.rust-lang.org/doc/master/rust.html#deriving" target="_blank">official Rust reference section for the defining attribute</a>. Looking up any of these traits on the <a href="http://static.rust-lang.org/doc/master/std/index.html" target="_blank">Rust documentation</a> shows which methods are provided by each of these traits.</p>
 <p>In the following example, we define the <code>LinkedList</code> type using: <code>type</code> keyword. It also pre-generates a <code>clone()</code> method and checks for equality (the <code>eq(&amp;self, other: &amp;LinkedList)</code> and <code>ne(&amp;self, other: &amp;LinkedList)</code> methods) for the <code>LinkedList</code>, as well as a <code>clone()</code> method for the <code>Node</code>.</p>
 <pre><code class="lang-rust"><span class="hljs-preprocessor">#[deriving(Clone, Eq)]</span>
-<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;~Node&gt;;
+<span class="hljs-keyword">type</span> <span class="hljs-title">LinkedList</span> = Option&lt;Box&lt;Node&gt;&gt;;
 
 <span class="hljs-preprocessor">#[deriving(Clone)]</span>
 <span class="hljs-keyword">struct</span> Node {

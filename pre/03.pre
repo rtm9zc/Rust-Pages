@@ -103,7 +103,7 @@ functions that create and return new functions as their output. Higher-order fun
 
 A parameter can have function type, just like any other type.  The type of a function includes the types of its inputs and the type of its output.
 
-For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, `|arg1, arg2, ...| -> result` (with vertical bars around a list of parameter types) specifies a function that takes the `argn` types as inputs and returns a value of type `result`.
+For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, `|arg1, arg2, ...| -> result` (with vertical bars around a list of parameter types) specifies a function that takes the `argn` types as inputs and returns a value of type `result`. 
 
 //inline 03/twice.rs 1
 
@@ -113,23 +113,33 @@ Here's an example using `twice(int, fn())`:
 
 The result is (((1 + 1) + 1) * 2) * 2 = 12.
 
+A quick note about using a function as an input: the most obvious implementation of the twice function would probably be `f(f(x))`, however this produces the following compiler error:
+
+<pre><code>twice.rs:4:7: 4:8 <span style = "color:red;">error:</span> closure requires unique access to `f` but it is already borrowed
+twice.rs:4     f(f(n))
+</code></pre>
+
+Much like how boxed values can only be referenced from one place, a function requires a reference for each time it is called, and does not support multiple instances of calling a function in the same line. This can be circumvented by either storing the function's result (as seen in the `twice` example code) or having multiple functions passed in. The below code works as anticipated, with no compiler errors.
+
+//inline 03/twice.rs 3
+
 ### Functions as Results
 
-It would be a lot more useful if `twice` didn't take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:
+It would be a lot more useful if `fofg` didn't take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:
 
 ```rust
-    let square = twice(double);
+    let tothefourth = fofg(square, square);
 ```
 
-to define a squaring function.  
+to define a power to the fourth function.  
 
 We can do this by defining a function that returns a function:
 
 //inline 03/btwixt.rs 1
 
-Now, `twice` is a function that take a function as its input (we use `proc(int) -> int` here to describe the input function, and need to use `proc(int) -> int` instead of `|int| -> int` because of Rust's lifetime rules, and with the way we defined this, we can only use the returned function once.)  
+Now, `fofg` is a function that takes two functions as its input (we use `proc(int) -> int` here to describe the input functions, and need to use `proc(int) -> int` instead of `|int| -> int` because of Rust's lifetime rules, and with the way we defined this, we can only use the returned function once.)  
 
-We can now use `twice` as in this example:
+We can now use `fofg` as in this example:
 
 //inline 03/btwixt.rs 2
 
