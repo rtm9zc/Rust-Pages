@@ -22,5 +22,7 @@
 * [Tasks and Communication](md/04.md)
     * [Task Properties](md/04/1.md)
     * [Example: Multi-Tasking Map](md/04/2.md)
-* [Arcs and Sharing Memory](md/05.md)
+* [Concurrency Across Tasks: Arcs and Mutexes](md/05.md)
     * [The Arc Module](md/05/1.md)
+    * [Using a Mutex](md/05/2.md)
+* [Bringing It Together: MapReduce in Rust](md/06.md)

@@ -1,5 +1,5 @@
-extern mod extra;
-use extra::arc::Arc;
+extern crate sync;
+use sync::Arc;
 
 fn main() {
 //inline 1
@@ -8,11 +8,9 @@ fn main() {
     let numArc = Arc::new(nums);
 
     for i in range(0, nums.len()) {
-        let (port, chan)  = Chan::new();
-        chan.send(numArc.clone());
+        let taskArc = numArc.clone();
         spawn(proc() {
-            let taskArc = port.recv();
-            let taskNums = taskArc.get();
+            let taskNums = *taskArc;
             println!("{:d}", taskNums[i]);
         });
     }

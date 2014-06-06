@@ -1,26 +1,27 @@
 //inline 1
-extern mod extra;
-use extra::arc::RWArc;
+extern crate sync;
+use sync::{Mutex, Arc};
 
 fn main() {
     let num = 0;
-    let numArc = RWArc::new(num);
-
-    for i in range(0, 50000) {
-        let (port, chan)  = Chan::new();
-        chan.send(numArc.clone());
-        spawn(proc() {
-            let taskArc = port.recv();
-            let mut newNum = 0;
-            taskArc.write(|taskNum| {
-                *taskNum += 1;
-                newNum = *taskNum;
-            });
+    let numArc = Arc::new(Mutex::new(num));
+    for i in range(0, 5000) { 
+        let locArc = numArc.clone();
+        spawn(proc() {   
+//inline 2
+            let newNum;  
+            {
+                let mut value = locArc.lock();
+                *value += 1;
+                newNum = *value;
+            }
+//end 2
             let collatzN = collatz(newNum);
             println!("Collatz of {:d} = {:d}", newNum, collatzN);
         });
     }
 }
+//end 1
 fn collatz(N: int) -> int {
     let mut nLoc = N;
     let mut out = 0;
@@ -33,4 +34,3 @@ fn collatz(N: int) -> int {
     }
     return out;
 }
-//end 1

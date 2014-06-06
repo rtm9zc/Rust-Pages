@@ -1,0 +1,774 @@
+<!DOCTYPE HTML>
+<html lang="en-US" manifest="../manifest.appcache">
+    <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
+        
+        <meta charset="UTF-8">
+        <title>Bringing It Together: MapReduce in Rust | Rust to MapReduce</title>
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="rtm9zc">
+        <meta name="description" content="RustLogoWelcome to Rust to MapReduce!">
+        <meta name="keywords" content="gitbook,github" >
+        <meta name="generator" content="www.gitbook.io">
+
+        
+        
+        <link rel="prev" href="../md/05/2.html" />
+        
+
+        <meta property="og:title" content="Bringing It Together: MapReduce in Rust | Rust to MapReduce">
+        <meta property="og:site_name" content="Rust to MapReduce">
+        <meta property="og:type" content="book">
+        <meta property="og:locale" content="en_US">
+
+        <meta property="book:author" content="https://github.com/rtm9zc">
+        <meta property="book:tag" content="GitBook">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    </head>
+    <body>
+        
+
+        <link rel="stylesheet" href="../gitbook/style.css">
+        
+
+
+        
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="6" data-basepath=".." data-revision="1402070953793">
+    <div class="book-header">
+    <!-- Actions Left -->
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages" target="_blank" class="btn pull-left home-bookmark" aria-label="GitHub home"><i class="fa fa-bookmark-o"></i></a>
+    
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    <span id="font-settings-wrapper">
+        <a href="#" class="btn pull-left toggle-font-settings" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="btn-group btn-block">
+        <button id="reduce-font-size" class="btn btn-default">A</button>
+        <button id="enlarge-font-size" class="btn btn-default">A</button>
+    </div>
+
+    <ul class="list-group font-family-list">
+        <li class="list-group-item" data-font="0">Serif</li>
+        <li class="list-group-item" data-font="1">Sans</li>
+    </ul>
+
+    <div class="btn-group btn-group-xs btn-block color-theme-list">
+        <button type="button" class="btn btn-default" id="color-theme-preview-0" data-theme="0">White</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-1" data-theme="1">Sepia</button>
+        <button type="button" class="btn btn-default" id="color-theme-preview-2" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </span>
+
+    <!-- Actions Right -->
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+
+    
+    <a href="https://github.com/rtm9zc/Rust-Pages/stargazers" target="_blank" class="btn pull-right count-star hidden-xs"><i class="fa fa-star-o"></i> Star (<span>-</span>)</a>
+    <a href="https://github.com/rtm9zc/Rust-Pages/watchers" target="_blank" class="btn pull-right count-watch hidden-xs"><i class="fa fa-eye"></i> Watch (<span>-</span>)</a>
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-spinner fa-spin"></i>
+        <a href="../" >Rust to MapReduce</a>
+    </h1>
+</div>
+
+    <div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        <li>
+            <a href="https://github.com/rtm9zc" target="blank" class="author-link">About the author</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/issues" target="blank"class="issues-link">Questions and Issues</a>
+        </li>
+        
+
+        
+        <li>
+            <a href="https://github.com/rtm9zc/Rust-Pages/edit/master/md/06.md" target="blank" class="contribute-link">Edit and Contribute</a>
+        </li>
+        
+
+        
+
+        <li data-level="0" data-path="index.html">
+            <a href="../"><i class="fa fa-check"></i> Introduction</a>
+        </li>
+        
+            <li class="chapter " data-level="1" data-path="md/01.html">
+                
+                <a href="../md/01.html">
+                    <i class="fa fa-check"></i> <b>1.</b> Getting Started: Variables, Functions, and Syntax
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="1.1" data-path="md/01/1.html">
+                            
+                            <a href="../md/01/1.html">
+                                <i class="fa fa-check"></i> <b>1.1.</b> Variables
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.2" data-path="md/01/2.html">
+                            
+                            <a href="../md/01/2.html">
+                                <i class="fa fa-check"></i> <b>1.2.</b> Conditionals
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.3" data-path="md/01/3.html">
+                            
+                            <a href="../md/01/3.html">
+                                <i class="fa fa-check"></i> <b>1.3.</b> Pattern Matching
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.4" data-path="md/01/4.html">
+                            
+                            <a href="../md/01/4.html">
+                                <i class="fa fa-check"></i> <b>1.4.</b> Looping
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.5" data-path="md/01/5.html">
+                            
+                            <a href="../md/01/5.html">
+                                <i class="fa fa-check"></i> <b>1.5.</b> Expressions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.6" data-path="md/01/6.html">
+                            
+                            <a href="../md/01/6.html">
+                                <i class="fa fa-check"></i> <b>1.6.</b> Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="1.7" data-path="md/01/7.html">
+                            
+                            <a href="../md/01/7.html">
+                                <i class="fa fa-check"></i> <b>1.7.</b> Program 1: Collatz
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="2" data-path="md/02.html">
+                
+                <a href="../md/02.html">
+                    <i class="fa fa-check"></i> <b>2.</b> Starting to Corrode: Pointers, Memory, Strings, and I/O
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="2.1" data-path="md/02/1.html">
+                            
+                            <a href="../md/02/1.html">
+                                <i class="fa fa-check"></i> <b>2.1.</b> Memory Management and Pointers
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.2" data-path="md/02/2.html">
+                            
+                            <a href="../md/02/2.html">
+                                <i class="fa fa-check"></i> <b>2.2.</b> Vectors and Strings
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.3" data-path="md/02/3.html">
+                            
+                            <a href="../md/02/3.html">
+                                <i class="fa fa-check"></i> <b>2.3.</b> Error Handling
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.4" data-path="md/02/4.html">
+                            
+                            <a href="../md/02/4.html">
+                                <i class="fa fa-check"></i> <b>2.4.</b> Basic I/O
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="2.5" data-path="md/02/5.html">
+                            
+                            <a href="../md/02/5.html">
+                                <i class="fa fa-check"></i> <b>2.5.</b> Example: Secret Sharing
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="3" data-path="md/03.html">
+                
+                <a href="../md/03.html">
+                    <i class="fa fa-check"></i> <b>3.</b> Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="3.1" data-path="md/03/1.html">
+                            
+                            <a href="../md/03/1.html">
+                                <i class="fa fa-check"></i> <b>3.1.</b> Structures
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.2" data-path="md/03/2.html">
+                            
+                            <a href="../md/03/2.html">
+                                <i class="fa fa-check"></i> <b>3.2.</b> Traits
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.3" data-path="md/03/3.html">
+                            
+                            <a href="../md/03/3.html">
+                                <i class="fa fa-check"></i> <b>3.3.</b> Higher-Order Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.4" data-path="md/03/4.html">
+                            
+                            <a href="../md/03/4.html">
+                                <i class="fa fa-check"></i> <b>3.4.</b> Example: Mapping a List
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="4" data-path="md/04.html">
+                
+                <a href="../md/04.html">
+                    <i class="fa fa-check"></i> <b>4.</b> Tasks and Communication
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="4.1" data-path="md/04/1.html">
+                            
+                            <a href="../md/04/1.html">
+                                <i class="fa fa-check"></i> <b>4.1.</b> Task Properties
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="4.2" data-path="md/04/2.html">
+                            
+                            <a href="../md/04/2.html">
+                                <i class="fa fa-check"></i> <b>4.2.</b> Example: Multi-Tasking Map
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="5" data-path="md/05.html">
+                
+                <a href="../md/05.html">
+                    <i class="fa fa-check"></i> <b>5.</b> Concurrency Across Tasks: Arcs and Mutexes
+                </a>
+                
+                
+                <ul class="articles">
+                    
+                        <li  data-level="5.1" data-path="md/05/1.html">
+                            
+                            <a href="../md/05/1.html">
+                                <i class="fa fa-check"></i> <b>5.1.</b> The Arc Module
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="5.2" data-path="md/05/2.html">
+                            
+                            <a href="../md/05/2.html">
+                                <i class="fa fa-check"></i> <b>5.2.</b> Using a Mutex
+                            </a>
+                            
+                        </li>
+                    
+                </ul>
+                
+            </li>
+        
+            <li class="chapter " data-level="6" data-path="md/06.html">
+                
+                <a href="../md/06.html">
+                    <i class="fa fa-check"></i> <b>6.</b> Bringing It Together: MapReduce in Rust
+                </a>
+                
+                
+            </li>
+        
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Generated using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="page-wrapper" tabindex="-1">
+                <div class="book-progress">
+    <div class="bar">
+        <div class="inner" style="width: 100%;min-width: 96.15384615384616%;"></div>
+    </div>
+    <div class="chapters">
+    
+        <a href="../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
+    
+        <a href="../md/01.html" title="Getting Started: Variables, Functions, and Syntax" class="chapter done new-chapter" data-progress="1" style="left: 3.8461538461538463%;"></a>
+    
+        <a href="../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 7.6923076923076925%;"></a>
+    
+        <a href="../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 11.538461538461538%;"></a>
+    
+        <a href="../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 15.384615384615385%;"></a>
+    
+        <a href="../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 19.23076923076923%;"></a>
+    
+        <a href="../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 23.076923076923077%;"></a>
+    
+        <a href="../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 26.923076923076923%;"></a>
+    
+        <a href="../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 30.76923076923077%;"></a>
+    
+        <a href="../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 34.61538461538461%;"></a>
+    
+        <a href="../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 38.46153846153846%;"></a>
+    
+        <a href="../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 42.30769230769231%;"></a>
+    
+        <a href="../md/02/3.html" title="Error Handling" class="chapter done " data-progress="2.3" style="left: 46.15384615384615%;"></a>
+    
+        <a href="../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 50%;"></a>
+    
+        <a href="../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 53.84615384615385%;"></a>
+    
+        <a href="../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter done new-chapter" data-progress="3" style="left: 57.69230769230769%;"></a>
+    
+        <a href="../md/03/1.html" title="Structures" class="chapter done " data-progress="3.1" style="left: 61.53846153846154%;"></a>
+    
+        <a href="../md/03/2.html" title="Traits" class="chapter done " data-progress="3.2" style="left: 65.38461538461539%;"></a>
+    
+        <a href="../md/03/3.html" title="Higher-Order Functions" class="chapter done " data-progress="3.3" style="left: 69.23076923076923%;"></a>
+    
+        <a href="../md/03/4.html" title="Example: Mapping a List" class="chapter done " data-progress="3.4" style="left: 73.07692307692308%;"></a>
+    
+        <a href="../md/04.html" title="Tasks and Communication" class="chapter done new-chapter" data-progress="4" style="left: 76.92307692307692%;"></a>
+    
+        <a href="../md/04/1.html" title="Task Properties" class="chapter done " data-progress="4.1" style="left: 80.76923076923077%;"></a>
+    
+        <a href="../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter done " data-progress="4.2" style="left: 84.61538461538461%;"></a>
+    
+        <a href="../md/05.html" title="Concurrency Across Tasks: Arcs and Mutexes" class="chapter done new-chapter" data-progress="5" style="left: 88.46153846153847%;"></a>
+    
+        <a href="../md/05/1.html" title="The Arc Module" class="chapter done " data-progress="5.1" style="left: 92.3076923076923%;"></a>
+    
+        <a href="../md/05/2.html" title="Using a Mutex" class="chapter done " data-progress="5.2" style="left: 96.15384615384616%;"></a>
+    
+        <a href="../md/06.html" title="Bringing It Together: MapReduce in Rust" class="chapter done new-chapter" data-progress="6" style="left: 100%;"></a>
+    
+    </div>
+</div>
+
+                <div class="page-inner">
+                
+                    <section class="normal" id="section-gitbook_31">
+                    
+                        <h1 id="bringing-it-together-mapreduce-in-rust">Bringing It Together: MapReduce in Rust</h1>
+<p>As a final exercise in this tutorial, we are going to implement a version of <code>MapReduce</code> in Rust. <code>MapReduce</code> is a parallel computing framework for processing and generating large amounts of data. It was originally developed by Google, and now there are many similar 
+frameworks, one popular one being Apache Hadoop.</p>
+<p>There are two obvious main parts to <code>MapReduce</code>, the <code>Map</code> and the <code>Reduce</code>. In the <code>Map</code> portion, a provided function is applied to each member of a set of data, producing a set of <code>(key, value)</code> pairs. In the <code>Reduce</code> portion, a provided function sums or collects the values for each unique key. In between these operations is a third main part in which the intermediate set of <code>(key, value)</code> pairs is made into a mapping of unique keys to a list of their values. The important part of all this is that the <code>Map</code> and <code>Reduce</code> portions are done in parallel. For the <code>Map</code> portion, each member of the original set of data gets the provided function applied to it in a distinct thread (or rather, since we are Rust folk, in a distinct task). For the <code>Reduce</code> portion, each key has its values aggregated by the reduce function in a distinct thread (again, task).</p>
+<p>An example problem that can be handled by <code>MapReduce</code> is counting the occurrences of words in a set of strings. This is the example we are going to tackle in this exercise. To start off with, let&#39;s see how we might design the <code>MapReduce</code> framework as a Rust <code>trait</code>.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">MapReduce</span> {
+        <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapreduce</span>&lt;</span>K, V&gt;(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>&amp;String) -&gt; Vec&lt;(K,V)&gt;, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>K, Vec&lt;V&gt;) =&gt; Vec&lt;(K,V)&gt;);
+}
+</code></pre>
+<p>Our <code>trait</code> has just one function, <code>mapreduce</code>, that has two type parameters, <code>K(ey)</code> and <code>V(alue)</code>, and takes in two functions as paramters. The first is the map function which takes a <code>&amp;String</code> (String is <a href="http://doc.rust-lang.org/std/string/struct.String.html" target="_blank">std::string::String</a>, a string buffer type) and returns a vector of <code>(K,V)</code> tuples. It may seem like we&#39;re cheating a little bit by having the map function take a <code>String</code>, and it is convenient for the problem we&#39;re going to handle, but all we&#39;re really doing is saying the information must be provided in <code>String</code> form; as long the <code>map</code> function is able to parse it and create <code>(key, value)</code> pairs as desired, we haven&#39;t really limited the scope of things we can do. The second function is, of course, the <code>reduce</code> function, which takes a key of type <code>K</code> and a vector of values of type <code>V</code> and returns what will be a vector of a single <code>(K,V)</code> tuple.</p>
+<p>Now to start to implement our <code>trait</code>. We&#39;re also going to add bounds to our type parameters, so that we can guarantee that the types have implemented certain <code>traits</code>, allowing us to do things with our now bounded generic types in our code like compare the for equality, or send values across tasks.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">MapReduce</span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapreduce</span>&lt;</span>K: Clone + Show + Hash + Equiv&lt;K&gt; + Eq + Send, V: Clone + Show + Send&gt;(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>&amp;String) -&gt; Vec&lt;(K, V)&gt;, 
+        <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>K, Vec&lt;V&gt;) -&gt; Vec&lt;(K, V)&gt;);
+}
+
+<span class="hljs-keyword">impl</span> MapReduce <span class="hljs-keyword">for</span> Vec&lt;String&gt; {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapreduce</span>&lt;</span>K: Clone + Show + Hash + Equiv&lt;K&gt; + Eq + Send, V: Clone + Show + Send&gt;(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, mapf: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>&amp;String) -&gt; Vec&lt;(K, V)&gt;, 
+        redf: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>K, Vec&lt;V&gt;) -&gt; Vec&lt;(K, V)&gt;) {
+
+        <span class="hljs-keyword">let</span> (sender, receiver): (Sender&lt;Vec&lt;(K, V)&gt;&gt;, Receiver&lt;Vec&lt;(K, V)&gt;&gt;) = channel();
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> tasks: <span class="hljs-keyword">int</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-comment">// map </span>
+        <span class="hljs-keyword">for</span> item in <span class="hljs-keyword">self</span>.iter() {
+            tasks += <span class="hljs-number">1</span>;            
+            <span class="hljs-keyword">let</span> item_owned = item.clone();
+            <span class="hljs-keyword">let</span> sender_child = sender.clone();
+            spawn(proc() {            
+                sender_child.send(mapf(&amp;item_owned));
+            });
+        }
+</code></pre>
+<p>We set up a <code>(Sender, Receiver)</code> pair and then, for each member in the set of data (in our case, for each <code>String</code> in the vector), we clone the <code>Sender</code> (each task needs its own handle to it) and spawn a task in which we send back the results of mapping that member. We have to clone each item to get an owned value because borrowed values aren&#39;t sendable, and thus can&#39;t be used across tasks (we&#39;re free to borrow the owned value inside the task, though).</p>
+<p>Next we have to collect the intermediate <code>(key, value)</code> pairs into a mapping of unique keys to a list of all of their associated values.</p>
+<pre><code class="lang-rust">        <span class="hljs-comment">// map </span>
+        <span class="hljs-keyword">for</span> item in <span class="hljs-keyword">self</span>.iter() {
+            tasks += <span class="hljs-number">1</span>;            
+            <span class="hljs-keyword">let</span> item_owned = item.clone();
+            <span class="hljs-keyword">let</span> sender_child = sender.clone();
+            spawn(proc() {            
+                sender_child.send(mapf(&amp;item_owned));
+            });
+        }
+        <span class="hljs-comment">// intermediate </span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> kv_map: HashMap&lt;K, Vec&lt;V&gt;&gt; = HashMap::new();
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, tasks) {
+            <span class="hljs-keyword">let</span> ivals: Vec&lt;(K, V)&gt; = receiver.recv();
+            <span class="hljs-keyword">for</span> pair in ivals.iter() {
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> key: K;
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> val: V;
+                <span class="hljs-keyword">match</span> pair.clone() {
+                    (a, b) =&gt; {
+                        key = a.clone();
+                        val = b.clone();
+                    }
+                }
+
+                <span class="hljs-keyword">if</span> kv_map.contains_key_equiv(&amp;key) {
+                    kv_map.get_mut(&amp;key).push(val);
+                }
+                <span class="hljs-keyword">else</span> {
+                    kv_map.find_or_insert(key, <span class="hljs-keyword">vec</span>!(val));
+                }
+            }        
+        }
+</code></pre>
+<p>We go and get ourselves a <code>HashMap</code>, and then for each member we mapped (0 to the number of tasks), we get the list of pairs from the most recently finished task with <code>receiver.recv()</code>, and build up the <code>HashMap</code> after destructuring the pairs with pattern matching. </p>
+<p>That was simple enough. Now for reducing.</p>
+<pre><code class="lang-rust">        <span class="hljs-comment">// intermediate </span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> kv_map: HashMap&lt;K, Vec&lt;V&gt;&gt; = HashMap::new();
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, tasks) {
+            <span class="hljs-keyword">let</span> ivals: Vec&lt;(K, V)&gt; = receiver.recv();
+            <span class="hljs-keyword">for</span> pair in ivals.iter() {
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> key: K;
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> val: V;
+                <span class="hljs-keyword">match</span> pair.clone() {
+                    (a, b) =&gt; {
+                        key = a.clone();
+                        val = b.clone();
+                    }
+                }
+
+                <span class="hljs-keyword">if</span> kv_map.contains_key_equiv(&amp;key) {
+                    kv_map.get_mut(&amp;key).push(val);
+                }
+                <span class="hljs-keyword">else</span> {
+                    kv_map.find_or_insert(key, <span class="hljs-keyword">vec</span>!(val));
+                }
+            }        
+        }
+        <span class="hljs-comment">// reduce</span>
+        tasks = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> key in kv_map.keys() {
+            tasks += <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">let</span> vals = kv_map.get(key).clone();
+            <span class="hljs-keyword">let</span> key_owned = key.clone();
+            <span class="hljs-keyword">let</span> sender_child = sender.clone();
+            spawn(proc() {
+                sender_child.send(redf(key_owned, vals));
+            });        
+        }
+
+        <span class="hljs-comment">// print final values</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, tasks) {
+            <span class="hljs-keyword">let</span> rvals: Vec&lt;(K, V)&gt; = receiver.recv();
+            println!(<span class="hljs-string">"{}"</span>, rvals);
+        }        
+    }
+}
+</code></pre>
+<p>We set the task counter back to 0, as it is now going to increment with the number of unique keys. For each key, we get owned versions of the key and the values of that key and another handle to the sender, and then reduce (<code>redf</code>) with the key and its values in a distinct task, sending the result back. To top it all off, we print the final values after receiving them from each task.</p>
+<p>Now that we have our trait and an implementation for it, let&#39;s do something with them, and
+go count some words!</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+
+    <span class="hljs-comment">// some strings with some words</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> strings: Vec&lt;String&gt; = <span class="hljs-keyword">vec</span>!(<span class="hljs-string">"these are a bunch of words"</span>.to_string(), 
+        <span class="hljs-string">"those are a bunch of words too"</span>.to_string(), 
+        <span class="hljs-string">"lots of words"</span>.to_string(),
+        <span class="hljs-string">"there certainly are a lot of words floating around here"</span>.to_string(),
+        <span class="hljs-string">"never before have I seen so many words just sitting about"</span>.to_string(),
+        <span class="hljs-string">"with not a thing to do"</span>.to_string());
+
+    <span class="hljs-comment">// function for map</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">create_pairs</span>(</span>s: &amp;String) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-comment">//code</span>
+    }
+
+    <span class="hljs-comment">// function for reduce</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">reduce_pairs</span>(</span>key: String, vals: Vec&lt;<span class="hljs-keyword">int</span>&gt;) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-comment">//code</span>
+    }
+
+    <span class="hljs-comment">// let's do it</span>
+    strings.mapreduce::&lt;String,<span class="hljs-keyword">int</span>&gt;(create_pairs, reduce_pairs);    
+}
+</code></pre>
+<p>For some simple input we snag a few strings. Now we have to implement our functions for mapping and reducing, so we can pass them to mapreduce. Let&#39;s take a look at how we&#39;re going to write these functions.</p>
+<pre><code class="lang-rust">    <span class="hljs-comment">// function for map</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">create_pairs</span>(</span>s: &amp;String) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> retvals: Vec&lt;(String,<span class="hljs-keyword">int</span>)&gt; = <span class="hljs-keyword">vec</span>!(); 
+        <span class="hljs-keyword">for</span> word in s.as_slice().split(<span class="hljs-string">' '</span>) {
+            retvals.push((word.to_string(), <span class="hljs-number">1</span>));
+        }
+        retvals
+    }
+
+    <span class="hljs-comment">// function for reduce</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">reduce_pairs</span>(</span>key: String, vals: Vec&lt;<span class="hljs-keyword">int</span>&gt;) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> total: <span class="hljs-keyword">int</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> val in vals.iter() {
+            total += *val;
+        }
+        <span class="hljs-keyword">vec</span>!((key, total))
+    }
+</code></pre>
+<p>Since we&#39;re using some simple input in this example, we&#39;re only splitting the string by a single space instead of handling punctuation or bigger spaces. Then for each &quot;word&quot; created by our split, we push a pair of <code>(&quot;word&quot;, 1)</code> into our return values vector. When our <code>reduce</code> function gets called, every <code>(&quot;word&quot;, 1)</code> pair has been aggregated into a <code>&quot;word&quot; : [1, 1, ..]</code> mapping, so all <code>reduce_pairs</code> has to do is sum up the 1&#39;s and hand back a list with a single pair of <code>(&quot;word&quot;, total)</code>!</p>
+<p>Let&#39;s put it all together and check out the output.</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">extern</span> crate collections;
+
+<span class="hljs-keyword">use</span> std::fmt::Show; 
+<span class="hljs-keyword">use</span> std::hash::Hash;
+<span class="hljs-keyword">use</span> collections::HashMap;
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
+
+    <span class="hljs-comment">// some strings with some words</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> strings: Vec&lt;String&gt; = <span class="hljs-keyword">vec</span>!(<span class="hljs-string">"these are a bunch of words"</span>.to_string(), 
+        <span class="hljs-string">"those are a bunch of words too"</span>.to_string(), 
+        <span class="hljs-string">"lots of words"</span>.to_string(),
+        <span class="hljs-string">"there certainly are a lot of words floating around here"</span>.to_string(),
+        <span class="hljs-string">"never before have I seen so many words just sitting about"</span>.to_string(),
+        <span class="hljs-string">"with not a thing to do"</span>.to_string());
+    <span class="hljs-comment">// function for map</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">create_pairs</span>(</span>s: &amp;String) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> retvals: Vec&lt;(String,<span class="hljs-keyword">int</span>)&gt; = <span class="hljs-keyword">vec</span>!(); 
+        <span class="hljs-keyword">for</span> word in s.as_slice().split(<span class="hljs-string">' '</span>) {
+            retvals.push((word.to_string(), <span class="hljs-number">1</span>));
+        }
+        retvals
+    }
+
+    <span class="hljs-comment">// function for reduce</span>
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">reduce_pairs</span>(</span>key: String, vals: Vec&lt;<span class="hljs-keyword">int</span>&gt;) -&gt; Vec&lt;(String, <span class="hljs-keyword">int</span>)&gt; {
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> total: <span class="hljs-keyword">int</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> val in vals.iter() {
+            total += *val;
+        }
+        <span class="hljs-keyword">vec</span>!((key, total))
+    }
+    <span class="hljs-comment">// let's do it</span>
+    strings.mapreduce::&lt;String,<span class="hljs-keyword">int</span>&gt;(create_pairs, reduce_pairs);    
+}
+<span class="hljs-keyword">trait</span> <span class="hljs-title">MapReduce</span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapreduce</span>&lt;</span>K: Clone + Show + Hash + Equiv&lt;K&gt; + Eq + Send, V: Clone + Show + Send&gt;(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>&amp;String) -&gt; Vec&lt;(K, V)&gt;, 
+        <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>K, Vec&lt;V&gt;) -&gt; Vec&lt;(K, V)&gt;);
+}
+
+<span class="hljs-keyword">impl</span> MapReduce <span class="hljs-keyword">for</span> Vec&lt;String&gt; {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapreduce</span>&lt;</span>K: Clone + Show + Hash + Equiv&lt;K&gt; + Eq + Send, V: Clone + Show + Send&gt;(&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, mapf: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>&amp;String) -&gt; Vec&lt;(K, V)&gt;, 
+        redf: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span>K, Vec&lt;V&gt;) -&gt; Vec&lt;(K, V)&gt;) {
+
+        <span class="hljs-keyword">let</span> (sender, receiver): (Sender&lt;Vec&lt;(K, V)&gt;&gt;, Receiver&lt;Vec&lt;(K, V)&gt;&gt;) = channel();
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> tasks: <span class="hljs-keyword">int</span> = <span class="hljs-number">0</span>;
+        <span class="hljs-comment">// map </span>
+        <span class="hljs-keyword">for</span> item in <span class="hljs-keyword">self</span>.iter() {
+            tasks += <span class="hljs-number">1</span>;            
+            <span class="hljs-keyword">let</span> item_owned = item.clone();
+            <span class="hljs-keyword">let</span> sender_child = sender.clone();
+            spawn(proc() {            
+                sender_child.send(mapf(&amp;item_owned));
+            });
+        }
+        <span class="hljs-comment">// intermediate </span>
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> kv_map: HashMap&lt;K, Vec&lt;V&gt;&gt; = HashMap::new();
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, tasks) {
+            <span class="hljs-keyword">let</span> ivals: Vec&lt;(K, V)&gt; = receiver.recv();
+            <span class="hljs-keyword">for</span> pair in ivals.iter() {
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> key: K;
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> val: V;
+                <span class="hljs-keyword">match</span> pair.clone() {
+                    (a, b) =&gt; {
+                        key = a.clone();
+                        val = b.clone();
+                    }
+                }
+
+                <span class="hljs-keyword">if</span> kv_map.contains_key_equiv(&amp;key) {
+                    kv_map.get_mut(&amp;key).push(val);
+                }
+                <span class="hljs-keyword">else</span> {
+                    kv_map.find_or_insert(key, <span class="hljs-keyword">vec</span>!(val));
+                }
+            }        
+        }
+        <span class="hljs-comment">// reduce</span>
+        tasks = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> key in kv_map.keys() {
+            tasks += <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">let</span> vals = kv_map.get(key).clone();
+            <span class="hljs-keyword">let</span> key_owned = key.clone();
+            <span class="hljs-keyword">let</span> sender_child = sender.clone();
+            spawn(proc() {
+                sender_child.send(redf(key_owned, vals));
+            });        
+        }
+
+        <span class="hljs-comment">// print final values</span>
+        <span class="hljs-keyword">for</span> <span class="hljs-number">_</span> in range(<span class="hljs-number">0</span>, tasks) {
+            <span class="hljs-keyword">let</span> rvals: Vec&lt;(K, V)&gt; = receiver.recv();
+            println!(<span class="hljs-string">"{}"</span>, rvals);
+        }        
+    }
+}
+</code></pre>
+<p>Output:</p>
+<pre><code>[(never, 1)]
+[(do, 1)]
+[(a, 4)]
+[(lot, 1)]
+[(are, 3)]
+[(thing, 1)]
+[(with, 1)]
+[(before, 1)]
+[(of, 4)]
+[(these, 1)]
+[(those, 1)]
+[(just, 1)]
+[(there, 1)]
+[(sitting, 1)]
+[(about, 1)]
+[(have, 1)]
+[(too, 1)]
+[(not, 1)]
+[(lots, 1)]
+[(many, 1)]
+[(seen, 1)]
+[(words, 5)]
+[(so, 1)]
+[(here, 1)]
+[(I, 1)]
+[(certainly, 1)]
+[(bunch, 2)]
+[(around, 1)]
+[(to, 1)]
+[(floating, 1)]
+</code></pre>
+                    
+                    </section>
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../md/05/2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Using a Mutex"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
+        <script src="../gitbook/jsrepl/jsrepl.js" id="jsrepl-script"></script>
+        <script src="../gitbook/app.js"></script>
+        
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mixpanel/plugin.js"></script>
+    
+
+    
+    <script src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {};
+    gitbook.start(config);
+});
+</script>
+
+    </body>
+</html>

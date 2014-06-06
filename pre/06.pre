@@ -1,0 +1,80 @@
+# Bringing It Together: MapReduce in Rust
+
+As a final exercise in this tutorial, we are going to implement a version of `MapReduce` in Rust. `MapReduce` is a parallel computing framework for processing and generating large amounts of data. It was originally developed by Google, and now there are many similar 
+frameworks, one popular one being Apache Hadoop.
+
+There are two obvious main parts to `MapReduce`, the `Map` and the `Reduce`. In the `Map` portion, a provided function is applied to each member of a set of data, producing a set of `(key, value)` pairs. In the `Reduce` portion, a provided function sums or collects the values for each unique key. In between these operations is a third main part in which the intermediate set of `(key, value)` pairs is made into a mapping of unique keys to a list of their values. The important part of all this is that the `Map` and `Reduce` portions are done in parallel. For the `Map` portion, each member of the original set of data gets the provided function applied to it in a distinct thread (or rather, since we are Rust folk, in a distinct task). For the `Reduce` portion, each key has its values aggregated by the reduce function in a distinct thread (again, task).
+
+An example problem that can be handled by `MapReduce` is counting the occurrences of words in a set of strings. This is the example we are going to tackle in this exercise. To start off with, let's see how we might design the `MapReduce` framework as a Rust `trait`.
+
+//inline 06/tutorialmapreduce.rs 1
+
+Our `trait` has just one function, `mapreduce`, that has two type parameters, `K(ey)` and `V(alue)`, and takes in two functions as paramters. The first is the map function which takes a `&String` (String is [std::string::String](http://doc.rust-lang.org/std/string/struct.String.html), a string buffer type) and returns a vector of `(K,V)` tuples. It may seem like we're cheating a little bit by having the map function take a `String`, and it is convenient for the problem we're going to handle, but all we're really doing is saying the information must be provided in `String` form; as long the `map` function is able to parse it and create `(key, value)` pairs as desired, we haven't really limited the scope of things we can do. The second function is, of course, the `reduce` function, which takes a key of type `K` and a vector of values of type `V` and returns what will be a vector of a single `(K,V)` tuple.
+
+Now to start to implement our `trait`. We're also going to add bounds to our type parameters, so that we can guarantee that the types have implemented certain `traits`, allowing us to do things with our now bounded generic types in our code like compare the for equality, or send values across tasks.
+
+//inline 06/tutorialmapreduce.rs 2
+
+We set up a `(Sender, Receiver)` pair and then, for each member in the set of data (in our case, for each `String` in the vector), we clone the `Sender` (each task needs its own handle to it) and spawn a task in which we send back the results of mapping that member. We have to clone each item to get an owned value because borrowed values aren't sendable, and thus can't be used across tasks (we're free to borrow the owned value inside the task, though).
+
+Next we have to collect the intermediate `(key, value)` pairs into a mapping of unique keys to a list of all of their associated values.
+
+//inline 06/tutorialmapreduce.rs 3
+
+We go and get ourselves a `HashMap`, and then for each member we mapped (0 to the number of tasks), we get the list of pairs from the most recently finished task with `receiver.recv()`, and build up the `HashMap` after destructuring the pairs with pattern matching. 
+
+That was simple enough. Now for reducing.
+
+//inline 06/tutorialmapreduce.rs 4
+
+We set the task counter back to 0, as it is now going to increment with the number of unique keys. For each key, we get owned versions of the key and the values of that key and another handle to the sender, and then reduce (`redf`) with the key and its values in a distinct task, sending the result back. To top it all off, we print the final values after receiving them from each task.
+
+Now that we have our trait and an implementation for it, let's do something with them, and
+go count some words!
+
+//inline 06/tutorialmapreduce.rs 5
+
+For some simple input we snag a few strings. Now we have to implement our functions for mapping and reducing, so we can pass them to mapreduce. Let's take a look at how we're going to write these functions.
+
+//inline 06/tutorialmapreduce.rs 6
+
+Since we're using some simple input in this example, we're only splitting the string by a single space instead of handling punctuation or bigger spaces. Then for each "word" created by our split, we push a pair of `("word", 1)` into our return values vector. When our `reduce` function gets called, every `("word", 1)` pair has been aggregated into a `"word" : [1, 1, ..]` mapping, so all `reduce_pairs` has to do is sum up the 1's and hand back a list with a single pair of `("word", total)`!
+
+Let's put it all together and check out the output.
+
+//inline 06/tutorialmapreduce.rs 7
+
+Output:
+
+```
+[(never, 1)]
+[(do, 1)]
+[(a, 4)]
+[(lot, 1)]
+[(are, 3)]
+[(thing, 1)]
+[(with, 1)]
+[(before, 1)]
+[(of, 4)]
+[(these, 1)]
+[(those, 1)]
+[(just, 1)]
+[(there, 1)]
+[(sitting, 1)]
+[(about, 1)]
+[(have, 1)]
+[(too, 1)]
+[(not, 1)]
+[(lots, 1)]
+[(many, 1)]
+[(seen, 1)]
+[(words, 5)]
+[(so, 1)]
+[(here, 1)]
+[(I, 1)]
+[(certainly, 1)]
+[(bunch, 2)]
+[(around, 1)]
+[(to, 1)]
+[(floating, 1)]
+```
