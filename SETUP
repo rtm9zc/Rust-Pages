@@ -1,0 +1,4 @@
+To setup gitbook:
+
+1. install nodejs: http://nodejs.org/download/
+2. sudo npm install gitbook -g
