@@ -12,7 +12,7 @@ fn main() {
 		"there certainly are a lot of words floating around here".to_string(),
 		"never before have I seen so many words just sitting about".to_string(),
 		"with not a thing to do".to_string());
-//inline 6	
+//inline 9	
 	// function for map
 	fn create_pairs(s: &String) -> Vec<(String, int)> {
 		let mut retvals: Vec<(String,int)> = vec!(); 
@@ -30,7 +30,7 @@ fn main() {
 		}
 		vec!((key, total))
 	}
-//end 6	
+//end 9
 	// let's do it
 	strings.mapreduce::<String,int>(create_pairs, reduce_pairs);	
 }
@@ -39,68 +39,70 @@ trait MapReduce {
 	fn mapreduce<K: Clone + Show + Hash + Equiv<K> + Eq + Send, V: Clone + Show + Send>(&mut self, fn(&String) -> Vec<(K, V)>, 
 		fn(K, Vec<V>) -> Vec<(K, V)>);
 }
-
-impl MapReduce for Vec<String> {
-	fn mapreduce<K: Clone + Show + Hash + Equiv<K> + Eq + Send, V: Clone + Show + Send>(&mut self, mapf: fn(&String) -> Vec<(K, V)>, 
-		redf: fn(K, Vec<V>) -> Vec<(K, V)>) {
-		
-		let (sender, receiver): (Sender<Vec<(K, V)>>, Receiver<Vec<(K, V)>>) = channel();
-		let mut tasks: int = 0;
-//inline 3
-		// map 
-		for item in self.iter() {
-			tasks += 1;			
-			let item_owned = item.clone();
-			let sender_child = sender.clone();
-			spawn(proc() {			
-				sender_child.send(mapf(&item_owned));
-			});
-		}
 //end 2
+
+//inline 3
+impl MapReduce for Vec<String> {
+	fn mapreduce<K: Clone + Show + Hash + Equiv<K> + Eq + Send, 
+                     V: Clone + Show + Send>
+               (&mut self, mapf: fn(&String) -> Vec<(K, V)>, 
+       	        redf: fn(K, Vec<V>) -> Vec<(K, V)>) {
+	let (sender, receiver): (Sender<Vec<(K, V)>>, Receiver<Vec<(K, V)>>) = channel();
+	let mut tasks: int = 0;
+        
+	// map 
+	for item in self.iter() {
+	    tasks += 1;			
+	    let item_owned = item.clone();
+	    let sender_child = sender.clone();
+	    spawn(proc() { sender_child.send(mapf(&item_owned)); });
+	}
+//end 3
 //inline 4
-		// intermediate 
-		let mut kv_map: HashMap<K, Vec<V>> = HashMap::new();
-		for _ in range(0, tasks) {
-			let ivals: Vec<(K, V)> = receiver.recv();
-			for pair in ivals.iter() {
-				let mut key: K;
-				let mut val: V;
-				match pair.clone() {
-					(a, b) => {
-						key = a.clone();
-						val = b.clone();
-					}
-				}
-				
-				if kv_map.contains_key_equiv(&key) {
-					kv_map.get_mut(&key).push(val);
-				}
-				else {
-					kv_map.find_or_insert(key, vec!(val));
-				}
-			}		
-		}
-//end 3		
-		// reduce
-		tasks = 0;
-		for key in kv_map.keys() {
-			tasks += 1;
-			let vals = kv_map.get(key).clone();
-			let key_owned = key.clone();
-			let sender_child = sender.clone();
-			spawn(proc() {
-				sender_child.send(redf(key_owned, vals));
-			});		
+	// intermediate 
+	let mut kv_map: HashMap<K, Vec<V>> = HashMap::new();
+	for _ in range(0, tasks) {
+	    let ivals: Vec<(K, V)> = receiver.recv();
+	    for pair in ivals.iter() {
+		let mut key: K;
+		let mut val: V;
+		match pair.clone() {
+		    (a, b) => {
+			key = a.clone();
+			val = b.clone();
+		    }
 		}
 		
-		// print final values
-		for _ in range(0, tasks) {
-			let rvals: Vec<(K, V)> = receiver.recv();
-			println!("{}", rvals);
-		}		
+		if kv_map.contains_key_equiv(&key) {
+		    kv_map.get_mut(&key).push(val);
+		}
+		    else {
+		    kv_map.find_or_insert(key, vec!(val));
+		}
+	    }		
 	}
+//end 4		
+//inline 5
+	// reduce
+	tasks = 0;
+	for key in kv_map.keys() {
+	    tasks += 1;
+	    let vals = kv_map.get(key).clone();
+	    let key_owned = key.clone();
+	    let sender_child = sender.clone();
+	    spawn(proc() {
+		    sender_child.send(redf(key_owned, vals));
+		});		
+	}
+	
+	// print final values
+	for _ in range(0, tasks) {
+	    let rvals: Vec<(K, V)> = receiver.recv();
+	    println!("{}", rvals);
+	}		
+    }
 }	
-//end 4
+//end 5
 //end 7
 
 //EVERYTHING BELOW THIS LINE ARE TEMPLATES USED FOR TUTORIAL CODE EXAMPLES
@@ -108,11 +110,13 @@ impl MapReduce for Vec<String> {
 /*
 //inline 1
 trait MapReduce {
-        fn mapreduce<K, V>(&mut self, fn(&String) -> Vec<(K,V)>, fn(K, Vec<V>) => Vec<(K,V)>);
+   fn mapreduce<K, V>(&mut self, 
+                      fn(&String) -> Vec<(K,V)>, 
+                      fn(K, Vec<V>) => Vec<(K,V)>);
 }
 //end 1
 
-//inline 5
+//inline 8
 fn main() {
 	
 	// some strings with some words
@@ -136,5 +140,5 @@ fn main() {
 	// let's do it
 	strings.mapreduce::<String,int>(create_pairs, reduce_pairs);	
 }
-//end 5
+//end 8
 */

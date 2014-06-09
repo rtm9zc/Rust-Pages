@@ -11,22 +11,20 @@ fn main() {
 //end 3
 
 	let option = int::parse_bytes(os::args().get(1).clone().into_bytes(), 10);
-	let i: int;
-	match option {
-	Some(x) => { i = x;}
-	None => { i = 0;}
-	}
-	
+	let i: int = match option { 
+                         Some(x) => { x }
+   	                 None => { 0 } 
+                     } ;
 	println!("{:d} has {:d} Collatz steps", i, collatz(i));
 }
 
 //inline 1
-fn collatz(N: int) -> int {
-	if N == 1 { return 0; }
-	match N % 2 {
-		0 => { 1 + collatz(N/2) }
-		_ => { 1 + collatz(N*3+1) }
+fn collatz(n: int) -> int {
+	if n == 1 { return 0; }
+	match n % 2 {
+		0 => { 1 + collatz(n / 2) }
+		_ => { 1 + collatz(n*3 + 1) }
 	}
-//end 1
 }
+//end 1
 //end 2

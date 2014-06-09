@@ -1,5 +1,5 @@
 //inline 1
-let name[: type] [= value];
+let <em>name</em> [: <em>type</em>] [= <em>value</em>];
 //end 1
 
 //inline 2
