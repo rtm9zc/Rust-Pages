@@ -3,7 +3,7 @@
     <head prefix="og: http://ogp.me/ns# book: http://ogp.me/ns/book#">
         
         <meta charset="UTF-8">
-        <title>Example: Mapping a List | Introduction to Rust: From HelloWorld to MapReduce in Four Steps</title>
+        <title>Higher-Order Functions | Introduction to Rust: From HelloWorld to MapReduce in Four Steps</title>
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="robots" content="index, follow">
@@ -13,13 +13,13 @@
         <meta name="generator" content="www.gitbook.io">
 
         
-        <link rel="next" href="../../md/04.html" />
+        <link rel="next" href="../../md/03/5.html" />
         
         
         <link rel="prev" href="../../md/03/3.html" />
         
 
-        <meta property="og:title" content="Example: Mapping a List | Introduction to Rust: From HelloWorld to MapReduce in Four Steps">
+        <meta property="og:title" content="Higher-Order Functions | Introduction to Rust: From HelloWorld to MapReduce in Four Steps">
         <meta property="og:site_name" content="Introduction to Rust: From HelloWorld to MapReduce in Four Steps">
         <meta property="og:type" content="book">
         <meta property="og:locale" content="en_US">
@@ -42,7 +42,7 @@
 
 
         
-    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.4" data-basepath="../.." data-revision="1402427048535">
+    <div class="book" data-github="rtm9zc/Rust-Pages" data-level="3.4" data-basepath="../.." data-revision="1402429711148">
     <div class="book-header">
     <!-- Actions Left -->
     
@@ -280,7 +280,7 @@
                         <li  data-level="3.3" data-path="md/03/3.html">
                             
                             <a href="../../md/03/3.html">
-                                <i class="fa fa-check"></i> <b>3.3.</b> Higher-Order Functions
+                                <i class="fa fa-check"></i> <b>3.3.</b> Generics
                             </a>
                             
                         </li>
@@ -288,7 +288,15 @@
                         <li  data-level="3.4" data-path="md/03/4.html">
                             
                             <a href="../../md/03/4.html">
-                                <i class="fa fa-check"></i> <b>3.4.</b> Example: Mapping a List
+                                <i class="fa fa-check"></i> <b>3.4.</b> Higher-Order Functions
+                            </a>
+                            
+                        </li>
+                    
+                        <li  data-level="3.5" data-path="md/03/5.html">
+                            
+                            <a href="../../md/03/5.html">
+                                <i class="fa fa-check"></i> <b>3.5.</b> Example: Mapping a List
                             </a>
                             
                         </li>
@@ -391,63 +399,65 @@
             <div class="page-wrapper" tabindex="-1">
                 <div class="book-progress">
     <div class="bar">
-        <div class="inner" style="width: 70.37037037037037%;min-width: 66.66666666666667%;"></div>
+        <div class="inner" style="width: 67.85714285714286%;min-width: 64.28571428571429%;"></div>
     </div>
     <div class="chapters">
     
         <a href="../../index.html" title="Introduction" class="chapter done new-chapter" data-progress="0" style="left: 0%;"></a>
     
-        <a href="../../md/01.html" title="Getting Started" class="chapter done new-chapter" data-progress="1" style="left: 3.7037037037037037%;"></a>
+        <a href="../../md/01.html" title="Getting Started" class="chapter done new-chapter" data-progress="1" style="left: 3.5714285714285716%;"></a>
     
-        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 7.407407407407407%;"></a>
+        <a href="../../md/01/1.html" title="Variables" class="chapter done " data-progress="1.1" style="left: 7.142857142857143%;"></a>
     
-        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 11.11111111111111%;"></a>
+        <a href="../../md/01/2.html" title="Conditionals" class="chapter done " data-progress="1.2" style="left: 10.714285714285714%;"></a>
     
-        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 14.814814814814815%;"></a>
+        <a href="../../md/01/3.html" title="Pattern Matching" class="chapter done " data-progress="1.3" style="left: 14.285714285714286%;"></a>
     
-        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 18.51851851851852%;"></a>
+        <a href="../../md/01/4.html" title="Looping" class="chapter done " data-progress="1.4" style="left: 17.857142857142858%;"></a>
     
-        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 22.22222222222222%;"></a>
+        <a href="../../md/01/5.html" title="Expressions" class="chapter done " data-progress="1.5" style="left: 21.428571428571427%;"></a>
     
-        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 25.925925925925927%;"></a>
+        <a href="../../md/01/6.html" title="Functions" class="chapter done " data-progress="1.6" style="left: 25%;"></a>
     
-        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 29.62962962962963%;"></a>
+        <a href="../../md/01/7.html" title="Program 1: Collatz" class="chapter done " data-progress="1.7" style="left: 28.571428571428573%;"></a>
     
-        <a href="../../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 33.333333333333336%;"></a>
+        <a href="../../md/02.html" title="Starting to Corrode: Pointers, Memory, Strings, and I/O" class="chapter done new-chapter" data-progress="2" style="left: 32.142857142857146%;"></a>
     
-        <a href="../../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 37.03703703703704%;"></a>
+        <a href="../../md/02/1.html" title="Memory Management and Pointers" class="chapter done " data-progress="2.1" style="left: 35.714285714285715%;"></a>
     
-        <a href="../../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 40.74074074074074%;"></a>
+        <a href="../../md/02/2.html" title="Vectors and Strings" class="chapter done " data-progress="2.2" style="left: 39.285714285714285%;"></a>
     
-        <a href="../../md/02/3.html" title="Error Handling" class="chapter done " data-progress="2.3" style="left: 44.44444444444444%;"></a>
+        <a href="../../md/02/3.html" title="Error Handling" class="chapter done " data-progress="2.3" style="left: 42.857142857142854%;"></a>
     
-        <a href="../../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 48.148148148148145%;"></a>
+        <a href="../../md/02/4.html" title="Basic I/O" class="chapter done " data-progress="2.4" style="left: 46.42857142857143%;"></a>
     
-        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 51.851851851851855%;"></a>
+        <a href="../../md/02/5.html" title="Example: Secret Sharing" class="chapter done " data-progress="2.5" style="left: 50%;"></a>
     
-        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter done new-chapter" data-progress="3" style="left: 55.55555555555556%;"></a>
+        <a href="../../md/03.html" title="Multi-Purpose Maps: Structures, Traits, and Higher-Order Functions" class="chapter done new-chapter" data-progress="3" style="left: 53.57142857142857%;"></a>
     
-        <a href="../../md/03/1.html" title="Structures" class="chapter done " data-progress="3.1" style="left: 59.25925925925926%;"></a>
+        <a href="../../md/03/1.html" title="Structures" class="chapter done " data-progress="3.1" style="left: 57.142857142857146%;"></a>
     
-        <a href="../../md/03/2.html" title="Traits" class="chapter done " data-progress="3.2" style="left: 62.96296296296296%;"></a>
+        <a href="../../md/03/2.html" title="Traits" class="chapter done " data-progress="3.2" style="left: 60.714285714285715%;"></a>
     
-        <a href="../../md/03/3.html" title="Higher-Order Functions" class="chapter done " data-progress="3.3" style="left: 66.66666666666667%;"></a>
+        <a href="../../md/03/3.html" title="Generics" class="chapter done " data-progress="3.3" style="left: 64.28571428571429%;"></a>
     
-        <a href="../../md/03/4.html" title="Example: Mapping a List" class="chapter done " data-progress="3.4" style="left: 70.37037037037037%;"></a>
+        <a href="../../md/03/4.html" title="Higher-Order Functions" class="chapter done " data-progress="3.4" style="left: 67.85714285714286%;"></a>
     
-        <a href="../../md/04.html" title="Tasks and Communication" class="chapter  new-chapter" data-progress="4" style="left: 74.07407407407408%;"></a>
+        <a href="../../md/03/5.html" title="Example: Mapping a List" class="chapter  " data-progress="3.5" style="left: 71.42857142857143%;"></a>
     
-        <a href="../../md/04/1.html" title="Task Properties" class="chapter  " data-progress="4.1" style="left: 77.77777777777777%;"></a>
+        <a href="../../md/04.html" title="Tasks and Communication" class="chapter  new-chapter" data-progress="4" style="left: 75%;"></a>
     
-        <a href="../../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter  " data-progress="4.2" style="left: 81.48148148148148%;"></a>
+        <a href="../../md/04/1.html" title="Task Properties" class="chapter  " data-progress="4.1" style="left: 78.57142857142857%;"></a>
     
-        <a href="../../md/05.html" title="Concurrency Across Tasks: Arcs and Mutexes" class="chapter  new-chapter" data-progress="5" style="left: 85.18518518518519%;"></a>
+        <a href="../../md/04/2.html" title="Example: Multi-Tasking Map" class="chapter  " data-progress="4.2" style="left: 82.14285714285714%;"></a>
     
-        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="5.1" style="left: 88.88888888888889%;"></a>
+        <a href="../../md/05.html" title="Concurrency Across Tasks: Arcs and Mutexes" class="chapter  new-chapter" data-progress="5" style="left: 85.71428571428571%;"></a>
     
-        <a href="../../md/05/2.html" title="Using a Mutex" class="chapter  " data-progress="5.2" style="left: 92.5925925925926%;"></a>
+        <a href="../../md/05/1.html" title="The Arc Module" class="chapter  " data-progress="5.1" style="left: 89.28571428571429%;"></a>
     
-        <a href="../../md/06.html" title="MapReduce in Rust" class="chapter  new-chapter" data-progress="6" style="left: 96.29629629629629%;"></a>
+        <a href="../../md/05/2.html" title="Using a Mutex" class="chapter  " data-progress="5.2" style="left: 92.85714285714286%;"></a>
+    
+        <a href="../../md/06.html" title="MapReduce in Rust" class="chapter  new-chapter" data-progress="6" style="left: 96.42857142857143%;"></a>
     
         <a href="../../md/06/1.html" title="Using mapreduce" class="chapter  " data-progress="6.1" style="left: 100%;"></a>
     
@@ -458,40 +468,54 @@
                 
                     <section class="normal" id="section-gitbook_23">
                     
-                        <h2 id="example-mapping-a-list">Example: Mapping a List</h2>
-<p>The above examples hopefully give you a sense of the power of higher-order functions, but perhaps not how they would be useful in typical code.  Next, we&#39;ll see how higher-order functions can be used to provide generic functions for manipulating our <code>LinkedList</code> type. We&#39;ll implement a mapping function that applies a function to each element of a list.</p>
-<p>We define the Map trait as:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">Map</span> {
-   <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>);
+                        <h2 id="higher-order-functions">Higher-Order Functions</h2>
+<p>A higher-order function is a function which operates on other functions. We can have functions that take other functions as inputs, as well as
+functions that create and return new functions as their output. Higher-order functions provide a lot of power for concisely and very generally describe computations. By the end of this section, you&#39;ll be able to write a single function that can do all of the things in the previous set of exercises!</p>
+<h3 id="functions-as-parameters">Functions as Parameters</h3>
+<p>A parameter can have function type, just like any other type.  The type of a function includes the types of its inputs and the type of its output.</p>
+<p>For example, the following code defines a function that takes two inputs, the second of which is a function. The syntax, <code>|arg1, arg2, ...| -&gt; result</code> (with vertical bars around a list of parameter types) specifies a function that takes the <code>argn</code> types as inputs and returns a value of type <code>result</code>. </p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">twice</span>(</span>n: <span class="hljs-keyword">int</span>, f: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> {
+    <span class="hljs-keyword">let</span> x = f(n);
+    f(x)
 }
 </code></pre>
-<p>Now, we will implement the <code>Map</code> trait for our <code>LinkedList</code> type:</p>
-<pre><code class="lang-rust"><span class="hljs-keyword">impl</span> Map <span class="hljs-keyword">for</span> LinkedList {
-    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">mapr</span>(</span>&amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>, f: <span class="hljs-function"><span class="hljs-keyword">fn</span>(</span><span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
-         <span class="hljs-keyword">match</span>(*<span class="hljs-keyword">self</span>) {
-            None =&gt; { }
-            Some(<span class="hljs-keyword">ref</span> <span class="hljs-keyword">mut</span> current) =&gt; { 
-               current.val = f(current.val);
-               current.tail.mapr(f); 
-            }
-        } 
-    } 
-}
-</code></pre>
-<p>This <code>mapr</code> function works well for the purposes of small lists, but is highly parallelizable. For more information on how to do this, as well as Rust&#39;s <code>tasks</code>, head on over to the next section.</p>
-<p>For now, here are some examples using our list mapping functionality:</p>
-<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">inc</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n + <span class="hljs-number">1</span> }
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">double</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n * <span class="hljs-number">2</span> }
+<p>Here&#39;s an example using <code>twice(int, fn())</code>:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">successor</span>(</span>n: <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n + <span class="hljs-number">1</span> }
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">double</span>(</span>n:<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span> { n * <span class="hljs-number">2</span> }
 
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>) {
-    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> l10 : LinkedList = construct_list(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
-    l10.mapr(inc);
-    l10.mapr(double);
-    println!(<span class="hljs-string">"List: {}"</span>, print_list(l10.clone()));
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span>(</span>)
+{
+    println!(<span class="hljs-string">"Result: {:d}"</span>, twice(twice(<span class="hljs-number">1</span>, successor), double));
 }
+</code></pre>
+<p>The result is (((1 + 1) + 1) <em> 2) </em> 2 = 12.</p>
+<p>A quick note about using a function as an input: the most obvious implementation of the twice function would probably be <code>f(f(x))</code>, however this produces the following compiler error:</p>
+<pre><code>twice.rs:4:7: 4:8 <span style = "color:red;">error:</span> closure requires unique access to `f` but it is already borrowed
+twice.rs:4     f(f(n))
+</code></pre>
+
+<p>Much like how boxed values can only be referenced from one place, a function requires a reference for each time it is called, and does not support multiple instances of calling a function in the same line. This can be circumvented by either storing the function&#39;s result (as seen in the <code>twice</code> example code) or having multiple functions passed in. The below code works as anticipated, with no compiler errors.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fofg</span>(</span>n: <span class="hljs-keyword">int</span>, f: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>, g: |<span class="hljs-keyword">int</span>| -&gt; <span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>  {
+    f(g(n))
+}
+</code></pre>
+<h3 id="functions-as-results">Functions as Results</h3>
+<p>It would be a lot more useful if <code>fofg</code> didn&#39;t take the integer as one of its inputs, but instead returned a function.  For example, we would like to be able to do:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> tothefourth = fofg(square, square);
+</code></pre>
+<p>to define a power to the fourth function.  </p>
+<p>We can do this by defining a function that returns a function:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fofg</span>(</span>f: proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>, g:proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) -&gt; (proc(<span class="hljs-keyword">int</span>) -&gt; <span class="hljs-keyword">int</span>) {
+    proc(n: <span class="hljs-keyword">int</span>) { g(f(n)) }
+}
+</code></pre>
+<p>Now, <code>fofg</code> is a function that takes two functions as its input (we use <code>proc(int) -&gt; int</code> here to describe the input functions, and need to use <code>proc(int) -&gt; int</code> instead of <code>|int| -&gt; int</code> because of Rust&#39;s lifetime rules, and with the way we defined this, we can only use the returned function once.)  </p>
+<p>We can now use <code>fofg</code> as in this example:</p>
+<pre><code class="lang-rust">    <span class="hljs-keyword">let</span> toEighth = fofg(fofg(square, square), fofg(square, square));
+    println!(<span class="hljs-string">"Result: {:d}"</span>, toEighth(<span class="hljs-number">2</span>));
 </code></pre>
 <blockquote>
-<p><strong>Exercise 3.4.</strong> Implement the <code>Map</code> trait for your previously defined <code>Tree</code> type. The <code>mapr</code> function should iterate through all of the nodes of the <code>Tree</code>.</p>
+<p><strong>Exercise 3.3.</strong>  Define a <code>compose</code> function that takes as inputs two functions and outputs a function that composes the two input functions.  Both of the input functions and the returned function should have type <code>proc(int) -&gt; int</code>. You should be able to use your <code>compose</code> function to define <code>let sixthpower = compose(cube, square)</code> where <code>cube</code> and <code>square</code> are functions that compute the cube and square of an int input respectively.</p>
 </blockquote>
 
                     
@@ -502,10 +526,10 @@
         </div>
 
         
-        <a href="../../md/03/3.html" class="navigation navigation-prev " aria-label="Previous page: Higher-Order Functions"><i class="fa fa-angle-left"></i></a>
+        <a href="../../md/03/3.html" class="navigation navigation-prev " aria-label="Previous page: Generics"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../../md/04.html" class="navigation navigation-next " aria-label="Next page: Tasks and Communication"><i class="fa fa-angle-right"></i></a>
+        <a href="../../md/03/5.html" class="navigation navigation-next " aria-label="Next page: Example: Mapping a List"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
