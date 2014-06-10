@@ -100,7 +100,7 @@ Rust provides support for an important language feature known as generics. With 
 
 can work with a wide variety of types, along with types, structs, and enums. Here's what generic funtion, struct, type, and enum would look like.
 
-//inline 0x/generics.rs 1
+//inline 03/generics.rs 1
 
 Looking good, with the exception of the mentioned error. T is called the type parameter, and conventionally they are single 
 
@@ -108,21 +108,21 @@ capital letters. That's not all there is to type parameters, though, which is th
 
 Here's what would happen if we tried to compile the code.
 
-//inline 0x/generics.rs 4
+//inline 03/generics.rs 4
 
 What's that? But the_param is a clone of param, so it is of type T and not &T, right? The problem is that the compiler
 
 never really clones param because T isn't a clonable type. Here's how we make sure T is a clonable type. 
 
-//inline 0x/generics.rs 2
+//inline 03/generics.rs 2
 
 We're not out of the words yet, though. Trying to compile this gives us this error.
 
-//inline 0x/generics.rs 5
+//inline 03/generics.rs 5
 
 Ah, we need to make sure T is copyable, too. Here we go.
 
-//inline 0x/generics.rs 3
+//inline 03/generics.rs 3
 
 T is now a bounded type parameter. fill_a_vector<T: Clone + Copy> will only accept a type that has implemented those traits. This will make doing
 
