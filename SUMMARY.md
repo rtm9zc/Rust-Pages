@@ -1,6 +1,6 @@
 # Summary
 
-* [Getting Started: Variables, Functions, and Syntax](md/01.md)
+* [Getting Started](md/01.md)
     * [Variables](md/01/1.md)
     * [Conditionals](md/01/2.md)
     * [Pattern Matching](md/01/3.md)
@@ -25,4 +25,5 @@
 * [Concurrency Across Tasks: Arcs and Mutexes](md/05.md)
     * [The Arc Module](md/05/1.md)
     * [Using a Mutex](md/05/2.md)
-* [Bringing It Together: MapReduce in Rust](md/06.md)
+* [MapReduce in Rust](md/06.md)
+    * [Using mapreduce](md/06/1.md)
