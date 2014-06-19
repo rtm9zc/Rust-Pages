@@ -1,0 +1,227 @@
+01/collatz.rs
+01/collatz.rs:13:32: 13:70 error: mismatched types: expected `&[u8]` but found `collections::vec::Vec<u8>` (expected &-ptr but found struct collections::vec::Vec)
+01/collatz.rs:13 	let option = int::parse_bytes(os::args().get(1).clone().into_bytes(), 10);
+                 	                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+error: aborting due to previous error
+---------------------------------------------
+02/codebreaker.rs
+02/codebreaker.rs:9:13: 9:14 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:9 	let lines: ~[~str]= stdin.lines().collect();
+                    	           ^
+note: use the `Vec` type instead
+02/codebreaker.rs:9:15: 9:16 error: obsolete syntax: `~` notation for owned pointers
+02/codebreaker.rs:9 	let lines: ~[~str]= stdin.lines().collect();
+                    	             ^
+note: use `Box<T>` in `std::owned` instead
+02/codebreaker.rs:14:21: 14:22 error: obsolete syntax: `~` notation for owned pointers
+02/codebreaker.rs:14 fn encrypt(lines: &[~str], key_name: &str, encrypted_name: &str) {
+                                         ^
+02/codebreaker.rs:15:23: 15:24 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:15 	let mut input_bytes: ~[u8] = ~[];
+                     	                     ^
+02/codebreaker.rs:15:33: 15:34 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:15 	let mut input_bytes: ~[u8] = ~[];
+                     	                               ^
+02/codebreaker.rs:25:24: 25:25 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:25 	let mut random_bytes: ~[u8] = ~[];
+                     	                      ^
+02/codebreaker.rs:25:34: 25:35 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:25 	let mut random_bytes: ~[u8] = ~[];
+                     	                                ^
+02/codebreaker.rs:49:21: 49:22 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:49 	let mut key_bytes: ~[u8];
+                     	                   ^
+02/codebreaker.rs:50:27: 50:28 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:50 	let mut encrypted_bytes: ~[u8];
+                     	                         ^
+02/codebreaker.rs:70:31: 70:32 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:70 fn xor(a: &[u8], b: &[u8]) -> ~[u8] {
+                                                   ^
+02/codebreaker.rs:71:18: 71:19 error: obsolete syntax: `~[T]` is no longer a type
+02/codebreaker.rs:71 	let mut ret = ~[];
+                     	                ^
+error: aborting due to 11 previous errors
+---------------------------------------------
+02/fileIO.rs
+02/fileIO.rs:8:24: 8:45 warning: `bytes!` is deprecated, use `b"foo"` literals instead
+02/fileIO.rs:8             file.write(bytes!("line one\n"));
+                                      ^~~~~~~~~~~~~~~~~~~~~
+02/fileIO.rs:8:24: 8:45 note: see http://doc.rust-lang.org/rust.html#byte-and-byte-string-literals for documentation
+02/fileIO.rs:8             file.write(bytes!("line one\n"));
+                                      ^~~~~~~~~~~~~~~~~~~~~
+02/fileIO.rs:8:24: 8:45 note: see https://github.com/rust-lang/rust/blob/master/src/etc/2014-06-rewrite-bytes-macros.py for an automated migration
+02/fileIO.rs:8             file.write(bytes!("line one\n"));
+                                      ^~~~~~~~~~~~~~~~~~~~~
+02/fileIO.rs:12:13: 12:20 error: unresolved name `println`.
+02/fileIO.rs:12             println("Opening message.txt failed!");
+                            ^~~~~~~
+02/fileIO.rs:22:26: 22:45 error: failed to resolve. Use of undeclared module `BufferedReader`
+02/fileIO.rs:22             let reader = BufferedReader::new(file);
+                                         ^~~~~~~~~~~~~~~~~~~
+02/fileIO.rs:22:26: 22:45 error: unresolved name `BufferedReader::new`.
+02/fileIO.rs:22             let reader = BufferedReader::new(file);
+                                         ^~~~~~~~~~~~~~~~~~~
+02/fileIO.rs:26:13: 26:20 error: unresolved name `println`.
+02/fileIO.rs:26             println("Opening message.txt failed!");
+                            ^~~~~~~
+error: aborting due to 4 previous errors
+---------------------------------------------
+02/incrementMut.rs
+02/incrementMut.rs:9:25: 9:26 error: obsolete syntax: `~[T]` is no longer a type
+02/incrementMut.rs:9    let mut p = ~[1, 2, 3];
+                                             ^
+note: use the `Vec` type instead
+error: aborting due to previous error
+---------------------------------------------
+02/increment.rs
+02/increment.rs:1:28: 1:29 error: obsolete syntax: `~[T]` is no longer a type
+02/increment.rs:1 fn increment(v: &[int]) -> ~[int] {
+                                             ^
+note: use the `Vec` type instead
+02/increment.rs:2:21: 2:22 error: obsolete syntax: `~[T]` is no longer a type
+02/increment.rs:2     let mut res = ~[];
+                                      ^
+02/increment.rs:13:21: 13:22 error: obsolete syntax: `~[T]` is no longer a type
+02/increment.rs:13    let p = ~[1, 2, 3];
+                                       ^
+error: aborting due to 3 previous errors
+---------------------------------------------
+02/io1.rs
+02/io1.rs:8:9: 8:14 error: unresolved name `print`. Did you mean `line`?
+02/io1.rs:8         print(line);
+                    ^~~~~
+02/io1.rs:19:17: 19:22 error: unresolved name `print`. Did you mean `line`?
+02/io1.rs:19                 print(line);
+                             ^~~~~
+02/io1.rs:22:17: 22:24 error: unresolved name `println`.
+02/io1.rs:22                 println("End of input!");
+                             ^~~~~~~
+error: aborting due to 3 previous errors
+---------------------------------------------
+02/joiner.rs
+02/joiner.rs:7:15: 7:16 error: obsolete syntax: `~[T]` is no longer a type
+02/joiner.rs:7     let args: ~[~str] = os::args();
+                             ^
+note: use the `Vec` type instead
+02/joiner.rs:7:17: 7:18 error: obsolete syntax: `~` notation for owned pointers
+02/joiner.rs:7     let args: ~[~str] = os::args();
+                               ^
+note: use `Box<T>` in `std::owned` instead
+02/joiner.rs:19:39: 19:40 error: obsolete syntax: `~[T]` is no longer a type
+02/joiner.rs:19                     let share1_bytes: ~[u8] = share1.read_to_end();
+                                                      ^
+02/joiner.rs:20:39: 20:40 error: obsolete syntax: `~[T]` is no longer a type
+02/joiner.rs:20                     let share2_bytes: ~[u8] = share2.read_to_end();
+                                                      ^
+02/joiner.rs:40:31: 40:32 error: obsolete syntax: `~[T]` is no longer a type
+02/joiner.rs:40 fn xor(a: &[u8], b: &[u8]) -> ~[u8] {
+                                              ^
+02/joiner.rs:41:21: 41:22 error: obsolete syntax: `~[T]` is no longer a type
+02/joiner.rs:41     let mut ret = ~[];
+                                    ^
+error: aborting due to 6 previous errors
+---------------------------------------------
+02/mut.rs
+02/mut.rs:3:18: 3:20 error: obsolete syntax: `~` notation for owned pointer allocation
+02/mut.rs:3     let mut x = ~10;
+                             ^~
+note: use the `box` operator instead of `~`
+02/mut.rs:4:10: 4:12 error: obsolete syntax: `~` notation for owned pointer allocation
+02/mut.rs:4     x = ~20;
+                     ^~
+error: aborting due to 2 previous errors
+---------------------------------------------
+02/optionResult.rs
+02/optionResult.rs:1:11: 1:12 note: Did you mean to close this delimiter?
+02/optionResult.rs:1 fn main() {
+                               ^
+02/optionResult.rs:17:1: 17:2 error: this file contains an un-closed delimiter 
+02/optionResult.rs:17 }
+                      ^
+---------------------------------------------
+02/owned.rs
+02/owned.rs:3:14: 3:16 error: obsolete syntax: `~` notation for owned pointer allocation
+02/owned.rs:3     let x = ~10;
+                           ^~
+note: use the `box` operator instead of `~`
+02/owned.rs:10:14: 10:16 error: obsolete syntax: `~` notation for owned pointer allocation
+02/owned.rs:10     let x = ~10;
+                            ^~
+error: aborting due to 2 previous errors
+---------------------------------------------
+02/splitter.rs
+02/splitter.rs:7:15: 7:16 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:7     let args: ~[~str] = os::args();
+                               ^
+note: use the `Vec` type instead
+02/splitter.rs:7:17: 7:18 error: obsolete syntax: `~` notation for owned pointers
+02/splitter.rs:7     let args: ~[~str] = os::args();
+                                 ^
+note: use `Box<T>` in `std::owned` instead
+02/splitter.rs:17:32: 17:33 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:17                 let msg_bytes: ~[u8] = msg.read_to_end();
+                                                 ^
+02/splitter.rs:35:31: 35:32 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:35 fn xor(a: &[u8], b: &[u8]) -> ~[u8] {
+                                                ^
+02/splitter.rs:36:21: 36:22 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:36     let mut ret = ~[];
+                                      ^
+02/splitter.rs:44:27: 44:28 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:44     let mut random_bytes: ~[u8] = ~[];
+                                            ^
+02/splitter.rs:44:37: 44:38 error: obsolete syntax: `~[T]` is no longer a type
+02/splitter.rs:44     let mut random_bytes: ~[u8] = ~[];
+                                                      ^
+error: aborting due to 7 previous errors
+---------------------------------------------
+02/strings.rs
+02/strings.rs:3:19: 3:37 error: obsolete syntax: `~` notation for owned pointer allocation
+02/strings.rs:3     let string = ~"This is a string";
+                                  ^~~~~~~~~~~~~~~~~~
+note: use the `box` operator instead of `~`
+02/strings.rs:15:18: 15:19 error: obsolete syntax: `~[T]` is no longer a type
+02/strings.rs:15     let wordvec: ~[&str] = string.split(' ').collect(); 
+                                  ^
+note: use the `Vec` type instead
+error: aborting due to 2 previous errors
+---------------------------------------------
+02/vectors.rs
+02/vectors.rs:3:28: 3:29 error: obsolete syntax: `~[T]` is no longer a type
+02/vectors.rs:3     let mut vec = ~[0, 1, 2];
+                                           ^
+note: use the `Vec` type instead
+error: aborting due to previous error
+---------------------------------------------
+03/generics.rs
+03/generics.rs:55:1: 68:2 error: unterminated block comment
+03/generics.rs:55 /* errors
+03/generics.rs:56 //inline 4
+03/generics.rs:57 generics.rs:7:14: 7:23 error: mismatched types: expected `T` but found `&T` (expected type parameter but found &-ptr)
+03/generics.rs:58 generics.rs:7 		a_vec.push(the_param);
+03/generics.rs:59 //end 4
+03/generics.rs:60 
+                  ...
+---------------------------------------------
+04/channels.rs
+04/channels.rs:17:5: 17:7 error: `do` is a reserved keyword
+04/channels.rs:17     do spawn {
+                      ^~
+---------------------------------------------
+04/mtmap.rs
+04/mtmap.rs:4:26: 4:27 error: obsolete syntax: `~` notation for owned pointers
+04/mtmap.rs:4 type LinkedList = Option<~Node>;
+                                       ^
+note: use `Box<T>` in `std::owned` instead
+04/mtmap.rs:36:69: 36:70 error: obsolete syntax: `~` notation for owned pointer allocation
+04/mtmap.rs:36         _ => { Some(~Node{val: x, tail: construct_list(n - 1, x + 1)}) }
+                                                                                   ^
+note: use the `box` operator instead of `~`
+04/mtmap.rs:40:33: 40:34 error: obsolete syntax: `~` notation for owned pointers
+04/mtmap.rs:40 fn print_list(p: LinkedList) -> ~str {
+                                               ^
+04/mtmap.rs:42:20: 42:22 error: obsolete syntax: `~` notation for owned pointer allocation
+04/mtmap.rs:42         None => { ~"" }
+                                  ^~
+error: aborting due to 4 previous errors
+---------------------------------------------
